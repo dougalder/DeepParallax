@@ -173,6 +173,9 @@ details.help summary{cursor:pointer;color:var(--muted);font-weight:600;font-size
 .tabs button{position:relative}
 .badge{display:inline-block;min-width:15px;height:15px;line-height:15px;border-radius:8px;background:var(--accent);color:var(--accent-ink);font-size:9.5px;margin-left:3px;padding:0 3px;vertical-align:1px}
 .badge:empty{display:none}
+.blisthead{display:flex;align-items:center;justify-content:space-between;margin:10px 0 6px;color:var(--muted);font-size:12px}
+.btn.danger{color:var(--danger);height:28px;padding:0 10px;font-size:12px}
+.btn.danger:hover{border-color:var(--danger)}
 .bthumb{width:40px;height:40px;object-fit:cover;border-radius:6px;flex:none;background:#000}
 .brow{cursor:pointer}
 .brow:hover{border-color:var(--accent)}
@@ -309,7 +312,9 @@ details.help summary{cursor:pointer;color:var(--muted);font-weight:600;font-size
           <button class="btn" id="bAddCur">Add the open photo</button>
         </div>
         <p class="hint">Each photo keeps its own camera move, length, crop and subject. Click a row to show that photo in the preview, then fine-tune it with the other tabs.</p>
-        <div id="bList" style="margin-top:8px"></div>
+        <div class="blisthead" id="bListHead"><span id="bCount"></span><button class="btn danger" id="bClear" title="Remove every photo from the batch">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>Delete all</button></div>
+        <div id="bList"></div>
         <div class="note" id="bEmpty">No photos yet. Use “Add photos…”, or choose several photos at once with Open on the Main tab.</div>
         <h3>Random moves</h3>
         <div class="grid2">
@@ -329,7 +334,7 @@ details.help summary{cursor:pointer;color:var(--muted);font-weight:600;font-size
         <p class="hint" id="bSummary"></p>
         <p class="hint">Frame shape, resolution and the Look and Lens settings apply to every photo. Depth maps that aren't made yet are made during the export.</p>
         <div id="bResult"></div>
-        <button class="btn wide" id="bClear" style="margin-top:10px">Empty the batch</button>
+
       </div>
 
       <!-- DEPTH -->
@@ -2465,7 +2470,7 @@ if (typeof module === "object" && typeof module.exports === "object") Object.ass
 (async function () {
 'use strict';
 try {
-const APP_VERSION = '1.7.1';
+const APP_VERSION = '1.7.2';
 const DIAG = [];
 function diag(m) { DIAG.push(new Date().toISOString().slice(11, 19) + '  ' + m); if (DIAG.length > 400) DIAG.shift(); console.log('[DeepParallax] ' + m); }
 const UA = navigator.userAgent;
@@ -4751,13 +4756,23 @@ function newItem(name, blob, thumb) {
   it.preset = S.preset; it.duration = S.duration; it.intensity = S.intensity;
   return it;
 }
+function clearPreview() {
+  // back to the empty start screen, so a removed photo can't sneak back into the next batch
+  pause();
+  photo = null; src = null; lastBlob = null; depthReal = false; depthFull = null; depthBase = null;
+  $('#empty').style.display = '';
+  $('#photoInfo').textContent = 'No photo yet. Drag one onto the preview, or press ⌘V. Choose several at once to make a batch.';
+  setDepthState('The depth map is made automatically when you load a photo.', '');
+  $('#result').innerHTML = ''; $('#bResult').innerHTML = '';
+  requestRender();
+}
 async function addFilesToBatch(files) {
   files = files.filter(f => f.type.startsWith('image/') || /\.(heic|heif|jpe?g|png|webp|gif|tiff?)$/i.test(f.name));
   if (!files.length) return toast('Those don\'t look like image files.');
   busy.show('Adding photos to the batch', '');
   const wasEmpty = !batch.items.length;
   // keep the photo that's already open as the first one in the batch
-  if (wasEmpty && photo && src && lastBlob) await addCurrentToBatch(true);
+  if (wasEmpty && photo && src && lastBlob && !batch.current) await addCurrentToBatch(true);
   let added = 0;
   for (const f of files) {
     busy.progress(added / files.length, f.name);
@@ -4822,6 +4837,8 @@ function renderBatchSoon() { clearTimeout(batchTimer); batchTimer = setTimeout(r
 function renderBatch() {
   const list = $('#bList'); if (!list) return;
   $('#bEmpty').style.display = batch.items.length ? 'none' : '';
+  $('#bListHead').style.display = batch.items.length ? '' : 'none';
+  $('#bCount').textContent = `${batch.items.length} photo${batch.items.length === 1 ? '' : 's'}`;
   $('#bBadge').textContent = batch.items.length || '';
   if (batch.current) saveCurrentItem();
   list.innerHTML = '';
@@ -4886,9 +4903,17 @@ $('#bList').addEventListener('click', async e => {
   else if (a === 'edit') batch.editing = batch.editing === it ? null : it;
   else if (a === 'goto') { await openBatchItem(it); return; }
   else if (a === 'del') {
+    const at = batch.items.indexOf(it);
     batch.items = batch.items.filter(x => x !== it);
     if (batch.editing === it) batch.editing = null;
-    if (batch.current === it) batch.current = null;
+    if (batch.current === it) {
+      // the photo on screen was removed: show its neighbour, or clear the preview if none are left
+      batch.current = null;
+      const next = batch.items[Math.min(at, batch.items.length - 1)];
+      renderBatch();
+      if (next) await openBatchItem(next); else clearPreview();
+      return;
+    }
   }
   renderBatch();
 });
@@ -5035,7 +5060,12 @@ $('#batchIn').onchange = e => { const fs = [...e.target.files]; e.target.value =
 $('#bAddCur').onclick = () => addCurrentToBatch(false);
 $('#bShuffle').onclick = shuffleMoves;
 $('#bSame').onclick = sameMoveForAll;
-$('#bClear').onclick = () => { batch.items = []; batch.current = null; batch.editing = null; renderBatch(); toast('The batch is empty. The current photo stays open.'); };
+$('#bClear').onclick = () => {
+  const n = batch.items.length; if (!n) return;
+  batch.items = []; batch.current = null; batch.editing = null;
+  clearPreview(); renderBatch();
+  toast(`All ${n} photo${n === 1 ? '' : 's'} removed from the batch. (Your original files are untouched.)`);
+};
 $('#bExport').onclick = exportBatch;
 $('#bModeSeg').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; S.bMode = b.dataset.m; renderBatch(); });
 
