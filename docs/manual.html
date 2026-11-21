@@ -39,9 +39,9 @@ pre{background:var(--code);padding:12px;border-radius:8px;overflow-x:auto}
 </header>
 <main>
 <h1 id="deepparallax-manual">DeepParallax manual</h1>
-<p>Version 1.7.1</p>
+<p>Version 1.9.2</p>
 <p>This manual explains every part of DeepParallax in plain language. Technical words are explained
-the first time they appear, and there is a <a href="#17-glossary">glossary</a> at the end.</p>
+the first time they appear, and there is a <a href="#18-glossary">glossary</a> at the end.</p>
 <h2 id="contents">Contents</h2>
 <ol>
 <li><a href="#1-what-deepparallax-does">What DeepParallax does</a></li>
@@ -50,17 +50,18 @@ the first time they appear, and there is a <a href="#17-glossary">glossary</a> a
 <li><a href="#4-quick-start">Quick start</a></li>
 <li><a href="#5-the-screen">The screen</a></li>
 <li><a href="#6-main-tab">Main tab</a></li>
-<li><a href="#7-batch-tab">Batch tab</a></li>
-<li><a href="#8-depth-tab">Depth tab</a></li>
-<li><a href="#9-camera-tab">Camera tab</a></li>
-<li><a href="#10-lens-tab">Lens tab</a></li>
-<li><a href="#11-look-tab">Look tab</a></li>
-<li><a href="#12-export-tab">Export tab</a></li>
-<li><a href="#13-iphone-and-ipad">iPhone and iPad</a></li>
-<li><a href="#14-tips-for-good-results">Tips for good results</a></li>
-<li><a href="#15-troubleshooting">Troubleshooting</a></li>
-<li><a href="#16-browser-check-and-reports">Browser check and reports</a></li>
-<li><a href="#17-glossary">Glossary</a></li>
+<li><a href="#7-slides-tab">Slides tab: slideshows, title cards and transitions</a></li>
+<li><a href="#8-text-tab">Text tab: titles and lower thirds</a></li>
+<li><a href="#9-depth-tab">Depth tab</a></li>
+<li><a href="#10-camera-tab">Camera tab</a></li>
+<li><a href="#11-lens-tab">Lens tab</a></li>
+<li><a href="#12-look-tab">Look tab</a></li>
+<li><a href="#13-export-tab">Export tab</a></li>
+<li><a href="#14-iphone-and-ipad">iPhone and iPad</a></li>
+<li><a href="#15-tips-for-good-results">Tips for good results</a></li>
+<li><a href="#16-troubleshooting">Troubleshooting</a></li>
+<li><a href="#17-browser-check-and-reports">Browser check and reports</a></li>
+<li><a href="#18-glossary">Glossary</a></li>
 </ol>
 <hr />
 <h2 id="1-what-deepparallax-does">1. What DeepParallax does</h2>
@@ -81,7 +82,7 @@ your brain judges depth.</p>
 <h2 id="2-what-you-need">2. What you need</h2>
 <ul>
 <li><strong>A current web browser.</strong> Safari 16.4 or later, Chrome or Edge 94 or later, or a recent Firefox.
-  Safari on Mac works even if its WebGL setting is off (see <a href="#15-troubleshooting">section 15</a>).</li>
+  Safari on Mac works even if its WebGL setting is off (see <a href="#16-troubleshooting">section 16</a>).</li>
 <li><strong>An internet connection the first time you make a depth map</strong>, to download the AI files (about
   100 MB for the Standard model). After that they are kept on your device.</li>
 <li><strong>A reasonably recent computer.</strong> Any Mac with Apple silicon (M1 or later) handles 4K well. Older
@@ -100,7 +101,7 @@ with <strong>Share → Add to Home Screen</strong>.</p>
 your default browser. To choose a different browser on a Mac, right-click the file and choose
 <strong>Open With</strong>. (The launcher page, <code>index.html</code>, is only an introduction; the app is all in
 <code>DeepParallax.html</code>.)</p>
-<p>The version number is shown in small type next to the app's name, for example <strong>v1.7.1</strong>.</p>
+<p>The version number is shown in small type next to the app's name, for example <strong>v1.9.2</strong>.</p>
 <p><img alt="The start screen" src="images/start-screen.jpg" /></p>
 <h2 id="4-quick-start">4. Quick start</h2>
 <ol>
@@ -120,10 +121,10 @@ size in pixels.</p>
 <li><strong>Preview (left).</strong> Shows the result. <strong>Drag</strong> on it to move the photo within the frame;
   <strong>scroll</strong> or <strong>pinch</strong> on it to zoom. Click it to play or pause.</li>
 <li><strong>Timeline (below the preview).</strong> The play button, the time, and a slider you can drag to any
-  moment. Small blue marks show where the keyframes are (see <a href="#9-camera-tab">section 9</a>).</li>
+  moment. Small blue marks show where the keyframes are (see <a href="#10-camera-tab">section 10</a>).</li>
 <li><strong>Result / Depth / Split.</strong> <em>Result</em> shows the finished look. <em>Depth</em> shows the depth map. <em>Split</em>
   shows the result on the left and the depth map on the right, so you can check the AI's guesses.</li>
-<li><strong>Tabs (right).</strong> Main, Batch, Depth, Camera, Lens, Look and Export. Everything you need for a
+<li><strong>Tabs (right).</strong> Main, Slides, Text, Depth, Camera, Lens, Look and Export. Everything you need for a
   normal video is on <strong>Main</strong>; the other tabs are for fine-tuning.</li>
 <li><strong>Light / dark button</strong> (top right) switches the colour scheme.</li>
 </ul>
@@ -132,7 +133,7 @@ size in pixels.</p>
 <h2 id="6-main-tab">6. Main tab</h2>
 <p>The Main tab has the essentials, top to bottom.</p>
 <p><strong>1 · Photo</strong>
-- <strong>Open…</strong> chooses a photo. Choose several at once to start a batch (<a href="#7-batch-tab">section 7</a>).
+- <strong>Open…</strong> chooses a photo. Choose several at once to start a slideshow (<a href="#7-slides-tab">section 7</a>).
 - <strong>Paste</strong> uses an image you've copied. <strong>⌘V</strong> (Ctrl+V on Windows) also works anywhere in the app.
 - <strong>Sample</strong> loads a built-in landscape that already has a depth map.
 - Below the buttons: the photo's name and size, and the depth map's status, with a button to make
@@ -214,25 +215,41 @@ tab.</p>
   3D but also more stretching at edges.</li>
 <li><strong>Crop edges</strong> trims the same percentage off all four sides of the photo, for example to remove a
   ragged scan border.</li>
-<li><strong>Blur background</strong> turns on depth of field (<a href="#10-lens-tab">section 10</a>).</li>
+<li><strong>Blur background</strong> turns on depth of field (<a href="#11-lens-tab">section 11</a>).</li>
 </ul>
 <p><strong>4 · Export</strong>: pick the resolution and click <strong>Export video</strong>. The line underneath summarises the
 size, shape, frame rate and format. More options are in the Export tab.</p>
 <p>At the bottom of the Main tab:
 - <strong>How it works</strong>: a short reminder.
 - <strong>About and licences</strong>: credits and licence summary.
-- <strong>Browser check</strong>: what your browser supports (<a href="#16-browser-check-and-reports">section 16</a>).</p>
-<h2 id="7-batch-tab">7. Batch tab</h2>
-<p><img alt="The Batch tab" src="images/batch-tab.jpg" /></p>
-<p>A batch is a list of photos made into videos in one go. The number on the tab shows how many photos
-it holds.</p>
-<p><strong>Adding photos</strong>
+- <strong>Browser check</strong>: what your browser supports (<a href="#17-browser-check-and-reports">section 17</a>).</p>
+<h2 id="7-slides-tab">7. Slides tab</h2>
+<p><img alt="The Slides tab" src="images/batch-tab.jpg" /></p>
+<p>The Slides tab turns several photos into a <strong>slideshow</strong>: one video in which each photo plays its
+camera move, then changes into the next with a <strong>transition</strong> (a dissolve, a wipe, a morph and so
+on). You can also put plain <strong>title cards</strong> (words on a coloured background) anywhere in the show.
+The number on the tab shows how many slides there are.</p>
+<p>(In versions before 1.8 this was called the Batch tab. It still does everything the Batch tab did,
+including one video per photo.)</p>
+<p><strong>The order of the tab, top to bottom:</strong> ▶ Play all, Transitions, Random moves, the list of
+slides, Soundtrack, then Export.</p>
+<p><strong>▶ Play all</strong> plays the whole slideshow in the preview, live, with its transitions, titles and the
+fade in and out. The timeline under the preview shows where it is. To stop, click the button again
+(it says <strong>■ Stop</strong> while playing), click the preview, or press Esc or the space bar.
+- Before it starts, any depth maps that haven't been made yet are made, which can take a moment.
+- Live playback is drawn at preview size with slightly simpler 3D, so it is a little softer than the
+  exported video. If the computer can't keep up, playback slows down rather than skipping parts.
+- In backup mode (when the browser's graphics chip is switched off), live playback isn't possible.
+  Use <strong>▶ Quick preview</strong> at the bottom of the tab instead: it makes a small video and plays it.</p>
+<p><strong>Adding slides</strong>
 - <strong>Add photos…</strong> chooses one or more photos.
-- <strong>Open…</strong> on the Main tab with several photos selected also creates (or adds to) a batch.
-- <strong>Add the open photo</strong> puts the photo you're working on into the batch.</p>
-<p><strong>The rows.</strong> Each photo has a row with a thumbnail, its name, its move, its length and whether its
-depth map is ready. <strong>Click a row</strong> to show that photo in the preview; it is marked <em>showing</em>. The
-icons, left to right:</p>
+- <strong>Open…</strong> on the Main tab with several photos selected also creates (or adds to) the slideshow.
+- <strong>Add open photo</strong> puts the photo you're working on into the slideshow.
+- <strong>+ Title card</strong> adds a card straight after the slide that's showing (or at the end). Its editing
+  panel opens so you can type the words. Drag it by its handle to put it somewhere else.</p>
+<p><strong>The rows.</strong> Each slide has a row with a small picture, its name, and a summary: the camera move,
+the length, whether its depth map is ready, and whether it has a title or lower third. <strong>Click a
+row</strong> to show that slide in the preview; it is marked <em>showing</em>. The icons, left to right:</p>
 <table>
 <thead>
 <tr>
@@ -251,43 +268,242 @@ icons, left to right:</p>
 </tr>
 <tr>
 <td>Pencil / tick</td>
-<td>Opens a small panel to choose this photo's move, length and intensity. Tap the tick to close it.</td>
+<td>Opens a panel under the row. For a photo: its move, length, intensity, title, subtitle and lower third. For a title card: its words, length and background. Tap the tick to close it.</td>
 </tr>
 <tr>
 <td>Arrow</td>
-<td>Shows the photo in the preview (same as clicking the row).</td>
+<td>Shows the slide in the preview (same as clicking the row).</td>
 </tr>
 <tr>
 <td>Bin</td>
-<td>Removes the photo from the batch (not from your computer).</td>
+<td>Removes the slide (not the photo on your computer). If it was showing, the next one is shown.</td>
 </tr>
 </tbody>
 </table>
 <p><strong>Each photo remembers its own</strong> camera move, length, intensity, crop, framing, subject depth,
-custom keyframes and depth map. <strong>These apply to all photos:</strong> frame shape, resolution, frame rate,
-and the Lens and Look settings.</p>
+custom keyframes, depth map, text and transition. <strong>These apply to every slide:</strong> frame shape,
+resolution, frame rate, text style, and the Lens and Look settings.</p>
 <p>To fine-tune one photo, click its row, then use the other tabs as normal. Your changes are kept with
 that photo.</p>
+<p><strong>Title cards</strong></p>
+<p>A title card is a plain background with a title and an optional subtitle, for example an opening
+title, a chapter heading ("Day 2: Jasper") or a closing "The End". Each card has:
+- <strong>Title</strong> and <strong>Subtitle</strong>. Press Return in the title box to start a second line.
+- <strong>Length</strong>, 1 to 30 seconds.
+- <strong>Background</strong>: <em>One colour</em>, a <em>Gradient</em> (colour 1 in the top-left corner fading to colour 2 in
+  the bottom-right) or a <em>Glow from the middle</em> (colour 2 in the centre fading out to colour 1).</p>
+<p>The words fade in and out by themselves, and use the text style from the Text tab.</p>
+<p><strong>Transitions</strong></p>
+<p>Between every two rows there is a thin bar showing the transition, for example
+<em>Crossfade · 1.0 s</em>. It controls how that slide changes into the <strong>next</strong> one. Click the bar to open
+its settings:</p>
+<table>
+<thead>
+<tr>
+<th>Transition</th>
+<th>What it looks like</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cut</td>
+<td>No transition: the next slide simply starts.</td>
+</tr>
+<tr>
+<td>Crossfade</td>
+<td>The first picture dissolves smoothly into the second.</td>
+</tr>
+<tr>
+<td>Fade through black</td>
+<td>The first picture fades to black, then the second fades up.</td>
+</tr>
+<tr>
+<td>Dip to colour</td>
+<td>The same, through a colour you choose (white is popular).</td>
+</tr>
+<tr>
+<td>Cross-blur</td>
+<td>The first picture goes soft and blurry, turns into the second, which sharpens up.</td>
+</tr>
+<tr>
+<td>Cross zoom</td>
+<td>A fast zoom with motion blur from one picture into the next.</td>
+</tr>
+<tr>
+<td>Directional wipe</td>
+<td>A soft-edged line sweeps across, revealing the next picture.</td>
+</tr>
+<tr>
+<td>Push</td>
+<td>The next picture pushes the first one out of the frame.</td>
+</tr>
+<tr>
+<td>Slide over</td>
+<td>The next picture slides in on top of the first.</td>
+</tr>
+<tr>
+<td>Iris</td>
+<td>A circle opens from the middle, revealing the next picture.</td>
+</tr>
+<tr>
+<td>Star wipe</td>
+<td>A spinning star grows from the middle (a deliberately old-fashioned TV effect).</td>
+</tr>
+<tr>
+<td>Clock wipe</td>
+<td>A line sweeps around like a clock hand.</td>
+</tr>
+<tr>
+<td>Morph</td>
+<td>One picture melts into the other, with matching features gliding onto each other (see below).</td>
+</tr>
+</tbody>
+</table>
+<p>Depending on the transition, you can also set its <strong>Length</strong> (0.2 to 4 seconds), the <strong>Direction</strong>,
+the <strong>Soft edge</strong>, the <strong>Amount</strong> of blur or zoom, the <strong>Colour</strong> to dip to, or the number of <strong>Star
+points</strong>. Two buttons sit underneath:
+- <strong>▶ Preview this transition</strong> makes a short, low-resolution video of just that moment (about one
+  second before and after) and plays it in a box on screen.
+- <strong>Use for every slide</strong> copies this transition to every slide.</p>
+<p>During most transitions both slides keep moving: the next slide's camera move has already started
+while the first one finishes. That is why a slideshow is a little shorter than its slides added up.
+A transition can't be longer than half of either slide it joins; DeepParallax shortens it if
+needed.</p>
+<p>Under <strong>Transitions</strong> further down the tab:
+- <strong>Standard transition</strong> and <strong>Its length</strong> are used for new slides.
+- <strong>Use it for every slide</strong> applies them to all the slides you already have.
+- <strong>🎲 Random transitions</strong> gives every slide a random transition (never the same one twice in a
+  row), and a random direction where that applies. It doesn't choose Morph, which needs points.
+- <strong>Fade in from black at the start</strong> and <strong>Fade out to black at the end</strong> (both on at first) give
+  the whole slideshow a gentle beginning and end.</p>
 <p><strong>Random moves</strong>
-- <strong>🎲 Shuffle moves</strong> gives every included photo a random move.
-- <strong>Never the same move twice in a row</strong> (on by default) avoids repeats next to each other.
-- <strong>Also vary the lengths when shuffling</strong> picks a random length between <strong>Shortest</strong> and <strong>Longest</strong>.
+- <strong>🎲 Shuffle moves</strong> gives every included photo a random camera move.
 - <strong>Use the current move for all</strong> copies the move, length and intensity of the photo you're working
-  on to every photo.</p>
+  on to every photo.
+- Under <strong>Shuffle options</strong>: <strong>Never the same move twice in a row</strong> (on at first) avoids repeats
+  next to each other, and <strong>Also vary the lengths when shuffling</strong> picks a random length between
+  <strong>Shortest</strong> and <strong>Longest</strong>.</p>
+<p><strong>The morph transition</strong></p>
+<p>The morph is based on the author's <strong>Morph Lab</strong> project. It works like the morphs in old music
+videos where one face turns into another: matching points on the two pictures are pulled onto each
+other while one picture dissolves into the other.</p>
+<p><em>Automatic points.</em> With <strong>Place points automatically</strong> ticked (the default), DeepParallax looks at
+the depth view of both pictures and does two things:
+- It finds the <strong>near layer</strong>: the nearest shape that stands out from what is around it, such as a
+  tree, a person, a rock or a creature. (The ground is usually left out, because it slopes gently
+  towards the camera and is no nearer than the rest of its row.) It then follows that shape's edge
+  all the way round, the way you would place points by hand in Morph Lab, and puts 28 points evenly
+  along it, numbered in order. The same is done on the second picture, and the numbering is turned
+  so that point 1 meets the point that matches it best; after that, 2 goes to 2, 3 to 3 and so on.
+  If the middle of the shape is inside both shapes, one more point goes there. Points that would sit
+  on the edge of the frame are left out, because they would tear it.
+- It finds the <strong>horizon</strong>: the line where the middle distance meets the sky, and places up to six
+  points along it, so hills and skylines glide into each other.</p>
+<p>The points are worked out the first time the morph is needed (in the point editor, Play all, a
+preview or an export), and again only if either slide's camera move, length or framing changes.
+Pictures with no clear depth, and title cards, get no automatic points; the morph is then a plain
+dissolve, plus any points you add.</p>
+<p><em>Background follows by</em> (0 to 100%, 30% at first) sets how far the background trails behind the
+near layer. At 0% everything moves and dissolves together. Higher values let the near layer move
+and dissolve first, with the background catching up a moment later, which looks more fluid,
+something like the layers of a pop-up book settling one after another.</p>
+<p><em>Adjusting the points by hand:</em></p>
+<ol>
+<li>Choose <strong>Morph (matching points)</strong> for a transition, then click <strong>See and adjust the points…</strong>.
+   DeepParallax draws the last frame of this slide and the first frame of the next, side by side.
+   The dots are coloured: <strong>orange</strong> for the near layer and <strong>teal</strong> for the horizon (both
+   automatic), and <strong>blue</strong> for your own.</li>
+<li>Click a feature on either picture, such as the corner of an eye. A numbered dot appears in the
+   same place on <strong>both</strong> pictures.</li>
+<li>Drag the dot on the other picture onto the <strong>same</strong> feature there. Dot 1 on the left and dot 1
+   on the right are a pair.</li>
+<li>Repeat for other features: eyes, nose, mouth and chin for faces; rooftops, horizons and tree
+   tops for landscapes. Five to twenty pairs is usually plenty.</li>
+<li>Drag the <strong>Try the morph</strong> slider (or type a percentage in its box) to watch the in-between
+   pictures, and the <strong>Background follows by</strong> slider to try different delays. Drag any dot that
+   makes things smear. A dot you drag turns blue: it is yours now and is kept if the automatic points
+   are worked out again.</li>
+<li>Click <strong>Done</strong>.</li>
+</ol>
+<p>To remove a pair, click one of its dots (it turns yellow) and click <strong>Delete selected pair</strong>, or press
+Delete on the keyboard. <strong>Delete all pairs</strong> starts again. <strong>✨ Redo automatic points</strong> finds the
+near layer and horizon again and replaces the orange and teal dots, keeping your blue ones. With no pairs at all, the morph is a plain
+dissolve.</p>
+<p>How it works, briefly: DeepParallax joins the dots (plus the corners and edge midpoints of the frame)
+into a mesh of triangles. During the morph, every triangle moves from its place in the first
+picture to its place in the second, stretching the picture inside it, while the two pictures
+dissolve into each other. With <em>Background follows by</em> above 0%, the near layer's points move ahead
+of the rest, and a soft-edged mask shaped like the near layer lets it dissolve sooner than the
+background. Unlike the other transitions, a morph holds both slides still while it
+happens (the moving camera would pull the features away from their dots), so it adds its length to
+the slideshow.</p>
+<p><strong>Soundtrack</strong></p>
+<p>You can add one piece of music to the slideshow.
+- <strong>♪ Add music…</strong> chooses a sound file. MP3, M4A (AAC), WAV and AIFF work in every browser. You can
+  also drag a music file onto the preview or onto the side panel.
+- The box below shows the file's name and length. The bin icon removes it (your file is untouched).
+- <strong>▶ Listen</strong> plays the first 20 seconds with your volume and fades. Click again to stop.
+- <strong>Volume</strong> (0 to 150%). Above 100% makes quiet music louder, but very loud music may distort.
+- <strong>Start song at</strong> skips into the song, for example to start at the chorus.
+- <strong>Fade in</strong> and <strong>Fade out</strong> (0 to 15 seconds). The fade out always ends exactly when the video
+  ends, or where the music runs out if it is shorter than the video and not repeated.
+- <strong>Repeat the music if it is shorter than the video</strong> (on at first) starts the song again from the
+  beginning until the video ends.</p>
+<p>The music is used in the <strong>slideshow video</strong>, the <strong>video made on the Main tab</strong>, <strong>Play all</strong> and
+<strong>Quick preview</strong>. It isn't added to <em>One video per slide</em> or to transition previews.</p>
+<p>The sound is saved inside the MP4 as <strong>AAC</strong>, the standard sound format for MP4 files, which plays
+everywhere. Browsers that can't make AAC (Chrome on Linux, for example) use <strong>Opus</strong> instead, which
+plays in Chrome, Edge, Firefox and VLC but not in QuickTime. A browser that can't encode sound at all
+says so and makes a silent video. <em>Browser check</em> on the Main tab shows which applies to yours.</p>
 <p><strong>Exporting</strong>
-- <strong>One video per photo</strong> makes a separate MP4 for each photo, named after the photo, for example
-  <code>2026-11-11 DeepParallax-Swans-1920x1080.mp4</code>. With <strong>Put the videos in one ZIP file</strong> ticked (the
-  default), they arrive as a single download, for example
-  <code>2026-11-11 DeepParallax-Batch of 5-1920x1080.zip</code>. A ZIP file is a bundle of files; Safari usually
-  unpacks it into a folder automatically, otherwise double-click it.
-- <strong>One joined video</strong> puts all the clips one after another in a single MP4. Every clip must share
-  one frame shape, so if <strong>Photo</strong> shape is chosen, 16:9 is used instead.
-- <strong>Export batch</strong> starts. The progress box shows which photo it's on. Depth maps that don't exist
-  yet are made along the way. <strong>Cancel</strong> stops after the current frame.
-- <strong>Empty the batch</strong> clears the list. The photo in the preview stays open.</p>
-<p>If you click <strong>Export batch</strong> while the batch is empty but a photo is open, that photo is added and
-exported.</p>
-<h2 id="8-depth-tab">8. Depth tab</h2>
+- <strong>One slideshow video</strong> (the default) joins every included slide into a single MP4 with the
+  transitions, for example <code>2026-11-20 DeepParallax-Slideshow of 12-1920x1080.mp4</code>. Every slide
+  must share one frame shape, so if <strong>Photo</strong> shape is chosen, 16:9 is used instead.
+- <strong>One video per slide</strong> makes a separate MP4 for each slide, named after the photo (title cards
+  are named <em>Title card 3</em> and so on). Transitions are not used. With <strong>Put the videos in one ZIP
+  file</strong> ticked (the default), they arrive as a single download. A ZIP file is a bundle of files;
+  Safari usually unpacks it into a folder automatically, otherwise double-click it.
+- <strong>▶ Quick preview</strong> makes a small, rough version of the whole slideshow (360 pixels high, simple
+  3D) and plays it on screen, so you can check the timing before a long export.
+- <strong>Export slideshow</strong> starts. The progress box shows how far along it is. Depth maps that don't
+  exist yet are made along the way. <strong>Cancel</strong> stops after the current frame.
+- <strong>Delete all</strong> (above the list) removes every slide and clears the preview. Your original files
+  are not touched.</p>
+<p>If you click <strong>Export slideshow</strong> while the list is empty but a photo is open, that photo is added
+and exported.</p>
+<h2 id="8-text-tab">8. Text tab</h2>
+<p><img alt="The Text tab" src="images/text-tab.jpg" /></p>
+<p>The Text tab adds words on top of the moving picture. The top half is for <strong>the slide that's
+showing</strong>; the bottom half is the <strong>style for every slide</strong>.</p>
+<p><strong>▶ Preview titles</strong> (at the top of the tab) plays the slide that's showing from the start, so you
+can see its title and lower third come in and go out with their real timing. On a title card it
+plays the card.</p>
+<p><strong>On a photo</strong>
+- <strong>Title</strong> and <strong>Subtitle</strong>: big words with a smaller line under them. Press Return in the title
+  box for a second line.
+- <strong>Where</strong>: the middle, top or bottom of the picture.
+- <strong>When</strong>: the whole slide, only the first 3 seconds, or only the last 3 seconds. Text always fades
+  (or rises) in and out smoothly.
+- <strong>Lower third</strong>: a name strip near the bottom of the picture, as on the TV news ("lower third"
+  because it sits in the bottom third of the screen). Use the <strong>first line</strong> for a name or place and
+  the <strong>second line</strong> for a date or description. It slides or fades in shortly after the slide
+  starts and leaves shortly before it ends.</p>
+<p>The same boxes are in each photo's row panel on the Slides tab, so you can type the text for many
+photos without clicking between them. Every text box has a small <strong>✕</strong> on the right to clear it.</p>
+<p><strong>On a title card</strong> the top half shows the card's words, length and background instead.</p>
+<p><strong>Text style (all slides)</strong>
+- <strong>Typeface</strong>: Clean, Classic, Elegant, Friendly, Geometric or Typewriter. These use fonts that are
+  already on Macs, iPhones and iPads, so nothing is downloaded. Other computers use the nearest
+  similar font.
+- <strong>Title appears by</strong> fading in, rising while fading in, or just appearing.
+- <strong>Text size</strong> (40 to 200%) and <strong>Text colour</strong>.
+- <strong>Soft shadow behind text</strong>: makes words easier to read on busy or bright photos.
+- <strong>Lower third look</strong>: <em>Coloured bars</em> (a coloured strip for the first line and a dark strip for
+  the second), a <em>Dark box</em> with a coloured edge, or <em>Words only</em>. Choose its <strong>side</strong> (left or right),
+  how it <strong>appears</strong> (sliding or fading in) and the <strong>bar colour</strong>.</p>
+<p>Text is drawn at the full export size on top of the finished 3D picture, so it is always sharp and
+never wobbles with the camera move. The preview shows it too.</p>
+<h2 id="9-depth-tab">9. Depth tab</h2>
 <p><strong>Making the depth map</strong>
 - <strong>Generate depth map with AI</strong> makes (or remakes) it.
 - <strong>AI model</strong>: <strong>Standard</strong> (about 100 MB; good for most photos; free for any use) or <strong>Detailed</strong>
@@ -318,7 +534,7 @@ also open it with the link <strong>AI not working? Add the AI files by hand</str
 - <strong>Load depth image…</strong> uses a depth map from another app (white = near).
 - <strong>Save depth map</strong> saves the current one as a PNG picture.</p>
 <p><strong>Transparent images</strong>: the fill colour used behind transparent PNGs.</p>
-<h2 id="9-camera-tab">9. Camera tab</h2>
+<h2 id="10-camera-tab">10. Camera tab</h2>
 <p><img alt="The Camera tab" src="images/camera-tab.jpg" /></p>
 <p><strong>Framing</strong>
 - <strong>Frame zoom</strong> enlarges or shrinks the photo within the frame (50 to 300%).
@@ -382,7 +598,7 @@ next. The preset moves are made of keyframes, and you can change them. Each keyf
 - <strong>Loop</strong>: returns to the first keyframe at the end, for seamless repeating clips.
 - <strong>Auto-crop so the photo's edges never show</strong>: zooms in just enough that the moving picture never
   shows an empty strip. Leave this on unless you want to see exactly what happens at the edges.</p>
-<h2 id="10-lens-tab">10. Lens tab</h2>
+<h2 id="11-lens-tab">11. Lens tab</h2>
 <p><strong>Depth of field</strong> blurs things that are nearer or farther than the focus point, like a real camera
 lens with a wide aperture.
 - <strong>Blur the background</strong>: on or off (same as on the Main tab).
@@ -392,7 +608,7 @@ lens with a wide aperture.
 - <strong>Bokeh shape</strong>: "bokeh" is the shape that out-of-focus lights take. <strong>Round</strong>, <strong>Hexagon</strong> (like a
   six-bladed lens) or <strong>Anamorphic</strong> (tall ovals, the cinema look).
 - <strong>Highlight glow</strong>: makes bright spots bloom into visible bokeh shapes.</p>
-<h2 id="11-look-tab">11. Look tab</h2>
+<h2 id="12-look-tab">12. Look tab</h2>
 <p><img alt="The Look tab" src="images/look-tab.jpg" /></p>
 <ul>
 <li><strong>Reset all Look settings</strong> returns everything on this tab to its starting values.</li>
@@ -401,7 +617,7 @@ lens with a wide aperture.
 <li><strong>Light sweep</strong>: an animated band of light that crosses the picture. Choose its colour, strength,
   width and angle, and when it starts and ends (as a percentage of the clip).</li>
 </ul>
-<h2 id="12-export-tab">12. Export tab</h2>
+<h2 id="13-export-tab">13. Export tab</h2>
 <p><img alt="The Export tab" src="images/export-tab.jpg" /></p>
 <ul>
 <li><strong>Shape</strong> and <strong>Resolution</strong>: the same as on the Main tab. Resolution is the shorter side in
@@ -424,22 +640,26 @@ lens with a wide aperture.
 <p><strong>How long does exporting take?</strong> It depends on the computer, the resolution and the settings. On a
 recent Mac, a 6-second 1080p clip usually takes seconds, and 4K takes a few times longer. The
 progress box shows an estimate of the time left. In backup mode (see below) it's much slower.</p>
-<h2 id="13-iphone-and-ipad">13. iPhone and iPad</h2>
+<h2 id="14-iphone-and-ipad">14. iPhone and iPad</h2>
 <ul>
 <li><strong>Opening the app</strong>: from a web address (GitHub Pages) is easiest. Opening the file from the Files
   app also works in Edge.</li>
 <li><strong>The first depth map</strong> downloads about 100 MB. If the browser blocks it, use the <em>AI files</em>
-  box (<a href="#8-depth-tab">section 8</a>). Making a depth map on a phone can take 10 to 30 seconds.</li>
+  box (<a href="#9-depth-tab">section 9</a>). Making a depth map on a phone can take 10 to 30 seconds.</li>
 <li><strong>Saving videos</strong>: when an export finishes, a box appears. Tap <strong>Save to Photos / Share…</strong>, then
-  <strong>Save Video</strong> (or <strong>Save 3 Videos</strong> for a batch). The file names in the box are download links, as
+  <strong>Save Video</strong> (or <strong>Save 3 Videos</strong> when there are several). The file names in the box are download links, as
   a backup. iOS only lets a page save a file straight after a tap, which is why this extra step is
   needed.</li>
-<li><strong>Recommended size</strong>: 1080p. 4K may run out of memory on some devices.</li>
+<li><strong>Recommended size</strong>: 1080p. 4K may run out of memory on some devices, especially for slideshows,
+  which hold two photos at once during each transition. The app shows a tip when you export larger
+  than 1080p on an iPhone or iPad.</li>
+<li><strong>"Canvas has no frame"</strong> (versions before 1.8.0): this export error on iPad is fixed in 1.8.0. If
+  an iPad export still fails, try 1080p.</li>
 <li>On touch screens, sliders get bigger thumbs, and number boxes use larger text so iOS doesn't zoom
   in when you tap them.</li>
 </ul>
 <p><img alt="DeepParallax on a phone" src="images/phone.jpg" /></p>
-<h2 id="14-tips-for-good-results">14. Tips for good results</h2>
+<h2 id="15-tips-for-good-results">15. Tips for good results</h2>
 <ul>
 <li><strong>Clear subjects work best</strong>: a person, animal or object in front of a background. Busy scenes,
   fine hair, fences, glass and reflections confuse the AI more.</li>
@@ -452,7 +672,7 @@ progress box shows an estimate of the time left. In backup mode (see below) it's
   photo is small.</li>
 <li><strong>Old scanned photos</strong>: use <em>Crop edges</em> to remove ragged borders.</li>
 </ul>
-<h2 id="15-troubleshooting">15. Troubleshooting</h2>
+<h2 id="16-troubleshooting">16. Troubleshooting</h2>
 <table>
 <thead>
 <tr>
@@ -463,7 +683,7 @@ progress box shows an estimate of the time left. In backup mode (see below) it's
 <tbody>
 <tr>
 <td>A red message appears at the top</td>
-<td>Read it; it usually says what to do. Click it to close it. If it keeps happening, copy the report (see <a href="#16-browser-check-and-reports">section 16</a>).</td>
+<td>Read it; it usually says what to do. Click it to close it. If it keeps happening, copy the report (see <a href="#17-browser-check-and-reports">section 17</a>).</td>
 </tr>
 <tr>
 <td>"The AI could not run"</td>
@@ -490,8 +710,32 @@ progress box shows an estimate of the time left. In backup mode (see below) it's
 <td>Lower Intensity or 3D amount, raise Edge protection, or choose a gentler move.</td>
 </tr>
 <tr>
+<td>An export on iPhone or iPad fails, or mentions memory or frames</td>
+<td>Use 1080p. Close other apps and browser tabs, then try again.</td>
+</tr>
+<tr>
+<td>A transition looks too fast or slow</td>
+<td>Click its bar between the rows on the Slides tab and change its Length. A transition can't be longer than half of either slide it joins.</td>
+</tr>
+<tr>
+<td>The morph smears or tears</td>
+<td>Open <em>See and adjust the points…</em> and drag the dots near the tear onto matching features, or add pairs there. Very different pictures (one zoomed far in, a subject cut off by the edge) smear most. Lowering <em>Background follows by</em> also helps.</td>
+</tr>
+<tr>
+<td>A video made in Safari has no sound (versions 1.9.1 and earlier)</td>
+<td>Fixed in 1.9.2. Export again.</td>
+</tr>
+<tr>
+<td>The slideshow flashes a grey, cloudy picture (the depth view) in Safari (1.9.1 and earlier)</td>
+<td>Fixed in 1.9.2. Export again.</td>
+</tr>
+<tr>
+<td>Play all is jerky</td>
+<td>Live playback depends on the graphics chip. Close other tabs, or use <em>▶ Quick preview</em>, which makes a small video and plays it smoothly.</td>
+</tr>
+<tr>
 <td>Several downloads on Safari</td>
-<td>Tick <em>Put the videos in one ZIP file</em> on the Batch tab.</td>
+<td>Tick <em>Put the videos in one ZIP file</em> on the Slides tab.</td>
 </tr>
 <tr>
 <td>The page is zoomed in on iPhone</td>
@@ -499,7 +743,7 @@ progress box shows an estimate of the time left. In backup mode (see below) it's
 </tr>
 </tbody>
 </table>
-<h2 id="16-browser-check-and-reports">16. Browser check and reports</h2>
+<h2 id="17-browser-check-and-reports">17. Browser check and reports</h2>
 <p>At the bottom of the Main tab, <strong>Browser check</strong> lists what your browser supports:</p>
 <ul>
 <li><strong>Graphics chip drawing</strong>: WebGL, WebGPU, or "backup mode".</li>
@@ -510,7 +754,7 @@ progress box shows an estimate of the time left. In backup mode (see below) it's
 </ul>
 <p><strong>Copy a report</strong> puts a short technical log on your clipboard (no photos). If you ask for help,
 paste it into your message; it shows what the app did, step by step.</p>
-<h2 id="17-glossary">17. Glossary</h2>
+<h2 id="18-glossary">18. Glossary</h2>
 <ul>
 <li><strong>Anamorphic</strong>: a type of cinema lens that makes out-of-focus lights look like tall ovals.</li>
 <li><strong>Bokeh</strong>: the look of the out-of-focus parts of a picture, especially the shape of blurred lights.</li>
@@ -521,13 +765,19 @@ paste it into your message; it shows what the app did, step by step.</p>
 <li><strong>fps (frames per second)</strong>: how many still pictures make one second of video.</li>
 <li><strong>H.264 / HEVC (H.265)</strong>: common video formats. H.264 plays everywhere; HEVC makes smaller files.</li>
 <li><strong>Keyframe</strong>: a saved camera position the camera moves through.</li>
+<li><strong>Lower third</strong>: a strip with a name or place near the bottom of the picture, as on the TV news.</li>
+<li><strong>Morph</strong>: a transition where one picture melts into another while matching features glide onto
+  each other.</li>
 <li><strong>MP4</strong>: the standard video file type, which almost every device can play.</li>
 <li><strong>Parallax</strong>: near things appearing to move more than far things when the viewpoint moves.</li>
 <li><strong>PNG</strong>: a picture file type that keeps full quality.</li>
 <li><strong>Resolution</strong>: the size of the video in pixels, such as 1920 × 1080.</li>
+<li><strong>Title card</strong>: a slide with words on a plain or shaded background, and no photo.</li>
+<li><strong>Transition</strong>: the way one slide changes into the next, such as a dissolve or a wipe.</li>
 <li><strong>WebCodecs</strong>: the part of a browser that turns frames into compressed video.</li>
 <li><strong>WebGL / WebGPU</strong>: two ways a web page can use the computer's graphics chip. WebGPU is newer.</li>
 <li><strong>ZIP file</strong>: a single file that bundles several files together.</li>
+<li><strong>AAC / Opus</strong>: formats for compressed sound. AAC is the usual sound format inside MP4 videos.</li>
 </ul>
 <hr />
 <p>DeepParallax is released under the MIT licence. See <a href="../LICENSE">LICENSE</a>,

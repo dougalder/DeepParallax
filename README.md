@@ -21,8 +21,14 @@ PhotoAwake 3D and Deep Pan, but runs on its own, for free, in Safari, Edge, Chro
 - **Lens blur** (depth of field) with round, hexagonal or anamorphic bokeh.
 - **Look:** brightness, contrast, saturation, warmth, vignette, film grain, sharpening and an
   animated light sweep.
-- **Batches:** many photos at once, each with its own move and length, or shuffled at random.
-  Export one video per photo (bundled in one ZIP file) or one joined video.
+- **Slideshows:** many photos at once, each with its own move and length, or shuffled at random.
+  Add **title cards** anywhere, and **titles and lower thirds** (name strips) on any photo.
+- **Transitions** chosen per slide: crossfade, fade, dip to colour, cross-blur, cross zoom,
+  directional wipe, push, slide, iris, star wipe, clock wipe and a **morph** whose matching points
+  are placed automatically on the near layer and horizon (and can be adjusted by hand).
+- **Play all** to watch the whole slideshow live before exporting.
+- **Soundtrack** with volume, start point, fade in and fade out.
+  Export one slideshow video, or one video per slide (bundled in one ZIP file).
 - **Exports MP4 video up to 4K** (H.264 or HEVC), plus still frames and depth maps as PNG.
 - **Private:** photos are never uploaded. See [PRIVACY.md](PRIVACY.md).
 

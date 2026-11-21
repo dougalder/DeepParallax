@@ -64,7 +64,34 @@ main{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 380px}
 .seg button{border:0;background:var(--panel2);padding:0 10px;height:30px;cursor:pointer}
 .seg button.on{background:var(--accent);color:var(--accent-ink)}
 #panel{display:flex;flex-direction:column;min-height:0;background:var(--panel);border-left:1px solid var(--line)}
-.tabs{flex:none;display:grid;grid-template-columns:repeat(7,1fr);border-bottom:1px solid var(--line)}
+.tabs{flex:none;display:grid;grid-template-columns:repeat(8,1fr);border-bottom:1px solid var(--line)}
+#ovl{position:absolute;pointer-events:none;left:0;top:0}
+#cardNote{white-space:nowrap;position:absolute;left:50%;bottom:10px;transform:translateX(-50%);background:rgba(0,0,0,.55);color:#fff;font-size:11.5px;padding:4px 10px;border-radius:12px;pointer-events:none}
+.trchip{display:flex;align-items:center;justify-content:center;gap:6px;margin:3px 0;padding:3px 8px;border:1px dashed var(--line);border-radius:14px;font-size:11.5px;color:var(--muted);cursor:pointer;background:none;width:100%}
+.trchip:hover,.trchip.on{border-color:var(--accent);color:var(--text);border-style:solid}
+.trchip svg{width:14px;height:14px}
+.tredit{border:1px solid var(--accent);border-radius:9px;padding:10px;background:var(--panel2);margin:2px 0 6px}
+.tredit .row2{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.tredit .row2 .btn{flex:1;min-width:110px}
+.cardthumb{width:40px;height:40px;border-radius:6px;flex:none;object-fit:cover}
+.tf textarea{width:100%;min-height:52px;border:1px solid var(--line);border-radius:7px;background:var(--panel2);padding:6px 28px 6px 8px;resize:vertical;font:inherit}
+.tf textarea:placeholder-shown + .clr{display:none}
+.tf .clr.ta{top:16px}
+.tflabel{font-weight:550;display:block;margin:0 0 4px}
+.fieldgap{margin-bottom:9px}
+.modal{position:fixed;inset:0;background:rgba(5,7,12,.6);display:none;align-items:center;justify-content:center;z-index:56;padding:16px}
+.modal.on{display:flex}
+.modal .box{background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:14px 16px;width:min(980px,100%);max-height:100%;overflow:auto}
+.modal .head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;font-weight:650}
+#playerVideo{width:100%;max-height:70vh;background:#000;border-radius:8px}
+.mpair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mpair figure{margin:0}
+.mpair figcaption{font-size:11.5px;color:var(--muted);margin-bottom:4px}
+.mwrap{position:relative;touch-action:none;cursor:crosshair}
+.mwrap canvas{width:100%;display:block;border-radius:6px;background:#000}
+.mwrap svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+#mPrev{width:100%;display:block;border-radius:6px;background:#000;max-height:38vh;object-fit:contain}
+@media (max-width:640px){.mpair{grid-template-columns:1fr}}
 .tabs button{border:0;background:none;padding:11px 0 9px;cursor:pointer;color:var(--muted);font-weight:600;font-size:12px;border-bottom:2px solid transparent}
 .tabs button.on{color:var(--text);border-bottom-color:var(--accent)}
 .tabbody{flex:1;overflow:auto;padding:12px 14px 30px;-webkit-overflow-scrolling:touch}
@@ -173,6 +200,7 @@ details.help summary{cursor:pointer;color:var(--muted);font-weight:600;font-size
 .tabs button{position:relative}
 .badge{display:inline-block;min-width:15px;height:15px;line-height:15px;border-radius:8px;background:var(--accent);color:var(--accent-ink);font-size:9.5px;margin-left:3px;padding:0 3px;vertical-align:1px}
 .badge:empty{display:none}
+.tabs .badge{position:absolute;top:1px;right:-3px;margin:0;height:13px;line-height:13px;min-width:13px;font-size:9px}
 .blisthead{display:flex;align-items:center;justify-content:space-between;margin:10px 0 6px;color:var(--muted);font-size:12px}
 .btn.danger{color:var(--danger);height:28px;padding:0 10px;font-size:12px}
 .btn.danger:hover{border-color:var(--danger)}
@@ -185,7 +213,7 @@ details.help summary{cursor:pointer;color:var(--muted);font-weight:600;font-size
 .bedit select{margin-top:4px}
 .bedit .num input{width:70px}
 #diagBox{width:100%;height:120px;font:10.5px ui-monospace,Menlo,monospace;margin-top:8px;border:1px solid var(--line);border-radius:6px;background:var(--panel2);color:var(--text)}
-#result video{width:100%;border-radius:8px;margin-top:8px;background:#000}
+#result video,#bResult video{display:block;width:100%;max-height:40vh;object-fit:contain;border-radius:8px;margin-top:8px;background:#000}
 .fname{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--muted);word-break:break-all;margin-top:4px}
 @media (max-width:880px){
   body{overflow-x:hidden;overflow-y:auto;height:auto}
@@ -209,6 +237,8 @@ details.help summary{cursor:pointer;color:var(--muted);font-weight:600;font-size
   <section id="stageCol">
     <div id="stage">
       <canvas id="view" width="640" height="360"></canvas>
+      <canvas id="ovl" width="2" height="2"></canvas>
+      <div id="cardNote" style="display:none">Title card · edit it in Slides or Text</div>
       <div id="pickNote">Click the photo to choose the subject</div>
       <div id="empty">
         <h2>Bring a photo to life</h2>
@@ -234,7 +264,8 @@ details.help summary{cursor:pointer;color:var(--muted);font-weight:600;font-size
   <aside id="panel">
     <nav class="tabs" id="tabs">
       <button data-t="main" class="on">Main</button>
-      <button data-t="batch">Batch<span class="badge" id="bBadge"></span></button>
+      <button data-t="batch">Slides<span class="badge" id="bBadge"></span></button>
+      <button data-t="text">Text</button>
       <button data-t="depth">Depth</button>
       <button data-t="camera">Camera</button>
       <button data-t="lens">Lens</button>
@@ -250,7 +281,7 @@ details.help summary{cursor:pointer;color:var(--muted);font-weight:600;font-size
           <button class="btn" id="mPaste">Paste</button>
           <button class="btn" id="mSample">Sample</button>
         </div>
-        <div class="mini" id="photoInfo">No photo yet. Drag one onto the preview, or press ⌘V. Choose several at once to make a batch.</div>
+        <div class="mini" id="photoInfo">No photo yet. Drag one onto the preview, or press ⌘V. Choose several at once to make a slideshow.</div>
         <div class="mini" id="depthLine"><span id="depthState">The depth map is made automatically when you load a photo.</span> <button class="linkbtn" id="mDepth" style="display:none">Make depth map</button></div>
 
         <h3>2 · Frame</h3>
@@ -281,6 +312,7 @@ details.help summary{cursor:pointer;color:var(--muted);font-weight:600;font-size
         </div>
         <button class="btn primary wide" id="exportBtn" style="margin-top:8px">Export video</button>
         <p class="hint" id="exportSummary"></p>
+        <p class="hint" id="mainSound"></p>
         <div id="result"></div>
 
         <details class="help"><summary>How it works</summary>
@@ -296,6 +328,7 @@ details.help summary{cursor:pointer;color:var(--muted);font-weight:600;font-size
           <div class="note" style="margin-top:6px">
             <b>DeepParallax</b> v<span class="verText"></span> by Douglas Alder. MIT licence.<br>
             Built with: <b>mp4-muxer</b> (MIT, Vanilagy) and <b>ONNX Runtime Web</b> (MIT, Microsoft), both included in this file; <b>Transformers.js</b> (Apache 2.0, Hugging Face), loaded when needed.<br>
+            The morph transition follows the method of <b>Morph Lab</b> (MIT, github.com/dougalder/morph-lab).<br>
             Depth AI: <b>Depth Anything V2</b> by Lihe Yang and colleagues. The Standard (Small) model is Apache 2.0. The Detailed (Base) model is <b>CC BY-NC 4.0: non-commercial use only</b>. Models are downloaded from Hugging Face on first use, not included in this file.<br>
             Your photos are processed on your own device and are never uploaded.<br>
             Not affiliated with FxFactory, omotion, PhotoAwake 3D or Deep Pan, which inspired it. Full notices: THIRD_PARTY_NOTICES.md in the project repository.
@@ -306,35 +339,129 @@ details.help summary{cursor:pointer;color:var(--muted);font-weight:600;font-size
 
       <!-- BATCH -->
       <div class="tab" data-t="batch">
-        <h3>Photos in the batch</h3>
+        <button class="btn primary wide" id="bPlayAll" title="Play the whole slideshow in the preview, with transitions and titles">▶ Play all</button>
+        <p class="hint" id="bPlayHint">Plays the whole slideshow in the preview, with its transitions and titles. Click the preview or press Esc to stop.</p>
+        <h3>Transitions</h3>
         <div class="grid2">
-          <button class="btn primary" id="bAdd">Add photos…</button>
-          <button class="btn" id="bAddCur">Add the open photo</button>
+          <div class="sel"><label>Standard transition</label><select data-k="trType" id="trDefault"></select></div>
+          <div class="sl" data-k="trDur" data-label="Its length" data-min="0.2" data-max="4" data-step="0.1" data-unit="s"></div>
         </div>
-        <p class="hint">Each photo keeps its own camera move, length, crop and subject. Click a row to show that photo in the preview, then fine-tune it with the other tabs.</p>
-        <div class="blisthead" id="bListHead"><span id="bCount"></span><button class="btn danger" id="bClear" title="Remove every photo from the batch">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>Delete all</button></div>
-        <div id="bList"></div>
-        <div class="note" id="bEmpty">No photos yet. Use “Add photos…”, or choose several photos at once with Open on the Main tab.</div>
+        <div class="grid2" style="margin-top:4px">
+          <button class="btn" id="trAll">Use it for every slide</button>
+          <button class="btn" id="trRandom">🎲 Random transitions</button>
+        </div>
+        <label class="chk" style="margin-top:10px"><input type="checkbox" data-k="ssFadeIn">Fade in from black at the start</label>
+        <label class="chk"><input type="checkbox" data-k="ssFadeOut">Fade out to black at the end</label>
         <h3>Random moves</h3>
         <div class="grid2">
           <button class="btn" id="bShuffle">🎲 Shuffle moves</button>
           <button class="btn" id="bSame">Use the current move for all</button>
         </div>
-        <label class="chk" style="margin-top:10px"><input type="checkbox" data-k="bNoRepeat">Never the same move twice in a row</label>
+        <details class="help" style="margin-top:8px"><summary>Shuffle options</summary><div style="margin-top:8px">
+        <label class="chk"><input type="checkbox" data-k="bNoRepeat">Never the same move twice in a row</label>
         <label class="chk"><input type="checkbox" data-k="bRandLen">Also vary the lengths when shuffling</label>
         <div class="grid2 tight">
           <div class="sl" data-k="bLenMin" data-label="Shortest" data-min="1" data-max="30" data-step="0.5" data-unit="s"></div>
           <div class="sl" data-k="bLenMax" data-label="Longest" data-min="1" data-max="30" data-step="0.5" data-unit="s"></div>
         </div>
-        <h3>Export the batch</h3>
-        <div class="seg full two" id="bModeSeg"><button data-m="separate">One video per photo</button><button data-m="joined">One joined video</button></div>
+        </div></details>
+        <h3>Slides in the show</h3>
+        <div class="grid3">
+          <button class="btn primary" id="bAdd">Add photos…</button>
+          <button class="btn" id="bAddCur">Add open photo</button>
+          <button class="btn" id="bAddCard">+ Title card</button>
+        </div>
+        <p class="hint">Click a row to show it in the preview. The pencil changes its move, length and text. The small bar between two rows is the <b>transition</b>: click it to choose how one slide changes into the next.</p>
+        <div class="blisthead" id="bListHead"><span id="bCount"></span><button class="btn danger" id="bClear" title="Remove every slide">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>Delete all</button></div>
+        <div id="bList"></div>
+        <div class="note" id="bEmpty">No slides yet. Use “Add photos…”, or choose several photos at once with Open on the Main tab. “+ Title card” adds a plain card with words on it.</div>
+        <h3>Soundtrack</h3>
+        <div class="grid2">
+          <button class="btn" id="sndAdd">♪ Add music…</button>
+          <button class="btn" id="sndListen">▶ Listen</button>
+        </div>
+        <div class="note" id="sndInfo" style="display:flex;align-items:center;justify-content:space-between;gap:6px"></div>
+        <div id="sndOpts" style="display:none">
+          <div class="grid2 tight">
+            <div class="sl" data-k="audVol" data-label="Volume" data-min="0" data-max="150" data-step="5" data-unit="%"></div>
+            <div class="sl" data-k="audStart" data-label="Start song at" data-min="0" data-max="600" data-step="0.5" data-unit="s"></div>
+          </div>
+          <div class="grid2 tight">
+            <div class="sl" data-k="audFadeIn" data-label="Fade in" data-min="0" data-max="15" data-step="0.5" data-unit="s"></div>
+            <div class="sl" data-k="audFadeOut" data-label="Fade out" data-min="0" data-max="15" data-step="0.5" data-unit="s"></div>
+          </div>
+          <label class="chk"><input type="checkbox" data-k="audLoop">Repeat the music if it is shorter than the video</label>
+          <p class="hint">The music is used in the slideshow video, the video from the Main tab, Play all and Quick preview. It always fades out at the end of the video (or where the music runs out).</p>
+        </div>
+        <input type="file" id="sndIn" accept="audio/*,.mp3,.m4a,.aac,.wav,.aif,.aiff,.caf" hidden>
+        <h3>Export the slideshow</h3>
+        <div class="seg full two" id="bModeSeg"><button data-m="joined">One slideshow video</button><button data-m="separate">One video per slide</button></div>
         <label class="chk" id="bZipRow" style="margin-top:10px"><input type="checkbox" data-k="bZip">Put the videos in one ZIP file (one download instead of one per video)</label>
-        <button class="btn primary wide" id="bExport" style="margin-top:8px">Export batch</button>
+        <div class="grid2" style="margin-top:8px">
+          <button class="btn" id="bPreview" title="A quick, low-resolution version to check timing and transitions">▶ Quick preview</button>
+          <button class="btn primary" id="bExport">Export slideshow</button>
+        </div>
         <p class="hint" id="bSummary"></p>
-        <p class="hint">Frame shape, resolution and the Look and Lens settings apply to every photo. Depth maps that aren't made yet are made during the export.</p>
+        <p class="hint">Frame shape, resolution, text style and the Look and Lens settings apply to every slide. Transitions are only used in the single slideshow video. Depth maps that aren't made yet are made during the export.</p>
         <div id="bResult"></div>
 
+      </div>
+
+      <!-- TEXT -->
+      <div class="tab" data-t="text">
+        <button class="btn primary wide" id="txPreview" title="Play this slide from the start to see its text come in and go out">▶ Preview titles</button>
+        <h3 id="txHead">Text on this photo</h3>
+        <p class="hint" id="txWhich" style="margin-bottom:8px"></p>
+        <div id="txPhoto">
+          <label class="tflabel">Title</label>
+          <div class="tf fieldgap"><textarea id="txTitle" placeholder="A big title (leave empty for none)" rows="2"></textarea><button class="clr ta" title="Clear">✕</button></div>
+          <label class="tflabel">Subtitle</label>
+          <div class="tf fieldgap"><input type="text" id="txSub" placeholder="A smaller line under the title"><button class="clr" title="Clear">✕</button></div>
+          <div class="grid2">
+            <div class="sel"><label>Where</label><select id="txPos"><option value="center">Middle</option><option value="top">Top</option><option value="bottom">Bottom</option></select></div>
+            <div class="sel"><label>When</label><select id="txWhen"><option value="all">The whole slide</option><option value="start">First 3 seconds</option><option value="end">Last 3 seconds</option></select></div>
+          </div>
+          <h3>Lower third</h3>
+          <p class="hint" style="margin-bottom:6px">A name strip near the bottom of the picture, as on the TV news: who or where this is.</p>
+          <label class="tflabel">First line</label>
+          <div class="tf fieldgap"><input type="text" id="txL1" placeholder="For example, a name or a place"><button class="clr" title="Clear">✕</button></div>
+          <label class="tflabel">Second line</label>
+          <div class="tf fieldgap"><input type="text" id="txL2" placeholder="For example, a date or a description"><button class="clr" title="Clear">✕</button></div>
+        </div>
+        <div id="txCard" style="display:none">
+          <label class="tflabel">Title</label>
+          <div class="tf fieldgap"><textarea id="cdTitle" placeholder="Words on the card" rows="2"></textarea><button class="clr ta" title="Clear">✕</button></div>
+          <label class="tflabel">Subtitle</label>
+          <div class="tf fieldgap"><input type="text" id="cdSub" placeholder="A smaller line"><button class="clr" title="Clear">✕</button></div>
+          <div class="grid2">
+            <div class="sel"><label>Background</label><select id="cdStyle"><option value="solid">One colour</option><option value="gradient">Gradient</option><option value="radial">Glow from the middle</option></select></div>
+            <div class="sel"><label>Length (seconds)</label><span class="num"><input type="number" id="cdDur" min="1" max="30" step="0.5"><em>s</em></span></div>
+          </div>
+          <div class="grid2" style="margin-top:10px">
+            <div class="colorrow">Colour 1 <input type="color" id="cdBg1"></div>
+            <div class="colorrow">Colour 2 <input type="color" id="cdBg2"></div>
+          </div>
+        </div>
+        <h3>Text style (all slides)</h3>
+        <div class="grid2">
+          <div class="sel"><label>Typeface</label><select data-k="txFont"><option value="sans">Clean (sans serif)</option><option value="serif">Classic (serif)</option><option value="elegant">Elegant</option><option value="rounded">Friendly</option><option value="geometric">Geometric</option><option value="typewriter">Typewriter</option></select></div>
+          <div class="sel"><label>Title appears by</label><select data-k="txAnim"><option value="fade">Fading in</option><option value="rise">Rising and fading</option><option value="none">Just appearing</option></select></div>
+        </div>
+        <div class="grid2" style="margin-top:10px;align-items:center">
+          <div class="sl" data-k="txSize" data-label="Text size" data-min="40" data-max="200" data-step="5" data-unit="%"></div>
+          <div class="colorrow" style="margin:0">Text colour <input type="color" data-k="txColor"></div>
+        </div>
+        <label class="chk"><input type="checkbox" data-k="txShadow">Soft shadow behind text (easier to read on busy photos)</label>
+        <div class="grid2">
+          <div class="sel"><label>Lower third look</label><select data-k="ltStyle"><option value="bar">Coloured bars</option><option value="box">Dark box</option><option value="plain">Words only</option></select></div>
+          <div class="sel"><label>Lower third side</label><select data-k="ltPos"><option value="left">Left</option><option value="right">Right</option></select></div>
+        </div>
+        <div class="grid2" style="margin-top:10px;align-items:center">
+          <div class="sel"><label>Lower third appears by</label><select data-k="ltAnim"><option value="slide">Sliding in</option><option value="fade">Fading in</option></select></div>
+          <div class="colorrow" style="margin:0">Bar colour <input type="color" data-k="ltColor"></div>
+        </div>
+        <p class="hint">Text is drawn sharply at the export size, on top of the 3D picture, so it never wobbles with the camera move.</p>
       </div>
 
       <!-- DEPTH -->
@@ -515,6 +642,31 @@ details.help summary{cursor:pointer;color:var(--muted);font-weight:600;font-size
   <button class="btn primary wide" id="readyShare" style="margin-top:12px">Save to Photos / Share…</button>
   <div id="readyList" style="margin-top:10px"></div>
   <div style="text-align:right;margin-top:10px"><button class="btn" id="readyClose">Close</button></div>
+</div></div>
+<div class="modal" id="player"><div class="box">
+  <div class="head"><span id="playerTitle">Preview</span><button class="btn" id="playerClose">Close</button></div>
+  <video id="playerVideo" controls playsinline loop></video>
+  <p class="hint">This is a quick, low-resolution version for checking timing and transitions. The real export is sharp.</p>
+</div></div>
+<div class="modal" id="morphEd"><div class="box">
+  <div class="head"><span>Morph: mark matching points</span><button class="btn primary" id="mDone">Done</button></div>
+  <p class="hint" style="margin:-4px 0 8px">Click a feature on either picture (an eye, a chin, a rooftop) to add a pair of numbered dots, then drag each dot onto the same feature in the other picture. The morph slides each feature smoothly onto its partner. With no dots it is a plain dissolve. A few well-placed pairs (5 to 20) work best.</p>
+  <div class="mpair">
+    <figure><figcaption>End of this slide</figcaption><div class="mwrap" data-side="a"><canvas id="mA"></canvas><svg></svg></div></figure>
+    <figure><figcaption>Start of the next slide</figcaption><div class="mwrap" data-side="b"><canvas id="mB"></canvas><svg></svg></div></figure>
+  </div>
+  <div class="row2" style="display:flex;gap:6px;flex-wrap:wrap;margin:8px 0">
+    <button class="btn" id="mDel">Delete selected pair</button>
+    <button class="btn" id="mClear">Delete all pairs</button>
+    <button class="btn" id="mRedo" title="Find the near layer and horizon again and replace the automatic points (yours are kept)">✨ Redo automatic points</button>
+    <span class="mini" id="mCount" style="align-self:center"></span>
+  </div>
+  <p class="hint" style="margin:0 0 8px"><span style="color:#4f5fe0">●</span> your points &nbsp; <span style="color:#f08a24">●</span> near layer (automatic) &nbsp; <span style="color:#16a3a3">●</span> horizon (automatic). Drag any dot to improve it; a dragged dot becomes yours and is kept when the automatic points are redone.</p>
+  <div class="grid2">
+    <div class="sl" data-k="mT" data-src="M" data-label="Try the morph" data-min="0" data-max="100" data-unit="%"></div>
+    <div class="sl" data-k="lag" data-src="M" data-label="Background follows by" data-min="0" data-max="100" data-step="5" data-unit="%"></div>
+  </div>
+  <canvas id="mPrev"></canvas>
 </div></div>
 <div id="toast"></div>
 <input type="file" id="fileIn" accept="image/*" multiple hidden>
@@ -2470,7 +2622,7 @@ if (typeof module === "object" && typeof module.exports === "object") Object.ass
 (async function () {
 'use strict';
 try {
-const APP_VERSION = '1.7.2';
+const APP_VERSION = '1.9.2';
 const DIAG = [];
 function diag(m) { DIAG.push(new Date().toISOString().slice(11, 19) + '  ' + m); if (DIAG.length > 400) DIAG.shift(); console.log('[DeepParallax] ' + m); }
 const UA = navigator.userAgent;
@@ -2504,12 +2656,16 @@ const S = {
   sweep: false, sweepColor: '#ffd9a0', sweepStrength: 40, sweepWidth: 25, sweepAngle: 25, sweepStart: 15, sweepEnd: 85,
   cropAll: 0, cropT: 0, cropB: 0, cropL: 0, cropR: 0, straightEdges: true,
   framing: 'fit', frameZoom: 100, frameX: 0, frameY: 0, bgStyle: 'blur', frameBg: '#000000',
-  bZip: true, bRandLen: false, bLenMin: 4, bLenMax: 8, bNoRepeat: true, bMode: 'separate',
+  bZip: true, bRandLen: false, bLenMin: 4, bLenMax: 8, bNoRepeat: true, bMode: 'joined',
+  trType: 'crossfade', trDur: 1, ssFadeIn: true, ssFadeOut: true,
+  audVol: 100, audStart: 0, audFadeIn: 2, audFadeOut: 3, audLoop: true,
+  txFont: 'sans', txColor: '#ffffff', txSize: 100, txShadow: true, txAnim: 'fade', ltStyle: 'bar', ltColor: '#4f5fe0', ltPos: 'left', ltAnim: 'slide',
   aspect: '16:9', res: '2160', fps: '30', vquality: 'high', codec: 'avc', rquality: 'standard', previewQ: 'fast',
 };
 const DEFAULTS = JSON.parse(JSON.stringify(S));
 let E = null;            // keyframe being edited (draft copy)
 let editingId = null;
+let previewCard = null, seqRunning = false;   // a title card shown in the preview; true while a slideshow is being drawn
 let kfCustom = false;    // user has changed keyframes by hand
 let keys = [];
 let kfSeq = 1;
@@ -3069,7 +3225,7 @@ async function loadBlob(blob, name) {
 
 async function setPhotoFromImage(img, name, depthCanvas) {
   const w0 = img.naturalWidth || img.width, h0 = img.naturalHeight || img.height;
-  const cap = Math.min(MAX_TEX, isTouch ? 4096 : 6144);
+  const cap = Math.min(MAX_TEX, isTouch ? (seqRunning ? 3072 : 4096) : 6144);   // two photos are held at once during a slideshow
   const sc = Math.min(1, cap / Math.max(w0, h0));
   let w = Math.max(1, Math.round(w0 * sc)), h = Math.max(1, Math.round(h0 * sc));
   let c = document.createElement('canvas'); c.width = w; c.height = h;
@@ -3114,6 +3270,7 @@ async function setPhotoFromImage(img, name, depthCanvas) {
     setDepthState('No depth map yet, so there is no 3D effect.', 'Make depth map');
   }
   applyCrop();
+  if (!seqRunning) syncTextTab();
 }
 
 /* ---------------- crop ----------------
@@ -3155,7 +3312,7 @@ function applyCrop() {
   updateSizeInfo(); fitCanvas(); requestRender();
 }
 let cropTimer;
-function applyCropSoon() { clearTimeout(cropTimer); cropTimer = setTimeout(applyCrop, 70); }
+function applyCropSoon() { clearTimeout(cropTimer); cropTimer = setTimeout(() => { if (!seqRunning) applyCrop(); }, 70); }
 function escapeHtml(s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
 
 function drawScaled(src, w, h) {
@@ -3235,7 +3392,7 @@ function processDepth() {
   requestRender();
 }
 let depthTimer;
-function processDepthSoon() { clearTimeout(depthTimer); depthTimer = setTimeout(processDepth, 60); }
+function processDepthSoon() { clearTimeout(depthTimer); depthTimer = setTimeout(() => { if (!seqRunning) processDepth(); }, 60); }
 
 function drawDepthThumb() {
   const c = $('#depthThumb'); if (!depthProc) return;
@@ -3642,7 +3799,7 @@ function timing(K) {
   if (K.length <= 1) total = Math.max(1, +S.duration);
   return { times, total };
 }
-function totalDuration() { return timing(activeKeys()).total; }
+function totalDuration() { return previewCard && !seqRunning ? Math.max(0.5, +previewCard.duration) : timing(activeKeys()).total; }
 function ease(type, s) {
   switch (type) {
     case 'linear': return s;
@@ -3944,18 +4101,19 @@ function sceneRows(P, y0, y1, W, H, L, D, rgba, dep) {
   }
 }
 
-const cpu = { workers: [], levels: null, pending: new Map(), seq: 0, busy: false, again: false, lastDepth: null, lastW: 0, lastH: 0 };
+const cpu = { activeSlot: 0, workers: [], levels: null, pending: new Map(), seq: 0, busy: false, again: false, lastDepth: null, lastW: 0, lastH: 0 };
 function cpuStartWorkers() {
   const n = Math.max(1, Math.min(6, (navigator.hardwareConcurrency || 4) - 1));
   const src = sceneRows.toString() + `
-let L = null, D = null;
+let L = [null, null], D = [null, null];
 onmessage = function (e) {
-  const m = e.data;
-  if (m.type === 'init') { L = m.levels; D = m.depth; return; }
-  if (m.type === 'depth') { D = m.depth; return; }
+  const m = e.data, k = m.slot | 0;
+  if (m.type === 'init') { L[k] = m.levels; D[k] = m.depth; return; }
+  if (m.type === 'depth') { D[k] = m.depth; return; }
+  if (m.type === 'free') { L[k] = null; D[k] = null; return; }
   try {
     const n = (m.y1 - m.y0) * m.W, rgba = new Uint8ClampedArray(n * 4), dep = new Float32Array(n);
-    sceneRows(m.P, m.y0, m.y1, m.W, m.H, L, D, rgba, dep);
+    sceneRows(m.P, m.y0, m.y1, m.W, m.H, L[k], D[k], rgba, dep);
     postMessage({ id: m.id, y0: m.y0, rgba: rgba, dep: dep }, [rgba.buffer, dep.buffer]);
   } catch (err) { postMessage({ id: m.id, y0: m.y0, error: String(err && err.message || err) }); }
 };`;
@@ -3975,10 +4133,10 @@ onmessage = function (e) {
 function cpuSetImage(c) {
   const levels = buildLevels(c, 3072).map(L => ({ w: L.w, h: L.h, data: L.data }));
   cpu.levels = levels;
-  for (const wk of cpu.workers) wk.postMessage({ type: 'init', levels, depth: cpuDepthObj() });
+  for (const wk of cpu.workers) wk.postMessage({ type: 'init', slot: cpu.activeSlot, levels, depth: cpuDepthObj() });
 }
 function cpuDepthObj() { return depthProc ? { w: depthW, h: depthH, data: depthProc } : { w: 1, h: 1, data: new Float32Array([0]) }; }
-function cpuSetDepth() { for (const wk of cpu.workers) wk.postMessage({ type: 'depth', depth: cpuDepthObj() }); }
+function cpuSetDepth() { for (const wk of cpu.workers) wk.postMessage({ type: 'depth', slot: cpu.activeSlot, depth: cpuDepthObj() }); }
 
 async function cpuScene(P, W, H) {
   const rgba = new Uint8ClampedArray(W * H * 4), dep = new Float32Array(W * H);
@@ -3994,7 +4152,7 @@ async function cpuScene(P, W, H) {
       const entry = { wk, y0, y1, done: d => { if (!cpu.pending.has(id)) return; cpu.pending.delete(id); clearTimeout(timer); res({ ...d, y1 }); } };
       cpu.pending.set(id, entry);
     }));
-    wk.postMessage({ type: 'render', id, P, y0, y1, W, H });
+    wk.postMessage({ type: 'render', slot: cpu.activeSlot, id, P, y0, y1, W, H });
   }
   for (const d of await Promise.all(jobs)) {
     if (d.error) {
@@ -4220,7 +4378,20 @@ function renderFrameGL(t, opt = {}) {
   gl.uniform4f(l.u_sweep, pos, 0.02 + S.sweepWidth / 100 * 0.35, S.sweepStrength / 100, S.sweepAngle * Math.PI / 180);
   gl.uniform3f(l.u_sweepCol, sr / 255, sg / 255, sb / 255);
   gl.drawArrays(gl.TRIANGLES, 0, 3);
+  glCopied = false;
+  if (opt.readback) {
+    // copy the pixels out straight away. Safari can hand back an older picture when a 3D canvas is
+    // drawn onto another canvas, which made slideshows flash the depth view; reading the pixels
+    // directly always gets the picture that was just drawn
+    const px = new Uint8Array(W * H * 4);
+    gl.readPixels(0, 0, W, H, gl.RGBA, gl.UNSIGNED_BYTE, px);
+    const img = new ImageData(W, H), row = W * 4;
+    for (let y = 0; y < H; y++) img.data.set(px.subarray((H - 1 - y) * row, (H - y) * row), y * row);   // 3D pictures are stored upside down
+    copyTarget(W, H).putImageData(img, 0, 0);
+    glCopied = true;
+  }
 }
+let glCopied = false;
 
 let viewMode = 0, curTime = 0, playing = false, renderQueued = false, exporting = false;
 function requestRender() {
@@ -4230,8 +4401,9 @@ function requestRender() {
     if (ASYNC) {
       if (cpu.busy) { cpu.again = true; return; }
       cpu.busy = true; try { await renderFrame(curTime); } finally { cpu.busy = false; }
+      drawPreviewOverlay(curTime);
       if (cpu.again && !playing) { cpu.again = false; requestRender(); }
-    } else renderFrame(curTime);
+    } else { renderFrame(curTime); drawPreviewOverlay(curTime); }
   });
 }
 function fitCanvas() {
@@ -4247,6 +4419,7 @@ function fitCanvas() {
   pw = Math.max(2, Math.round(pw * sc)); ph = Math.max(2, Math.round(ph * sc));
   if (canvas.width !== pw || canvas.height !== ph) { canvas.width = pw; canvas.height = ph; }
   requestRender();
+  requestAnimationFrame(() => { if (!exporting) drawPreviewOverlay(curTime); });
 }
 new ResizeObserver(fitCanvas).observe($('#stage'));
 
@@ -4265,7 +4438,8 @@ async function tick(ts) {
   if (t > total) t = S.loop ? t % total : (t - total > 0.6 ? 0 : total);
   curTime = t; $('#scrub').value = Math.round(curTime / total * 1000); updateTimeLabel();
   if (ASYNC) { if (!cpu.busy && !exporting) { cpu.busy = true; try { await renderFrame(curTime); } finally { cpu.busy = false; } } }
-  else renderFrame(curTime);
+  else if (!exporting) renderFrame(curTime);
+  drawPreviewOverlay(curTime);
   requestAnimationFrame(tick);
 }
 function play() { if (playing) return; playing = true; lastTs = 0; if (curTime >= totalDuration() - 0.01) curTime = 0; $('#playBtn').innerHTML = IC.pause; requestAnimationFrame(tick); }
@@ -4371,9 +4545,14 @@ document.addEventListener('paste', e => {
 $('#mDepth').onclick = generateDepth;
 const stage = $('#stage');
 stage.addEventListener('dragover', e => { e.preventDefault(); stage.classList.add('drag'); });
+// music can also be dropped anywhere on the side panel
+$('#panel').addEventListener('dragover', e => { if ([...(e.dataTransfer.items || [])].some(i => i.kind === 'file')) e.preventDefault(); });
+$('#panel').addEventListener('drop', e => { const f = [...(e.dataTransfer.files || [])].find(isAudioFile); if (f) { e.preventDefault(); setSoundtrack(f); } });
 stage.addEventListener('dragleave', e => { if (e.target === stage || !stage.contains(e.relatedTarget)) stage.classList.remove('drag'); });
 stage.addEventListener('drop', e => {
   e.preventDefault(); stage.classList.remove('drag');
+  const snd = [...(e.dataTransfer.files || [])].find(isAudioFile);
+  if (snd) { setSoundtrack(snd); return; }
   const fs = [...(e.dataTransfer.files || [])].filter(f => f.type.startsWith('image/') || /\.(heic|heif)$/i.test(f.name));
   if (fs.length > 1 || (fs.length && batch.items.length)) addFilesToBatch(fs);
   else if (fs.length) { batch.current = null; loadBlob(fs[0], fs[0].name); }
@@ -4409,7 +4588,7 @@ function selectTab(t) {
   $$('#tabs button').forEach(b => b.classList.toggle('on', b.dataset.t === t));
   $$('.tab').forEach(x => x.classList.toggle('on', x.dataset.t === t));
 }
-$('#tabs').addEventListener('click', e => { const b = e.target.closest('button'); if (b) selectTab(b.dataset.t); });
+$('#tabs').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { selectTab(b.dataset.t); if (b.dataset.t === 'text') syncTextTab(); } });
 /* camera move buttons */
 const MOVE_ICONS = {
   orbit: '<ellipse cx="12" cy="13" rx="9" ry="4"/><circle cx="12" cy="9" r="2.6" fill="currentColor" stroke="none"/><path d="M17.2 18.4l3-1.6-1.4-3"/>',
@@ -4481,7 +4660,7 @@ function scaleCustom(k) {
   renderKfList(); autoZDirty = true;
 }
 
-function srcObj(el) { return el.dataset.src === 'E' ? E : S; }
+function srcObj(el) { return el.dataset.src === 'E' ? E : el.dataset.src === 'M' ? MS : S; }
 $$('.sl').forEach(el => {
   const { k, label, min, max, unit = '', hint } = el.dataset; const step = el.dataset.step || 1;
   el.classList.add('field');
@@ -4492,6 +4671,7 @@ $$('.sl').forEach(el => {
     const o = srcObj(el); if (!o) return;
     v = clamp(+v, +min, +max); if (isNaN(v)) return;
     o[k] = v; if (from !== rng) rng.value = v; if (from !== num) num.value = v;
+    if (el.dataset.src === 'M') { morphPreview(); return; }
     onChange(k, el.dataset.src === 'E');
   };
   rng.addEventListener('input', () => set(rng.value, rng));
@@ -4536,7 +4716,9 @@ function onChange(k, isEditor) {
     case 'fps': case 'vquality': case 'codec': updateSizeInfo(); break;
     case 'bg': if (photo) toast('The new fill colour applies the next time you load a transparent image.'); break;
     case 'model': case 'engine': aiModel = null; aiKey = ''; break;
+    case 'trType': case 'trDur': case 'ssFadeIn': case 'ssFadeOut': renderBatchSoon(); break;
   }
+  if (/^(tx|lt)/.test(k)) { drawPreviewOverlay(curTime); renderBatchSoon(); }
   requestRender();
 }
 
@@ -4547,7 +4729,7 @@ function clipLabel() { return $('#clipName').value.trim() || (kfCustom ? 'Custom
 function videoName() { const { W, H } = outDims(); return `${dateStamp()} ${APP_NAME}-${safeName(clipLabel())}-${W}x${H}.mp4`; }
 function updateFileName() { $('#fnamePrev').textContent = videoName(); }
 $('#clipName').addEventListener('input', updateFileName);
-$$('.tf .clr').forEach(b => b.onclick = () => { const i = b.previousElementSibling; i.value = ''; i.dispatchEvent(new Event('input')); i.focus(); });
+document.addEventListener('click', e => { const b = e.target.closest('.tf .clr'); if (!b) return; const i = b.previousElementSibling; i.value = ''; i.dispatchEvent(new Event('input', { bubbles: true })); i.dispatchEvent(new Event('change', { bubbles: true })); i.focus(); });
 function bitrateFor(W, H, fps) { const bpp = { standard: 0.06, high: 0.11, max: 0.2 }[S.vquality]; return Math.round(W * H * fps * bpp); }
 function updateSizeInfo() {
   const { W, H } = outDims(), fps = +S.fps, br = bitrateFor(W, H, fps), dur = totalDuration();
@@ -4610,57 +4792,34 @@ async function chooseEncoder(W, H, fps) {
 const muxNames = { avc: 'H.264', hevc: 'HEVC', vp9: 'VP9', av1: 'AV1' };
 /* Export is split into three parts so a batch can reuse them:
    start an encoder → draw and encode the current clip → finish the file. */
-async function startEncoder(W, H, fps) {
+async function startEncoder(W, H, fps, withAudio) {
   const { Muxer, ArrayBufferTarget } = window.Mp4Muxer;
   const { cfg, mux } = await chooseEncoder(W, H, fps);
+  const ac = withAudio && sound ? await chooseAudio() : null;
+  if (withAudio && sound && !ac) toast('This browser cannot put sound into videos, so this video will be silent. Chrome, Edge and recent Safari can.', 7000);
   // Safari's encoder holds on to frames when asked for "best quality", so use its steady mode there
   if (IS_WEBKIT && cfg.latencyMode) cfg.latencyMode = 'realtime';
   const target = new ArrayBufferTarget();
-  const muxer = new Muxer({ target, video: { codec: mux, width: W, height: H, frameRate: fps }, fastStart: 'in-memory', firstTimestampBehavior: 'offset' });
-  const sess = { W, H, fps, mux, muxer, target, err: null, outputs: 0, frame: 0, maxQueue: 0, encoder: null };
+  const muxer = new Muxer({ target, video: { codec: mux, width: W, height: H, frameRate: fps }, ...(ac ? { audio: { codec: ac.mux, numberOfChannels: 2, sampleRate: 48000 } } : {}), fastStart: 'in-memory', firstTimestampBehavior: 'offset' });
+  const sess = { W, H, fps, mux, muxer, target, err: null, outputs: 0, frame: 0, maxQueue: 0, encoder: null, aEnc: null, audioMux: ac && ac.mux };
+  if (ac) {
+    // Safari hands back a whole MP4 sound description where only its last two bytes belong, which
+    // left players seeing "0 channels" and playing nothing. For AAC the app writes those two bytes
+    // itself: AAC-LC (2), 48,000 Hz (index 3), stereo (2) = 0x11 0x90.
+    const AAC_ASC = new Uint8Array([0x11, 0x90]);
+    sess.aEnc = new AudioEncoder({
+      output: (chunk, meta) => {
+        if (ac.mux === 'aac') meta = { ...(meta || {}), decoderConfig: { codec: 'mp4a.40.2', sampleRate: 48000, numberOfChannels: 2, description: AAC_ASC } };
+        muxer.addAudioChunk(chunk, meta);
+      },
+      error: e => { sess.err = e; diag('Audio encoder error: ' + e.message); }
+    });
+    sess.aEnc.configure({ codec: ac.codec, sampleRate: 48000, numberOfChannels: 2, bitrate: 192000, ...(ac.mux === 'aac' ? { aac: { format: 'aac' } } : {}) });
+  }
   sess.encoder = new VideoEncoder({ output: (chunk, meta) => { sess.outputs++; muxer.addVideoChunk(chunk, meta); }, error: e => { sess.err = e; diag('Encoder error: ' + e.message); } });
   sess.encoder.configure(cfg);
   diag(`Encoder: ${cfg.codec} ${W}x${H} ${fps} fps, ${(cfg.bitrate / 1e6).toFixed(1)} Mbps, latency ${cfg.latencyMode || 'default'}`);
   return sess;
-}
-async function encodeClip(sess, label, onFrac) {
-  const { W, H, fps } = sess, total = totalDuration();
-  const N = Math.max(2, Math.round(total * fps));
-  canvas.width = W; canvas.height = H;
-  const best = S.rquality === 'best';
-  const opts = { steps: best ? 160 : 90, samples: best ? 200 : 110, cpuSteps: best ? 64 : 40 };
-  while (cpu.busy) await sleep(10);
-  const t0 = performance.now(); let lastUi = 0;
-  for (let i = 0; i < N; i++) {
-    if (busy.cancelled) throw new Error('cancelled');
-    if (sess.err) throw sess.err;
-    const t = S.loop ? i / N * total : i / (N - 1) * total;
-    await renderFrame(t, { ...opts, seed: sess.frame, view: 0, wait: true, readback: true });
-    if (busy.cancelled) throw new Error('cancelled');
-    if (wgpu && ctx2d && (i % 8 === 0 || i === N - 1)) ctx2d.drawImage(copyCanvas, 0, 0); // show progress in the preview
-    const vf = new VideoFrame(frameSource(), { timestamp: Math.round(sess.frame * 1e6 / fps), duration: Math.round(1e6 / fps) });
-    sess.encoder.encode(vf, { keyFrame: sess.frame % (fps * 2) === 0 });
-    vf.close();
-    sess.frame++;
-    // gentle back-pressure: give the encoder a moment to catch up, but never wait for ever
-    sess.maxQueue = Math.max(sess.maxQueue, sess.encoder.encodeQueueSize);
-    const waitStart = performance.now();
-    while (sess.encoder.encodeQueueSize > 16 && performance.now() - waitStart < 4000) {
-      if (busy.cancelled) throw new Error('cancelled');
-      if (sess.err) throw sess.err;
-      await sleep(5);
-    }
-    const now = performance.now();
-    if (now - lastUi > 120 || i === N - 1) {
-      lastUi = now;
-      const el = (now - t0) / 1000, rate = (i + 1) / el, left = (N - i - 1) / rate;
-      if (onFrac) onFrac((i + 1) / N);
-      busy.progress(onFrac ? null : (i + 1) / N, `${label ? label + ' · ' : ''}Frame ${i + 1} of ${N} · about ${left < 60 ? Math.ceil(left) + ' s' : Math.ceil(left / 60) + ' min'} left`);
-      await sleep(0);
-    }
-  }
-  diag(`Clip done: ${N} frames, ${sess.outputs} encoded so far, encoder queue peaked at ${sess.maxQueue}`);
-  return N;
 }
 async function finishEncoder(sess) {
   busy.progress(null, 'Finishing the file…'); await sleep(0);
@@ -4673,45 +4832,16 @@ async function finishEncoder(sess) {
   if (!sess.outputs) throw new Error('The browser\'s video encoder produced no video. Please send Claude the report from Browser check.');
   sess.muxer.finalize();
   try { sess.encoder.close(); } catch (e) {}
+  try { if (sess.aEnc) sess.aEnc.close(); } catch (e) {}
   return new Blob([sess.target.buffer], { type: 'video/mp4' });
 }
 function showResult(blob, name, extra) {
   const url = URL.createObjectURL(blob);
   $('#result').innerHTML = `<div class="note"><b>${IS_IOS ? 'Video ready' : 'Saved to your Downloads folder'}</b><div class="fname">${escapeHtml(name)}</div>${(blob.size / 1048576).toFixed(1)} MB${extra ? ' · ' + extra : ''}<video src="${url}" controls playsinline loop></video></div>`;
 }
-async function exportVideo() {
-  if (!photo) return toast('Open a photo first.');
-  if (editingId) confirmEdit();
-  pause();
-  const { W, H } = outDims(), fps = +S.fps;
-  const name = videoName();
-  busy.show('Exporting video', 'Preparing…', true);
-  const prevW = canvas.width, prevH = canvas.height;
-  let sess = null;
-  exporting = true;
-  try {
-    sess = await startEncoder(W, H, fps);
-    if (S.codec === 'avc' && sess.mux !== 'avc' || S.codec === 'hevc' && sess.mux !== 'hevc') toast(`${muxNames[S.codec === 'hevc' ? 'hevc' : 'avc']} isn't available at this size here, so ${muxNames[sess.mux]} is being used.`, 5000);
-    const t0 = performance.now();
-    if (CPU) busy.progress(0, `Backup mode: drawing the first frame${H >= 1440 ? ' (large sizes are slow in backup mode; 1080p is about four times faster)' : ''}…`);
-    await encodeClip(sess, '');
-    const blob = await finishEncoder(sess);
-    download(blob, name);
-    showResult(blob, name, `${muxNames[sess.mux]} · ${((performance.now() - t0) / 1000).toFixed(0)} s to render`);
-    if (IS_IOS) offerPending('Your video is ready'); else toast('Video saved to Downloads.');
-  } catch (e) {
-    if (String(e && e.message) === 'cancelled') toast('Export cancelled.');
-    else { diag('Export failed: ' + (e && e.message || e)); console.error(e); toast(String(e && e.message || e).slice(0, 200), 6000); }
-    try { if (sess && sess.encoder.state !== 'closed') sess.encoder.close(); } catch (er) {}
-  } finally {
-    exporting = false; busy.hide();
-    canvas.width = prevW; canvas.height = prevH;
-    fitCanvas(); requestRender();
-  }
-}
 function frameSource() {
   // with WebGPU, saved frames are read back from the graphics chip onto an ordinary canvas
-  return wgpu ? copyCanvas : canvas;
+  return wgpu || glCopied ? copyCanvas : canvas;
 }
 $('#exportBtn').onclick = exportVideo;
 $('#exportBtn2').onclick = exportVideo;
@@ -4733,7 +4863,7 @@ $('#stillBtn').onclick = async () => {
 /* ---------------- batch ----------------
    A list of photos. Each keeps its own camera move, length, intensity, crop, framing,
    subject and depth map. Exports as separate videos or one joined video. */
-const batch = { items: [], current: null, editing: null, seq: 1 };
+const batch = { items: [], current: null, editing: null, trEditing: null, seq: 1 };
 let lastBlob = null;
 const PER_PHOTO = ['preset', 'duration', 'intensity', 'subject', 'cropAll', 'cropT', 'cropB', 'cropL', 'cropR', 'frameZoom', 'frameX', 'frameY'];
 function decodeBlob(blob) {
@@ -4754,14 +4884,15 @@ function newItem(name, blob, thumb) {
   const it = { id: batch.seq++, name, blob, thumb, on: true, keys: null, kfCustom: false, depth: null, dW: 0, dH: 0 };
   for (const k of PER_PHOTO) it[k] = DEFAULTS[k];
   it.preset = S.preset; it.duration = S.duration; it.intensity = S.intensity;
+  it.kind = 'photo'; it.tr = newTransition(); it.text = blankText();
   return it;
 }
 function clearPreview() {
   // back to the empty start screen, so a removed photo can't sneak back into the next batch
-  pause();
+  pause(); leaveCard();
   photo = null; src = null; lastBlob = null; depthReal = false; depthFull = null; depthBase = null;
   $('#empty').style.display = '';
-  $('#photoInfo').textContent = 'No photo yet. Drag one onto the preview, or press ⌘V. Choose several at once to make a batch.';
+  $('#photoInfo').textContent = 'No photo yet. Drag one onto the preview, or press ⌘V. Choose several at once to make a slideshow.';
   setDepthState('The depth map is made automatically when you load a photo.', '');
   $('#result').innerHTML = ''; $('#bResult').innerHTML = '';
   requestRender();
@@ -4769,7 +4900,7 @@ function clearPreview() {
 async function addFilesToBatch(files) {
   files = files.filter(f => f.type.startsWith('image/') || /\.(heic|heif|jpe?g|png|webp|gif|tiff?)$/i.test(f.name));
   if (!files.length) return toast('Those don\'t look like image files.');
-  busy.show('Adding photos to the batch', '');
+  busy.show('Adding photos to the slideshow', '');
   const wasEmpty = !batch.items.length;
   // keep the photo that's already open as the first one in the batch
   if (wasEmpty && photo && src && lastBlob && !batch.current) await addCurrentToBatch(true);
@@ -4781,23 +4912,24 @@ async function addFilesToBatch(files) {
   }
   busy.hide();
   renderBatch(); selectTab('batch');
-  toast(`${added} photo${added === 1 ? '' : 's'} added to the batch.`);
-  if (!batch.current) { const first = batch.items.find(i => i.on); if (first) await loadItem(first); }
+  toast(`${added} photo${added === 1 ? '' : 's'} added to the slideshow.`);
+  if (!batch.current) { const first = batch.items.find(i => i.on && i.kind !== 'card'); if (first) await loadItem(first); }
 }
 async function addCurrentToBatch(silent) {
   if (!photo || !src) return toast('Open a photo first.');
-  if (batch.current) return toast('This photo is already in the batch.');
+  if (batch.current) return toast('This photo is already in the slideshow.');
   let blob = lastBlob;
   if (!blob) blob = await new Promise(r => src.canvas.toBlob(r, 'image/jpeg', 0.95));
   const it = newItem(src.name, blob, thumbOf(src.canvas));
+  it.text = { ...singleText }; singleText = blankText();
   batch.items.unshift(it);
   batch.current = it;
   saveCurrentItem();
   storeDepthInBatch();
-  if (!silent) { renderBatch(); toast('Added to the batch.'); }
+  if (!silent) { renderBatch(); toast('Added to the slideshow.'); }
 }
 function saveCurrentItem() {
-  const it = batch.current; if (!it) return;
+  const it = batch.current; if (!it || seqRunning || it.kind === 'card') return;
   for (const k of PER_PHOTO) it[k] = S[k];
   it.kfCustom = kfCustom;
   it.keys = kfCustom ? JSON.parse(JSON.stringify(keys)) : null;
@@ -4811,6 +4943,7 @@ function storeDepthInBatch() {
   renderBatchSoon();
 }
 async function loadItem(it, quiet) {
+  if (!seqRunning) leaveCard();
   if (batch.current && batch.current !== it) saveCurrentItem();
   batch.current = it;
   for (const k of PER_PHOTO) S[k] = it[k];
@@ -4834,95 +4967,1461 @@ async function loadItem(it, quiet) {
 }
 let batchTimer;
 function renderBatchSoon() { clearTimeout(batchTimer); batchTimer = setTimeout(renderBatch, 80); }
+/* =====================================================================
+   SLIDESHOW ENGINE
+   Two "slots" hold two photos on the graphics chip at once, so a
+   transition can show both moving pictures. Every finished frame is
+   assembled on an ordinary 2D canvas (titles, transitions) and only
+   then turned into video.
+   ===================================================================== */
+const SLOT_KEYS = [...PER_PHOTO, 'loop', 'smoothPath'];
+const slots = [{}, {}];
+let slotsReady = false;
+function slotsInit() {
+  if (slotsReady) return;
+  slots[0] = { texImg, texDepth, wImg: wgpu ? wgpu.img : null, wDep: wgpu ? wgpu.dep : null };
+  slotsReady = true;
+}
+function slotUseForLoading(k) {
+  slotsInit();
+  const sl = slots[k];
+  if (gl) {
+    if (!sl.texImg) {
+      sl.texImg = makeTex(gl.LINEAR_MIPMAP_LINEAR);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([0, 0, 0, 255])); gl.generateMipmap(gl.TEXTURE_2D);
+      sl.texDepth = makeTex();
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.R16F, 1, 1, 0, gl.RED, gl.FLOAT, new Float32Array([0]));
+    }
+    texImg = sl.texImg; texDepth = sl.texDepth;
+  }
+  if (wgpu) { wgpu.img = sl.wImg || null; wgpu.dep = sl.wDep || null; }
+  cpu.activeSlot = k;
+}
+function slotCapture(k) {
+  const sl = slots[k];
+  if (autoZDirty) computeAutoZ();
+  const s = {}; for (const key of SLOT_KEYS) s[key] = S[key];
+  Object.assign(sl, { photo, keys, kfCustom, s, autoZ, levels: cpu.levels, depthProc, depthW, depthH });
+  if (wgpu) { sl.wImg = wgpu.img; sl.wDep = wgpu.dep; }
+}
+function slotActivate(k) {
+  const sl = slots[k];
+  photo = sl.photo; keys = sl.keys; kfCustom = sl.kfCustom; Object.assign(S, sl.s);
+  autoZ = sl.autoZ; autoZDirty = false;
+  if (gl) { texImg = sl.texImg; texDepth = sl.texDepth; }
+  if (wgpu) { wgpu.img = sl.wImg; wgpu.dep = sl.wDep; }
+  cpu.levels = sl.levels; cpu.activeSlot = k; depthProc = sl.depthProc; depthW = sl.depthW; depthH = sl.depthH;
+}
+function slotsRelease() {
+  // give back slot 1's memory (matters on iPhone and iPad)
+  const sl = slots[1];
+  if (gl && sl.texImg) {
+    gl.bindTexture(gl.TEXTURE_2D, sl.texImg); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([0, 0, 0, 255]));
+    gl.bindTexture(gl.TEXTURE_2D, sl.texDepth); gl.texImage2D(gl.TEXTURE_2D, 0, gl.R16F, 1, 1, 0, gl.RED, gl.FLOAT, new Float32Array([0]));
+  }
+  if (wgpu) { try { if (sl.wImg) sl.wImg.destroy(); if (sl.wDep) sl.wDep.destroy(); } catch (e) {} sl.wImg = sl.wDep = null; }
+  sl.levels = null; sl.depthProc = null; sl.photo = null;
+  for (const wk of cpu.workers) wk.postMessage({ type: 'free', slot: 1 });
+}
+
+/* ---------- 2D canvases used to assemble frames ---------- */
+const C2 = {};
+function c2d(name, W, H) {
+  let c = C2[name];
+  if (!c) c = C2[name] = document.createElement('canvas');
+  if (c.width !== W || c.height !== H) { c.width = W; c.height = H; }
+  return c;
+}
+function c2dFree() { for (const k in C2) { C2[k].width = 1; C2[k].height = 1; } }
+const smooth01 = p => p <= 0 ? 0 : p >= 1 ? 1 : p * p * (3 - 2 * p);
+
+/* ---------- titles, lower thirds and title cards ---------- */
+const FONTS = {
+  sans: '-apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif',
+  serif: 'Georgia, "Times New Roman", serif',
+  elegant: 'Didot, "Bodoni 72", "Playfair Display", Georgia, serif',
+  rounded: '"Avenir Next", Avenir, "Trebuchet MS", sans-serif',
+  geometric: 'Futura, "Century Gothic", "Trebuchet MS", sans-serif',
+  typewriter: '"American Typewriter", "Courier New", monospace',
+};
+const blankText = () => ({ title: '', sub: '', pos: 'center', when: 'all', l1: '', l2: '' });
+let singleText = blankText();
+function curText() { return batch.current && batch.current.kind !== 'card' ? (batch.current.text || (batch.current.text = blankText())) : singleText; }
+function wrapLines(ctx, text, maxW) {
+  const out = [];
+  for (const para of String(text).split('\n')) {
+    const words = para.split(/\s+/).filter(Boolean); let line = '';
+    for (const w of words) { const test = line ? line + ' ' + w : w; if (ctx.measureText(test).width > maxW && line) { out.push(line); line = w; } else line = test; }
+    out.push(line);
+  }
+  return out;
+}
+function env(t, a, b, c, d) { // 0→1 between a and b, 1 until c, →0 by d
+  if (t <= a || t >= d) return 0; if (t < b) return (t - a) / (b - a); if (t > c) return (d - t) / (d - c); return 1;
+}
+function textShadow(ctx, base) {
+  if (S.txShadow) { ctx.shadowColor = 'rgba(0,0,0,.55)'; ctx.shadowBlur = base * 0.018; ctx.shadowOffsetY = base * 0.004; }
+  else { ctx.shadowColor = 'transparent'; ctx.shadowBlur = 0; ctx.shadowOffsetY = 0; }
+}
+function drawTitleBlock(ctx, W, H, title, sub, pos, a) {
+  if (a <= 0 || (!title && !sub)) return;
+  const base = Math.min(W, H), sz = base * 0.075 * S.txSize / 100, sub_sz = sz * 0.55, font = FONTS[S.txFont] || FONTS.sans;
+  const e = smooth01(a), rise = S.txAnim === 'rise' ? (1 - e) * sz * 0.6 : 0, alpha = S.txAnim === 'none' ? (a > 0 ? 1 : 0) : e;
+  ctx.save(); ctx.globalAlpha = alpha; ctx.fillStyle = S.txColor; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+  textShadow(ctx, base);
+  ctx.font = `700 ${sz}px ${font}`; const tl = title ? wrapLines(ctx, title, W * 0.86) : [];
+  ctx.font = `400 ${sub_sz}px ${font}`; const sl = sub ? wrapLines(ctx, sub, W * 0.8) : [];
+  const blockH = tl.length * sz * 1.12 + (sl.length ? sz * 0.35 + sl.length * sub_sz * 1.25 : 0);
+  let y = pos === 'top' ? H * 0.1 : pos === 'bottom' ? H * 0.86 - blockH : (H - blockH) / 2;
+  y += rise;
+  ctx.font = `700 ${sz}px ${font}`;
+  for (const l of tl) { y += sz; ctx.fillText(l, W / 2, y); y += sz * 0.12; }
+  if (sl.length) { y += sz * 0.35; ctx.font = `400 ${sub_sz}px ${font}`; for (const l of sl) { y += sub_sz; ctx.fillText(l, W / 2, y); y += sub_sz * 0.25; } }
+  ctx.restore();
+}
+function drawLowerThird(ctx, W, H, l1, l2, a) {
+  if (a <= 0 || (!l1 && !l2)) return;
+  const base = Math.min(W, H), s1 = base * 0.045 * S.txSize / 100, s2 = s1 * 0.72, font = FONTS[S.txFont] || FONTS.sans;
+  const e = smooth01(a), right = S.ltPos === 'right';
+  ctx.save();
+  ctx.font = `700 ${s1}px ${font}`; const w1 = l1 ? ctx.measureText(l1).width : 0;
+  ctx.font = `400 ${s2}px ${font}`; const w2 = l2 ? ctx.measureText(l2).width : 0;
+  const padX = s1 * 0.55, padY = s1 * 0.32, boxW = Math.max(w1, w2) + padX * 2;
+  const h1 = l1 ? s1 + padY * 2 : 0, h2 = l2 ? s2 + padY * 2 : 0;
+  const margin = W * 0.06, yTop = H * 0.84 - h1 - h2;
+  let x = right ? W - margin - boxW : margin;
+  if (S.ltAnim === 'slide') x += (right ? 1 : -1) * (1 - e) * (boxW + margin);
+  ctx.globalAlpha = S.ltAnim === 'slide' ? Math.min(1, e * 1.5) : e;
+  ctx.textBaseline = 'alphabetic'; ctx.textAlign = 'left';
+  if (S.ltStyle === 'bar') {
+    if (l1) { ctx.fillStyle = S.ltColor; ctx.fillRect(x, yTop, Math.max(w1 + padX * 2, boxW * 0.6), h1); }
+    if (l2) { ctx.fillStyle = 'rgba(15,17,24,.78)'; ctx.fillRect(x, yTop + h1, w2 + padX * 2, h2); }
+    textShadow(ctx, 0);
+  } else if (S.ltStyle === 'box') {
+    ctx.fillStyle = 'rgba(10,12,18,.6)'; ctx.fillRect(x, yTop, boxW, h1 + h2);
+    ctx.fillStyle = S.ltColor; ctx.fillRect(x, yTop, Math.max(3, s1 * 0.12), h1 + h2);
+    textShadow(ctx, 0);
+  } else textShadow(ctx, base);
+  ctx.fillStyle = S.ltStyle === 'bar' ? '#ffffff' : S.txColor;
+  if (l1) { ctx.font = `700 ${s1}px ${font}`; ctx.fillText(l1, x + padX, yTop + padY + s1 * 0.86); }
+  if (l2) { ctx.font = `400 ${s2}px ${font}`; ctx.fillStyle = S.ltStyle === 'bar' ? 'rgba(255,255,255,.92)' : S.txColor; ctx.fillText(l2, x + padX, yTop + h1 + padY + s2 * 0.86); }
+  ctx.restore();
+}
+function drawTextOverlay(ctx, W, H, tx, t, dur) {
+  if (!tx) return;
+  const d = Math.max(0.5, dur), fi = Math.min(0.6, d / 5);
+  let a;
+  if (tx.when === 'start') a = env(t, 0.2, 0.2 + fi, Math.min(3.2, d - 0.2 - fi), Math.min(3.2 + fi, d - 0.2));
+  else if (tx.when === 'end') a = env(t, Math.max(0.2, d - 3.6), Math.max(0.2 + fi, d - 3.6 + fi), d - 0.2 - fi, d - 0.2);
+  else a = env(t, 0.2, 0.2 + fi, d - 0.2 - fi, d - 0.2);
+  drawTitleBlock(ctx, W, H, tx.title, tx.sub, tx.pos, a);
+  const li = Math.min(0.8, d * 0.15), lf = Math.min(0.5, d / 8);
+  drawLowerThird(ctx, W, H, tx.l1, tx.l2, env(t, li, li + lf, d - li - lf, d - li));
+}
+function drawCard(ctx, W, H, card, t) {
+  ctx.save();
+  if (card.bgStyle === 'gradient') { const g = ctx.createLinearGradient(0, 0, W, H); g.addColorStop(0, card.bg1); g.addColorStop(1, card.bg2); ctx.fillStyle = g; }
+  else if (card.bgStyle === 'radial') { const g = ctx.createRadialGradient(W / 2, H / 2, 0, W / 2, H / 2, Math.hypot(W, H) / 2); g.addColorStop(0, card.bg2); g.addColorStop(1, card.bg1); ctx.fillStyle = g; }
+  else ctx.fillStyle = card.bg1;
+  ctx.fillRect(0, 0, W, H);
+  ctx.restore();
+  const d = Math.max(0.5, +card.duration), fi = Math.min(0.7, d / 4);
+  drawTitleBlock(ctx, W, H, card.title, card.sub, 'center', env(t, 0.15, 0.15 + fi, d - 0.15 - fi, d - 0.15));
+}
+
+/* ---------- transitions ---------- */
+const TRANSITIONS = [
+  ['cut', 'Cut (no transition)'], ['crossfade', 'Crossfade'], ['fade', 'Fade through black'], ['dip', 'Dip to colour'],
+  ['crossblur', 'Cross-blur'], ['crosszoom', 'Cross zoom'], ['wipe', 'Directional wipe'], ['push', 'Push'], ['slide', 'Slide over'],
+  ['iris', 'Iris (circle)'], ['star', 'Star wipe'], ['clock', 'Clock wipe'], ['morph', 'Morph (matching points)'],
+];
+const trName = id => (TRANSITIONS.find(t => t[0] === id) || [0, id])[1];
+const newTransition = () => ({ type: S.trType, dur: +S.trDur, color: '#ffffff', dir: 'left', soft: 30, amount: 50, points: 5, morph: [], auto: true, lag: 30 });
+function trUses(type) {
+  return { color: type === 'dip', dir: ['wipe', 'push', 'slide'].includes(type), soft: ['wipe', 'iris'].includes(type), amount: ['crossblur', 'crosszoom'].includes(type), points: type === 'star', morph: type === 'morph' };
+}
+function blurInto(dst, src, px) {
+  // a quick, smooth blur that works in every browser: shrink, then enlarge in steps
+  const W = dst.width, H = dst.height, d = dst.getContext('2d');
+  d.setTransform(1, 0, 0, 1, 0, 0); d.globalAlpha = 1;
+  if (px < 0.75) { d.clearRect(0, 0, W, H); d.drawImage(src, 0, 0, W, H); return; }
+  let f = clamp(1.6 / px, 1 / 48, 1), w = Math.max(2, Math.round(W * f)), h = Math.max(2, Math.round(H * f));
+  let cur = c2d('blur0', w, h), cx = cur.getContext('2d'); cx.imageSmoothingQuality = 'high'; cx.clearRect(0, 0, w, h); cx.drawImage(src, 0, 0, w, h);
+  let i = 1;
+  while (w * 2 < W && h * 2 < H) {
+    const nw = w * 2, nh = h * 2, nx = c2d('blur' + (i % 2 ? 1 : 2), nw, nh), nc = nx.getContext('2d');
+    nc.imageSmoothingQuality = 'high'; nc.clearRect(0, 0, nw, nh); nc.drawImage(cur, 0, 0, nw, nh); cur = nx; w = nw; h = nh; i++;
+  }
+  d.imageSmoothingQuality = 'high'; d.clearRect(0, 0, W, H); d.drawImage(cur, 0, 0, W, H);
+}
+function maskedDraw(ctx, img, W, H, maskFn) {
+  const m = c2d('mask', W, H), mc = m.getContext('2d');
+  mc.setTransform(1, 0, 0, 1, 0, 0); mc.globalCompositeOperation = 'source-over'; mc.globalAlpha = 1;
+  mc.clearRect(0, 0, W, H); mc.drawImage(img, 0, 0);
+  mc.globalCompositeOperation = 'destination-in'; maskFn(mc); mc.globalCompositeOperation = 'source-over';
+  ctx.drawImage(m, 0, 0);
+}
+function starPath(c, cx, cy, R, n, rot) {
+  c.beginPath();
+  for (let i = 0; i < n * 2; i++) { const r = i % 2 ? R * 0.45 : R, a = rot - Math.PI / 2 + i * Math.PI / n; c.lineTo(cx + r * Math.cos(a), cy + r * Math.sin(a)); }
+  c.closePath();
+}
+function drawTransition(ctx, A, B, p, tr, W, H) {
+  const e = smooth01(p), diag = Math.hypot(W, H);
+  ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+  const dirVec = { left: [-1, 0], right: [1, 0], up: [0, -1], down: [0, 1] }[tr.dir] || [-1, 0];
+  switch (tr.type) {
+    case 'fade': case 'dip': {
+      ctx.drawImage(p < 0.5 ? A : B, 0, 0);
+      ctx.globalAlpha = smooth01(p < 0.5 ? p * 2 : (1 - p) * 2); ctx.fillStyle = tr.type === 'fade' ? '#000' : tr.color; ctx.fillRect(0, 0, W, H);
+      break;
+    }
+    case 'crossblur': {
+      const px = Math.sin(Math.PI * p) * (tr.amount / 100) * 0.045 * Math.min(W, H);
+      const a = c2d('tA', W, H), b = c2d('tB', W, H); blurInto(a, A, px); blurInto(b, B, px);
+      ctx.drawImage(a, 0, 0); ctx.globalAlpha = e; ctx.drawImage(b, 0, 0);
+      break;
+    }
+    case 'crosszoom': {
+      const Z = 0.15 + tr.amount / 100 * 0.85, px = Math.sin(Math.PI * p) * 0.02 * Math.min(W, H) * (0.5 + tr.amount / 100);
+      const zoomed = (src, s, name) => { const z = c2d(name, W, H), zc = z.getContext('2d'); zc.setTransform(1, 0, 0, 1, 0, 0); zc.clearRect(0, 0, W, H); zc.setTransform(s, 0, 0, s, W / 2 * (1 - s), H / 2 * (1 - s)); zc.drawImage(src, 0, 0); zc.setTransform(1, 0, 0, 1, 0, 0); const o = c2d(name + 'b', W, H); blurInto(o, z, px); return o; };
+      ctx.drawImage(zoomed(A, 1 + Z * e, 'zA'), 0, 0); ctx.globalAlpha = e; ctx.drawImage(zoomed(B, 1 + Z * (1 - e), 'zB'), 0, 0);
+      break;
+    }
+    case 'wipe': {
+      ctx.drawImage(A, 0, 0);
+      const soft = Math.max(1, tr.soft / 100 * 0.3 * (dirVec[0] ? W : H)), span = (dirVec[0] ? W : H) + soft;
+      const pos = e * span; // how far the new picture has travelled in
+      maskedDraw(ctx, B, W, H, m => {
+        let g;
+        if (dirVec[0] < 0) g = m.createLinearGradient(W - pos, 0, W - pos + soft, 0);
+        else if (dirVec[0] > 0) g = m.createLinearGradient(pos, 0, pos - soft, 0);
+        else if (dirVec[1] < 0) g = m.createLinearGradient(0, H - pos, 0, H - pos + soft);
+        else g = m.createLinearGradient(0, pos, 0, pos - soft);
+        g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(0,0,0,1)');
+        m.fillStyle = g; m.fillRect(0, 0, W, H);
+      });
+      break;
+    }
+    case 'push': {
+      const dx = dirVec[0] * W * e, dy = dirVec[1] * H * e;
+      ctx.drawImage(A, dx, dy); ctx.drawImage(B, dx - dirVec[0] * W, dy - dirVec[1] * H);
+      break;
+    }
+    case 'slide': {
+      ctx.drawImage(A, 0, 0); ctx.drawImage(B, -dirVec[0] * W * (1 - e), -dirVec[1] * H * (1 - e));
+      break;
+    }
+    case 'iris': {
+      ctx.drawImage(A, 0, 0);
+      const soft = Math.max(1, tr.soft / 100 * 0.25 * diag), R = e * (diag / 2 + soft);
+      maskedDraw(ctx, B, W, H, m => { const g = m.createRadialGradient(W / 2, H / 2, Math.max(0, R - soft), W / 2, H / 2, Math.max(1, R)); g.addColorStop(0, 'rgba(0,0,0,1)'); g.addColorStop(1, 'rgba(0,0,0,0)'); m.fillStyle = g; m.fillRect(0, 0, W, H); });
+      break;
+    }
+    case 'star': {
+      ctx.drawImage(A, 0, 0);
+      ctx.save(); starPath(ctx, W / 2, H / 2, e * diag * 1.15, clamp(Math.round(tr.points), 3, 12), e * 0.8); ctx.clip(); ctx.drawImage(B, 0, 0); ctx.restore();
+      break;
+    }
+    case 'clock': {
+      ctx.drawImage(A, 0, 0);
+      ctx.save(); ctx.beginPath(); ctx.moveTo(W / 2, H / 2); ctx.arc(W / 2, H / 2, diag, -Math.PI / 2, -Math.PI / 2 + e * Math.PI * 2); ctx.closePath(); ctx.clip(); ctx.drawImage(B, 0, 0); ctx.restore();
+      break;
+    }
+    case 'cut': ctx.drawImage(p < 0.5 ? A : B, 0, 0); break;
+    default: { ctx.drawImage(A, 0, 0); ctx.globalAlpha = e; ctx.drawImage(B, 0, 0); } // crossfade
+  }
+  ctx.restore();
+}
+
+/* ---------- morph (after Morph Lab: matching points, triangle mesh, warp and dissolve) ---------- */
+const MORPH_BOUNDARY = [[0, 0], [0.5, 0], [1, 0], [1, 0.5], [1, 1], [0.5, 1], [0, 1], [0, 0.5]];
+function delaunay(pts) {
+  // Bowyer–Watson triangulation; pts = [[x,y],...]; returns index triples
+  const n = pts.length; if (n < 3) return [];
+  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+  for (const [x, y] of pts) { minX = Math.min(minX, x); minY = Math.min(minY, y); maxX = Math.max(maxX, x); maxY = Math.max(maxY, y); }
+  const d = Math.max(maxX - minX, maxY - minY) * 20 + 1, mx = (minX + maxX) / 2, my = (minY + maxY) / 2;
+  const P = pts.concat([[mx - d, my - d], [mx, my + d], [mx + d, my - d]]);
+  const circ = (a, b, c) => {
+    const [ax, ay] = P[a], [bx, by] = P[b], [cx, cy] = P[c];
+    const D = 2 * (ax * (by - cy) + bx * (cy - ay) + cx * (ay - by));
+    if (Math.abs(D) < 1e-12) return { x: 0, y: 0, r: Infinity };
+    const ux = ((ax * ax + ay * ay) * (by - cy) + (bx * bx + by * by) * (cy - ay) + (cx * cx + cy * cy) * (ay - by)) / D;
+    const uy = ((ax * ax + ay * ay) * (cx - bx) + (bx * bx + by * by) * (ax - cx) + (cx * cx + cy * cy) * (bx - ax)) / D;
+    return { x: ux, y: uy, r: (ux - ax) ** 2 + (uy - ay) ** 2 };
+  };
+  let tris = [{ v: [n, n + 1, n + 2], c: circ(n, n + 1, n + 2) }];
+  for (let i = 0; i < n; i++) {
+    const [px, py] = P[i], bad = [], keep = [];
+    for (const t of tris) ((px - t.c.x) ** 2 + (py - t.c.y) ** 2 <= t.c.r + 1e-9 ? bad : keep).push(t);
+    const edges = new Map();
+    for (const t of bad) for (let k = 0; k < 3; k++) {
+      const a = t.v[k], b = t.v[(k + 1) % 3], key = a < b ? a + ',' + b : b + ',' + a;
+      edges.set(key, edges.has(key) ? null : [a, b]);
+    }
+    tris = keep;
+    for (const e of edges.values()) if (e) tris.push({ v: [e[0], e[1], i], c: circ(e[0], e[1], i) });
+  }
+  return tris.filter(t => t.v.every(v => v < n)).map(t => t.v);
+}
+const morphMeshCache = new Map();
+function morphMesh(points) {
+  const key = JSON.stringify(points);
+  if (morphMeshCache.has(key)) return morphMeshCache.get(key);
+  // drop any pair that would land on top of another one (it would make a flat, broken triangle)
+  const keep = [];
+  for (const q of points) {
+    const mx = (q.ax + q.bx) / 2, my = (q.ay + q.by) / 2;
+    if (MORPH_BOUNDARY.some(([x, y]) => Math.hypot(x - mx, y - my) < 0.01) || keep.some(k => Math.hypot((k.ax + k.bx) / 2 - mx, (k.ay + k.by) / 2 - my) < 0.01)) continue;
+    keep.push(q);
+  }
+  const a = MORPH_BOUNDARY.concat(keep.map(q => [q.ax, q.ay])), b = MORPH_BOUNDARY.concat(keep.map(q => [q.bx, q.by]));
+  const layer = MORPH_BOUNDARY.map(() => 'bg').concat(keep.map(q => q.layer === 'bg' ? 'bg' : 'fg'));
+  const ring = keep.map((q, i) => q.auto && q.layer === 'fg' && !q.center ? MORPH_BOUNDARY.length + i : -1).filter(i => i >= 0);
+  const mid = a.map((p, i) => [(p[0] + b[i][0]) / 2, (p[1] + b[i][1]) / 2]);
+  const m = { a, b, layer, ring, tris: delaunay(mid) };
+  if (morphMeshCache.size > 50) morphMeshCache.clear();
+  morphMeshCache.set(key, m);
+  return m;
+}
+function affine(s, d) {
+  const [s0, s1, s2] = s, [d0, d1, d2] = d;
+  const den = s0[0] * (s1[1] - s2[1]) + s1[0] * (s2[1] - s0[1]) + s2[0] * (s0[1] - s1[1]);
+  if (Math.abs(den) < 1e-9) return null;
+  const solve = k => [
+    (d0[k] * (s1[1] - s2[1]) + d1[k] * (s2[1] - s0[1]) + d2[k] * (s0[1] - s1[1])) / den,
+    (d0[k] * (s2[0] - s1[0]) + d1[k] * (s0[0] - s2[0]) + d2[k] * (s1[0] - s0[0])) / den,
+    (d0[k] * (s1[0] * s2[1] - s2[0] * s1[1]) + d1[k] * (s2[0] * s0[1] - s0[0] * s2[1]) + d2[k] * (s0[0] * s1[1] - s1[0] * s0[1])) / den];
+  const [a, c, e] = solve(0), [b, dd, f] = solve(1);
+  return [a, b, c, dd, e, f];
+}
+function warpMesh(dst, img, from, to, tris, W, H) {
+  const c = dst.getContext('2d');
+  c.setTransform(1, 0, 0, 1, 0, 0); c.globalAlpha = 1; c.fillStyle = '#000'; c.fillRect(0, 0, W, H);
+  for (const [i, j, k] of tris) {
+    const s = [from[i], from[j], from[k]].map(p => [p[0] * W, p[1] * H]);
+    const d = [to[i], to[j], to[k]].map(p => [p[0] * W, p[1] * H]);
+    const M = affine(s, d); if (!M) continue;
+    // grow each triangle a little so no hairline gaps show between neighbours
+    const cx = (d[0][0] + d[1][0] + d[2][0]) / 3, cy = (d[0][1] + d[1][1] + d[2][1]) / 3;
+    c.save(); c.beginPath();
+    d.forEach(([x, y], n) => { const dx = x - cx, dy = y - cy, L = Math.hypot(dx, dy) || 1, g = 1.2 / L; c[n ? 'lineTo' : 'moveTo'](x + dx * g, y + dy * g); });
+    c.closePath(); c.clip();
+    c.setTransform(M[0], M[1], M[2], M[3], M[4], M[5]); c.drawImage(img, 0, 0);
+    c.restore();
+  }
+}
+function morphDraw(ctx, A, B, p, points, W, H, lag = 0) {
+  // lag: how far behind the near layer the background moves and dissolves (0 to 100)
+  const m = morphMesh(points || []), L = clamp(+lag || 0, 0, 100) / 100 * 0.6;
+  const pf = smooth01(clamp(p / (1 - L), 0, 1)), pb = smooth01(clamp((p - L) / (1 - L), 0, 1));
+  // the background's movement lags only half as much as its dissolve, which keeps the mesh from folding
+  const pmid = (pf + pb) / 2, prog = m.layer.map(l => l === 'bg' ? pmid : pf);
+  const cur = m.a.map((q, i) => [q[0] + (m.b[i][0] - q[0]) * prog[i], q[1] + (m.b[i][1] - q[1]) * prog[i]]);
+  const ta = c2d('mA', W, H), tb = c2d('mB', W, H);
+  warpMesh(ta, A, m.a, cur, m.tris, W, H); warpMesh(tb, B, m.b, cur, m.tris, W, H);
+  ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.drawImage(ta, 0, 0);
+  const fgIdx = m.layer.map((l, i) => l === 'fg' ? i : -1).filter(i => i >= 0);
+  if (L === 0 || pf === pb || !fgIdx.length) { ctx.globalAlpha = pb; ctx.drawImage(tb, 0, 0); ctx.restore(); return; }
+  // a soft-edged shape covering the near layer, in its current position
+  const wc = c2d('mW', W, H), wx = wc.getContext('2d');
+  wx.setTransform(1, 0, 0, 1, 0, 0); wx.globalCompositeOperation = 'source-over'; wx.globalAlpha = 1; wx.clearRect(0, 0, W, H); wx.fillStyle = '#000';
+  const P = fgIdx.map(i => [cur[i][0] * W, cur[i][1] * H]);
+  if (m.ring.length >= 4) {
+    // the automatic outline, already in order around the shape
+    wx.beginPath(); m.ring.forEach((i, n) => wx[n ? 'lineTo' : 'moveTo'](cur[i][0] * W, cur[i][1] * H)); wx.closePath(); wx.fill();
+  } else if (P.length >= 4) {
+    // your own points, put in order around their middle
+    const cx = P.reduce((s, q) => s + q[0], 0) / P.length, cy = P.reduce((s, q) => s + q[1], 0) / P.length;
+    const far = Math.max(...P.map(q => Math.hypot(q[0] - cx, q[1] - cy)));
+    const ring = P.filter(q => Math.hypot(q[0] - cx, q[1] - cy) > far * 0.3);   // leave out the middle point
+    ring.sort((u, v) => Math.atan2(u[1] - cy, u[0] - cx) - Math.atan2(v[1] - cy, v[0] - cx));
+    wx.beginPath(); ring.forEach(([x, y], n) => wx[n ? 'lineTo' : 'moveTo'](x, y)); wx.closePath(); wx.fill();
+  }
+  const rr = 0.06 * Math.min(W, H);
+  for (const [x, y] of P) { wx.beginPath(); wx.arc(x, y, rr, 0, Math.PI * 2); wx.fill(); }
+  const wb = c2d('mW2', W, H); blurInto(wb, wc, 0.04 * Math.min(W, H));
+  // dissolve amount: pb everywhere, rising to pf over the near layer
+  const mk = c2d('mMask', W, H), mc = mk.getContext('2d');
+  mc.setTransform(1, 0, 0, 1, 0, 0); mc.globalCompositeOperation = 'source-over'; mc.clearRect(0, 0, W, H);
+  mc.globalAlpha = 1; mc.fillStyle = `rgba(0,0,0,${pb.toFixed(4)})`; mc.fillRect(0, 0, W, H);
+  if (pb < 1) { mc.globalAlpha = clamp((pf - pb) / (1 - pb), 0, 1); mc.drawImage(wb, 0, 0); mc.globalAlpha = 1; }
+  const bc = tb.getContext('2d'); bc.setTransform(1, 0, 0, 1, 0, 0); bc.globalAlpha = 1;
+  bc.globalCompositeOperation = 'destination-in'; bc.drawImage(mk, 0, 0); bc.globalCompositeOperation = 'source-over';
+  ctx.drawImage(tb, 0, 0); ctx.restore();
+}
+/* ---------- automatic morph points from the depth map ----------
+   The depth view of the two frozen frames shows what is near (bright) and far (dark).
+   The outline of the nearest shape gets a ring of matched points (the "near layer"), and the
+   line where the middle distance meets the sky gets a row of points (the "horizon"). */
+function depthGrid(cv) {
+  const w = 160, h = Math.max(8, Math.round(w * cv.height / cv.width));
+  const c = document.createElement('canvas'); c.width = w; c.height = h;
+  const x = c.getContext('2d', { willReadFrequently: true }); x.drawImage(cv, 0, 0, w, h);
+  const d = x.getImageData(0, 0, w, h).data, g = new Float32Array(w * h);
+  for (let i = 0; i < g.length; i++) g[i] = d[i * 4] / 255;
+  return { g, w, h };
+}
+function otsu3(g) {
+  // splits the depths into far / middle / near (two thresholds), the standard Otsu method
+  const B = 64, hist = new Float64Array(B);
+  for (const v of g) hist[Math.min(B - 1, Math.floor(v * B))]++;
+  const P = new Float64Array(B + 1), M = new Float64Array(B + 1);
+  for (let i = 0; i < B; i++) { P[i + 1] = P[i] + hist[i]; M[i + 1] = M[i] + hist[i] * (i + 0.5) / B; }
+  const N = P[B], mu = M[B] / N;
+  const cls = (a, b) => { const p = P[b] - P[a]; if (p <= 0) return 0; const m = (M[b] - M[a]) / p; return p / N * (m - mu) * (m - mu); };
+  let best = -1, t1 = 21, t2 = 42;
+  for (let a = 1; a < B - 1; a++) for (let b = a + 1; b < B; b++) { const v = cls(0, a) + cls(a, b) + cls(b, B); if (v > best) { best = v; t1 = a; t2 = b; } }
+  let lo = 0, hi = 0, nl = 0, nh = 0;
+  for (const v of g) { if (v * B < t1) { lo += v; nl++; } else if (v * B >= t2) { hi += v; nh++; } }
+  return { t1: t1 / B, t2: t2 / B, spread: nl && nh ? hi / nh - lo / nl : 0 };
+}
+function largestBlob(g, w, h, test) {
+  const lab = new Int32Array(w * h).fill(-1), q = new Int32Array(w * h);
+  let best = null;
+  for (let s = 0; s < w * h; s++) {
+    if (lab[s] !== -1 || !test(s)) continue;
+    let n = 0, head = 0, sx = 0, sy = 0; q[n++] = s; lab[s] = s;
+    while (head < n) {
+      const i = q[head++], x = i % w, y = (i / w) | 0; sx += x; sy += y;
+      for (const j of [x > 0 ? i - 1 : -1, x < w - 1 ? i + 1 : -1, y > 0 ? i - w : -1, y < h - 1 ? i + w : -1])
+        if (j >= 0 && lab[j] === -1 && test(j)) { lab[j] = s; q[n++] = j; }
+    }
+    if (!best || n > best.area) best = { id: s, area: n, cx: sx / n, cy: sy / n };
+  }
+  if (!best) return null;
+  best.inside = i => lab[i] === best.id; best.lab = lab;
+  return best;
+}
+function nearBlob(dg, th) {
+  // the nearest shape that stands out from what is beside it. Ground slopes gently towards the
+  // camera, so it is about as near as everything else in its own row and is left out; a tree,
+  // a person or a rock is clearly nearer than the rest of its row.
+  const { g, w, h } = dg, rowMed = new Float32Array(h), row = new Float32Array(w);
+  // the far end of each row (its 20th percentile): a subject filling most of a row still stands out from it
+  for (let y = 0; y < h; y++) { for (let x = 0; x < w; x++) row[x] = g[y * w + x]; rowMed[y] = row.slice().sort()[Math.floor(w * 0.2)]; }
+  const delta = Math.max(0.06, th.spread * 0.3);
+  const fr = b => b ? b.area / (w * h) : 0;
+  let b = largestBlob(g, w, h, i => g[i] > th.t2 && g[i] - rowMed[(i / w) | 0] > delta);
+  if (fr(b) < 0.015) b = largestBlob(g, w, h, i => g[i] > th.t1 && g[i] - rowMed[(i / w) | 0] > delta);
+  return fr(b) >= 0.015 && fr(b) <= 0.85 ? b : null;
+}
+function traceOutline(b, w, h) {
+  // walks around the outside edge of the shape, pixel by pixel, clockwise (Moore neighbour tracing)
+  const D = [[1, 0], [1, 1], [0, 1], [-1, 1], [-1, 0], [-1, -1], [0, -1], [1, -1]];
+  const inside = (x, y) => x >= 0 && y >= 0 && x < w && y < h && b.inside(y * w + x);
+  let start = -1;
+  for (let i = 0; i < w * h && start < 0; i++) if (b.inside(i)) start = i;
+  if (start < 0) return [];
+  const sx = start % w, sy = (start / w) | 0, out = [[sx, sy]];
+  let cx = sx, cy = sy, back = 4;                           // we arrived from the west (outside)
+  for (let it = 0; it < 8 * w * h; it++) {
+    let moved = false;
+    for (let k = 1; k <= 8; k++) {
+      const d = (back + k) % 8, nx = cx + D[d][0], ny = cy + D[d][1];
+      if (inside(nx, ny)) {
+        const pd = (back + k - 1) % 8, px = cx + D[pd][0], py = cy + D[pd][1];
+        back = D.findIndex(q => q[0] === px - nx && q[1] === py - ny);
+        cx = nx; cy = ny; moved = true; break;
+      }
+    }
+    if (!moved || (cx === sx && cy === sy)) break;
+    out.push([cx, cy]);
+  }
+  return out;
+}
+function resampleOutline(c, N) {
+  // N points spread evenly along the outline, in order
+  const L = [0];
+  for (let i = 1; i <= c.length; i++) { const p = c[i - 1], q = c[i % c.length]; L.push(L[i - 1] + Math.hypot(q[0] - p[0], q[1] - p[1])); }
+  const total = L[c.length], out = [];
+  if (total < 8) return out;
+  let j = 0;
+  for (let k = 0; k < N; k++) {
+    const t = k * total / N;
+    while (L[j + 1] < t) j++;
+    const p = c[j], q = c[(j + 1) % c.length], f = (t - L[j]) / Math.max(1e-9, L[j + 1] - L[j]);
+    out.push([p[0] + (q[0] - p[0]) * f, p[1] + (q[1] - p[1]) * f]);
+  }
+  // smooth out pixel steps and fur a little
+  return out.map((p, k) => { const a = out[(k + N - 1) % N], z = out[(k + 1) % N]; return [(a[0] + 2 * p[0] + z[0]) / 4, (a[1] + 2 * p[1] + z[1]) / 4]; });
+}
+function matchOutlines(PA, PB) {
+  // both run clockwise; turn B's numbering so point 1 sits on the best-matching spot (shapes compared
+  // around their own middles, so a shape that has moved still pairs up sensibly)
+  const N = PA.length, mid = P => [P.reduce((s, q) => s + q[0], 0) / N, P.reduce((s, q) => s + q[1], 0) / N];
+  const [ax, ay] = mid(PA), [bx, by] = mid(PB);
+  let best = 0, bestE = Infinity;
+  for (let sh = 0; sh < N; sh++) {
+    let e = 0;
+    for (let i = 0; i < N; i++) { const p = PA[i], q = PB[(i + sh) % N]; e += (p[0] - ax - q[0] + bx) ** 2 + (p[1] - ay - q[1] + by) ** 2; }
+    if (e < bestE) { bestE = e; best = sh; }
+  }
+  return PA.map((p, i) => [p, PB[(i + best) % N]]);
+}
+function horizonLine(dg, th, blob) {
+  const xs = [0.08, 0.24, 0.4, 0.6, 0.76, 0.92];
+  return xs.map(fx => {
+    const x = Math.round(fx * (dg.w - 1));
+    for (let y = 0; y < dg.h; y++) {
+      const i = y * dg.w + x;
+      if (dg.g[i] > th.t1) {
+        if (dg.g[i] > th.t2) return null;      // something near is in the way here
+        if (blob) for (let yy = Math.max(0, y - 5); yy <= Math.min(dg.h - 1, y + 5); yy++) for (let xx = Math.max(0, x - 5); xx <= Math.min(dg.w - 1, x + 5); xx++)
+          if (blob.inside(yy * dg.w + xx)) return null;   // too close to the near shape, whose outline already has points
+        const fy = (y + 0.5) / dg.h;
+        return fy > 0.04 && fy < 0.96 ? [fx, fy] : null;
+      }
+    }
+    return null;
+  });
+}
+function autoMorphPoints(depthA, depthB) {
+  const A = depthGrid(depthA), B = depthGrid(depthB), tA = otsu3(A.g), tB = otsu3(B.g);
+  const pts = [], close = (p, q) => Math.hypot(p.ax - q.ax, p.ay - q.ay) < 0.03 || Math.hypot(p.bx - q.bx, p.by - q.by) < 0.03;
+  const add = p => { if (!pts.some(q => close(p, q))) pts.push(p); };
+  const okA = tA.spread > 0.1, okB = tB.spread > 0.1;
+  const bA = okA ? nearBlob(A, tA) : null, bB = okB ? nearBlob(B, tB) : null;
+  if (bA && bB) {
+    // the middle point only helps when the middle is inside both shapes (not under an arch or a curl)
+    const inMid = (bl, dg) => bl.inside(Math.round(bl.cy) * dg.w + Math.round(bl.cx));
+    if (inMid(bA, A) && inMid(bB, B)) add({ ax: (bA.cx + 0.5) / A.w, ay: (bA.cy + 0.5) / A.h, bx: (bB.cx + 0.5) / B.w, by: (bB.cy + 0.5) / B.h, auto: true, layer: 'fg', center: true });
+    const N = 28, oA = resampleOutline(traceOutline(bA, A.w, A.h), N), oB = resampleOutline(traceOutline(bB, B.w, B.h), N);
+    if (oA.length === N && oB.length === N) {
+      const edge = (x, y, w, h) => x < w * 0.025 || y < h * 0.025 || x > w * 0.975 || y > h * 0.975;
+      for (const [p, q] of matchOutlines(oA, oB)) {
+        if (edge(p[0], p[1], A.w, A.h) || edge(q[0], q[1], B.w, B.h)) continue;   // points on the frame's edge would tear it
+        add({ ax: (p[0] + 0.5) / A.w, ay: (p[1] + 0.5) / A.h, bx: (q[0] + 0.5) / B.w, by: (q[1] + 0.5) / B.h, auto: true, layer: 'fg' });
+      }
+    }
+  }
+  if (okA && okB) {
+    const hA = horizonLine(A, tA, bA), hB = horizonLine(B, tB, bB);
+    hA.forEach((p, k) => { const q = hB[k]; if (p && q) add({ ax: p[0], ay: p[1], bx: q[0], by: q[1], auto: true, layer: 'bg' }); });
+  }
+  return pts;
+}
+function morphSig(a, b) {
+  const one = e => e.kind === 'card' ? 'card' + e.card.id
+    : [e.item ? e.item.id : 'open', ...['preset', 'kfCustom', 'duration', 'intensity', 'subject', 'frameZoom', 'frameX', 'frameY', 'cropAll'].map(k => e.item ? e.item[k] : S[k])].join(',');
+  return ['v2', one(a), one(b), S.aspect, S.framing].join('|');
+}
+async function drawDepthEntry(e, tl, target, ropts) {
+  const c = target.getContext('2d'); c.setTransform(1, 0, 0, 1, 0, 0); c.globalAlpha = 1;
+  if (e.kind === 'card') { c.fillStyle = '#000'; c.fillRect(0, 0, target.width, target.height); return; }
+  await ensureEntryLoaded(e); slotActivate(e.slot);
+  await renderFrame(clamp(tl, 0, e.dur), { ...ropts, seed: 0, view: 1, wait: true, readback: true });
+  c.drawImage(frameSource(), 0, 0, target.width, target.height);
+}
+async function ensureAutoMorph(eA, eB, ropts, force) {
+  // works out automatic points once, and again only if either slide's move or framing changes
+  const tr = eA.trSrc || eA.tr; if (!tr || tr.auto === false) return;
+  const sig = morphSig(eA, eB); if (!force && tr.autoSig === sig) return;
+  const W = canvas.width, H = canvas.height, s = Math.min(1, 480 / Math.max(W, H));
+  const mk = () => { const c = document.createElement('canvas'); c.width = Math.max(2, Math.round(W * s)); c.height = Math.max(2, Math.round(H * s)); return c; };
+  const dA = mk(), dB = mk();
+  busy.progress(null, 'Finding matching points for the morph…');
+  await drawDepthEntry(eA, eA.dur, dA, ropts);
+  await drawDepthEntry(eB, 0, dB, ropts);
+  const auto = autoMorphPoints(dA, dB);
+  tr.morph = (tr.morph || []).filter(p => !p.auto).concat(auto); tr.autoSig = sig;
+  eA.tr.morph = tr.morph;
+  diag(`Morph: ${auto.length} automatic point pairs (${auto.filter(p => p.layer === 'fg').length} on the near layer)`);
+}
+
+
+/* ---------- building the timeline ---------- */
+function entryDur(e) { return e.kind === 'card' ? +e.card.duration : e.item ? +e.item.duration : +S.duration; }
+function buildTimeline(list, opts = {}) {
+  // list: [{kind:'photo', item} | {kind:'photo', item:null (the open photo)} | {kind:'card', card}]
+  const E = list.map(x => ({ ...x, dur: Math.max(0.3, entryDur(x)) }));
+  let photoN = 0;
+  for (const e of E) { if (e.kind === 'photo') e.slot = photoN++ % 2; e.text = e.kind === 'photo' ? (e.item ? (e.item.text || blankText()) : singleText) : null; }
+  let t = 0;
+  E.forEach((e, i) => {
+    e.start = t;
+    const next = E[i + 1], src = e.kind === 'card' ? e.card.tr : e.item ? e.item.tr : null;
+    let tr = opts.noTransitions || !next || !src ? { type: 'cut', dur: 0 } : { ...src };
+    if (tr.type === 'cut') tr.dur = 0;
+    if (tr.type === 'morph') tr.dur = clamp(+tr.dur, 0.2, 10);
+    else if (tr.dur > 0) tr.dur = Math.min(+tr.dur, e.dur * 0.5, next.dur * 0.5);
+    e.tr = tr; e.trSrc = src;
+    t = e.start + e.dur + (tr.type === 'morph' ? tr.dur : -tr.dur);
+  });
+  const total = E.length ? Math.max(...E.map(e => e.start + e.dur + (e.tr.type === 'morph' ? e.tr.dur : 0))) : 0;
+  return { E, total };
+}
+function listFromSlides(items) {
+  return items.map(it => it.kind === 'card' ? { kind: 'card', card: it, item: it } : { kind: 'photo', item: it });
+}
+
+/* ---------- soundtrack ----------
+   One music file for the whole slideshow. It is mixed to the video's exact length (with volume,
+   start point and fades) and encoded as AAC, the usual sound format inside MP4 files. */
+let sound = null;          // { name, buf: AudioBuffer }
+let audioCtx = null;
+function getAudioCtx() {
+  if (!audioCtx) { const AC = window.AudioContext || window.webkitAudioContext; if (!AC) throw new Error('This browser cannot play sound.'); audioCtx = new AC(); }
+  return audioCtx;
+}
+const isAudioFile = f => f && (f.type.startsWith('audio/') || /\.(mp3|m4a|aac|wav|aiff?|caf|flac|ogg)$/i.test(f.name));
+async function setSoundtrack(file) {
+  busy.show('Opening the music…', file.name);
+  try {
+    const ab = await file.arrayBuffer();
+    const buf = await new Promise((res, rej) => getAudioCtx().decodeAudioData(ab, res, rej));
+    sound = { name: file.name, buf };
+    if (S.audStart >= buf.duration) S.audStart = 0;
+    syncControls();
+    toast(`Soundtrack added: ${file.name} (${fmtTime(buf.duration)}).`);
+  } catch (e) {
+    diag('Soundtrack failed: ' + (e && e.message || e));
+    toast('That sound file could not be opened. MP3, M4A, WAV and AIFF files work in every browser.', 6000);
+  } finally { busy.hide(); renderSound(); }
+}
+function fmtTime(s) { s = Math.max(0, s); return `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`; }
+function renderSound() {
+  const on = !!sound;
+  $('#sndInfo').innerHTML = on
+    ? `<span>♪ <b>${escapeHtml(sound.name)}</b> · ${fmtTime(sound.buf.duration)}</span><button class="ic del" id="sndDel" title="Remove the soundtrack">${IC.del}</button>`
+    : 'No music yet. Add an MP3, M4A, WAV or AIFF file, or drop one onto the preview.';
+  $('#sndOpts').style.display = on ? '' : 'none';
+  const del = $('#sndDel'); if (del) del.onclick = () => { stopListen(); sound = null; renderSound(); toast('Soundtrack removed. (Your music file is untouched.)'); };
+  const m = $('#mainSound'); if (m) m.textContent = on ? `♪ With soundtrack: ${sound.name}` : '';
+}
+function soundGain(param, t0, dur) {
+  // volume with fade in at the start and fade out at the end (or where the music runs out)
+  const v = clamp(+S.audVol, 0, 150) / 100;
+  const left = sound.buf.duration - (+S.audStart || 0);
+  const end = S.audLoop ? dur : Math.min(dur, left);
+  const fi = Math.min(+S.audFadeIn || 0, end / 2), fo = Math.min(+S.audFadeOut || 0, end / 2);
+  param.setValueAtTime(fi > 0 ? 0 : v, t0);
+  if (fi > 0) param.linearRampToValueAtTime(v, t0 + fi);
+  param.setValueAtTime(v, t0 + end - fo);
+  param.linearRampToValueAtTime(fo > 0 ? 0 : v, t0 + end);
+  return end;
+}
+function soundSource(ctx) {
+  const src = ctx.createBufferSource(); src.buffer = sound.buf;
+  const off = clamp(+S.audStart || 0, 0, Math.max(0, sound.buf.duration - 0.05));
+  if (S.audLoop) { src.loop = true; src.loopStart = 0; src.loopEnd = sound.buf.duration; }
+  return { src, off };
+}
+async function renderSoundtrack(dur) {
+  const sr = 48000, oc = new (window.OfflineAudioContext || window.webkitOfflineAudioContext)(2, Math.max(1, Math.ceil(dur * sr)), sr);
+  const { src, off } = soundSource(oc), g = oc.createGain();
+  soundGain(g.gain, 0, dur);
+  src.connect(g); g.connect(oc.destination); src.start(0, off);
+  return oc.startRendering();
+}
+let audioCodecCache;
+async function chooseAudio() {
+  if (audioCodecCache !== undefined) return audioCodecCache;
+  audioCodecCache = null;
+  if (window.AudioEncoder) {
+    for (const c of [{ codec: 'mp4a.40.2', mux: 'aac' }, { codec: 'opus', mux: 'opus' }]) {
+      try { const r = await AudioEncoder.isConfigSupported({ codec: c.codec, sampleRate: 48000, numberOfChannels: 2, bitrate: 192000 }); if (r.supported) { audioCodecCache = c; break; } } catch (e) {}
+    }
+  }
+  return audioCodecCache;
+}
+async function addAudioTrack(sess, dur) {
+  if (!sess.aEnc) return;
+  busy.progress(null, 'Mixing the soundtrack…'); await sleep(0);
+  const ab = await renderSoundtrack(dur), sr = ab.sampleRate, n = ab.length, C = 1024;
+  const L = ab.getChannelData(0), R = ab.numberOfChannels > 1 ? ab.getChannelData(1) : L;
+  for (let i = 0; i < n; i += C) {
+    const m = Math.min(C, n - i), data = new Float32Array(m * 2);
+    data.set(L.subarray(i, i + m), 0); data.set(R.subarray(i, i + m), m);
+    const ad = new AudioData({ format: 'f32-planar', sampleRate: sr, numberOfFrames: m, numberOfChannels: 2, timestamp: Math.round(i * 1e6 / sr), data });
+    sess.aEnc.encode(ad); ad.close();
+    if (sess.aEnc.encodeQueueSize > 64) await sleep(1);
+    if (sess.err) throw sess.err;
+  }
+  await sess.aEnc.flush();
+  diag(`Soundtrack: ${dur.toFixed(2)} s encoded as ${sess.audioMux}`);
+}
+/* live sound for Play all */
+let liveSnd = null;
+function startLiveSound(dur) {
+  if (!sound) return null;
+  const ctx = getAudioCtx(); if (ctx.state === 'suspended') ctx.resume();
+  const { src, off } = soundSource(ctx), g = ctx.createGain(), t0 = ctx.currentTime + 0.05;
+  soundGain(g.gain, t0, dur);
+  src.connect(g); g.connect(ctx.destination); src.start(t0, off);
+  liveSnd = { src, g, t0, ctx };
+  return liveSnd;
+}
+function stopLiveSound() { if (liveSnd) { try { liveSnd.src.stop(); } catch (e) {} liveSnd = null; } }
+let listening = null;
+function stopListen() { if (listening) { try { listening.stop(); } catch (e) {} listening = null; $('#sndListen').textContent = '▶ Listen'; } }
+
+/* ---------- the frame sequencer ---------- */
+const slotOwner = [null, null];
+let seqState = null;
+async function seqBegin(W, H) {
+  if (editingId) confirmEdit();
+  pause();
+  saveCurrentItem();
+  slotsInit();
+  if (wgpu) { slots[0].wImg = wgpu.img; slots[0].wDep = wgpu.dep; }
+  if (gl) { slots[0].texImg = texImg; slots[0].texDepth = texDepth; }
+  if (photo) slotCapture(0); else slots[0].photo = null;
+  seqState = { prevW: canvas.width, prevH: canvas.height, current: batch.current, card: previewCard, dirty: false };
+  seqRunning = true; exporting = true;
+  $('#ovl').style.visibility = 'hidden';
+  slotOwner[0] = slotOwner[1] = null;
+  while (cpu.busy) await sleep(10);
+  canvas.width = W; canvas.height = H;
+}
+async function seqEnd() {
+  const st = seqState; seqState = null;
+  seqRunning = false;
+  slotsRelease();
+  slotUseForLoading(0);
+  c2dFree();
+  canvas.width = st.prevW; canvas.height = st.prevH;
+  exporting = false;
+  $('#ovl').style.visibility = '';
+  // put the editor back the way it was
+  try {
+    if (!st.dirty) { if (slots[0].photo) slotActivate(0); batch.current = st.current; }
+    else if (st.current && st.current.kind !== 'card') { batch.current = null; await loadItem(st.current, true); }
+    if (st.card) { previewCard = st.card; batch.current = st.card; }
+    syncControls(); renderKfList(); updateSizeInfo();
+  } catch (e) { diag('Could not restore the editor: ' + e.message); }
+  slotOwner[0] = slotOwner[1] = null;
+  fitCanvas(); requestRender(); renderBatch();
+}
+async function ensureEntryLoaded(e) {
+  if (e.kind !== 'photo' || slotOwner[e.slot] === e) return;
+  if (e.item) {
+    busy.progress(null, `Opening ${e.item.name}…`);
+    if (seqState) seqState.dirty = true;
+    slotUseForLoading(e.slot);
+    await loadItem(e.item, true);
+    if (!e.item.depth && !e.item.depthSkip) await generateDepth({ batch: true });
+    slotCapture(e.slot);
+  } else {
+    // the photo that is open in the editor (not part of a slideshow)
+    slotCapture(0);
+  }
+  slotOwner[e.slot] = e;
+}
+async function drawEntry(e, tl, target, frameNo, ropts) {
+  const W = target.width, H = target.height, c = target.getContext('2d');
+  c.setTransform(1, 0, 0, 1, 0, 0); c.globalAlpha = 1; c.globalCompositeOperation = 'source-over';
+  if (e.kind === 'card') { drawCard(c, W, H, e.card, tl); return; }
+  await ensureEntryLoaded(e);
+  slotActivate(e.slot);
+  await renderFrame(clamp(tl, 0, e.dur), { ...ropts, seed: frameNo, view: 0, wait: true, readback: true });
+  c.drawImage(frameSource(), 0, 0, W, H);
+  drawTextOverlay(c, W, H, e.text, tl, e.dur);
+}
+const SCRATCH = ['A', 'B', 'tA', 'tB', 'zA', 'zAb', 'zB', 'zBb', 'mask', 'blur0', 'blur1', 'blur2', 'mA', 'mB', 'mW', 'mW2', 'mMask'];
+function freeScratch(keepFrozen) {
+  // full-size scratch pictures are given back as soon as a transition ends: at 4K each one is about
+  // 33 MB, and Safari draws garbage when it runs short of picture memory
+  for (const k of SCRATCH.concat(keepFrozen ? [] : ['frzA', 'frzB'])) { const c = C2[k]; if (c && c.width > 1) { c.width = 1; c.height = 1; } }
+}
+async function drawSeqFrame(tlObj, T, W, H, oc, f, ropts, morphCache, fades) {
+  // draws one moment (T seconds) of a slideshow onto the 2D context oc
+  const { E, total } = tlObj;
+  const active = E.filter(e => T >= e.start - 1e-7 && T < e.start + e.dur - 1e-7);
+  if (active.length === 1) { freeScratch(false); morphCache.clear(); }
+  if (active.length >= 2) {
+    const A = active[0], B = active[1], p = clamp((T - B.start) / Math.max(1e-6, A.tr.dur), 0, 1);
+    const ca = c2d('A', W, H), cb = c2d('B', W, H);
+    await drawEntry(A, T - A.start, ca, f, ropts);
+    await drawEntry(B, T - B.start, cb, f, ropts);
+    drawTransition(oc, ca, cb, p, A.tr, W, H);
+  } else if (active.length === 1) {
+    await drawEntry(active[0], T - active[0].start, oc.canvas, f, ropts);
+  } else {
+    const g = E.find(e => e.tr.type === 'morph' && T >= e.start + e.dur - 1e-7 && T < e.start + e.dur + e.tr.dur);
+    if (g) {
+      const nx = E[E.indexOf(g) + 1];
+      if (!morphCache.has(g)) {
+        const ma = c2d('frzA', W, H), mb = c2d('frzB', W, H);
+        await drawEntry(g, g.dur, ma, f, ropts);
+        await drawEntry(nx, 0, mb, f, ropts);
+        await ensureAutoMorph(g, nx, ropts);
+        morphCache.clear(); morphCache.set(g, [ma, mb]);
+      }
+      const [ma, mb] = morphCache.get(g);
+      morphDraw(oc, ma, mb, (T - g.start - g.dur) / g.tr.dur, g.tr.morph, W, H, g.tr.lag);
+    } else { oc.setTransform(1, 0, 0, 1, 0, 0); oc.fillStyle = '#000'; oc.fillRect(0, 0, W, H); }
+  }
+  if (fades) {
+    const fin = S.ssFadeIn ? clamp(1 - T / 0.8, 0, 1) : 0, fout = S.ssFadeOut ? clamp(1 - (total - T - 1 / 30) / 0.8, 0, 1) : 0;
+    const a = Math.max(fin, fout);
+    if (a > 0) { oc.setTransform(1, 0, 0, 1, 0, 0); oc.globalAlpha = a; oc.fillStyle = '#000'; oc.fillRect(0, 0, W, H); oc.globalAlpha = 1; }
+  }
+}
+async function runSequence(tlObj, { W, H, fps, t0 = 0, t1 = null, ropts, onFrame, fades = false }) {
+  const end = t1 == null ? tlObj.total : Math.min(tlObj.total, t1);
+  const N = Math.max(1, Math.round((end - t0) * fps));
+  const out = c2d('out', W, H), oc = out.getContext('2d');
+  const morphCache = new Map();
+  for (let f = 0; f < N; f++) {
+    if (busy.cancelled) throw new Error('cancelled');
+    await drawSeqFrame(tlObj, t0 + f / fps, W, H, oc, f, ropts, morphCache, fades);
+    await onFrame(out, f, N);
+  }
+  return N;
+}
+
+/* ---------- Play all: the slideshow played live in the preview ---------- */
+const PA = { on: false, stop: false };
+async function makeMissingDepths(items) {
+  // depth maps that don't exist yet are made first, so playback doesn't stop to make them
+  const need = items.filter(i => i.kind !== 'card' && !i.depth && !i.depthSkip);
+  for (const [n, it] of need.entries()) {
+    if (busy.cancelled) throw new Error('cancelled');
+    $('#busyMsg').textContent = `Making depth maps (${n + 1} of ${need.length})`;
+    slotUseForLoading(1); slotOwner[1] = null;
+    await loadItem(it, true);
+    await generateDepth({ batch: true });
+  }
+}
+async function playAll() {
+  if (PA.on) { PA.stop = true; return; }
+  if (CPU) return toast('Live playback needs the graphics chip, which this browser has switched off. Use “Quick preview” at the bottom of this tab instead: it makes a small video and plays it.', 7000);
+  const items = batch.items.filter(i => i.on);
+  if (!items.length) return toast('Add some slides first.');
+  if (S.aspect === 'photo') { S.aspect = '16:9'; syncControls(); renderResSeg(); fitCanvas(); toast('A slideshow needs one frame shape for every slide, so 16:9 is being used.', 5000); }
+  // draw at the size the preview is shown, but no bigger than 960 pixels wide, so it keeps up
+  const o = $('#ovl'), rr = canvas.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const { W: OW, H: OH } = outDims(), sc = Math.min(960 / OW, (rr.width * dpr) / OW, 1);
+  const W = Math.max(2, Math.round(OW * sc / 2) * 2), H = Math.max(2, Math.round(OH * sc / 2) * 2);
+  PA.on = true; PA.stop = false; setPlayAllButtons();
+  busy.show('Getting the slideshow ready…', '', true);
+  await seqBegin(W, H);
+  let ok = true;
+  try {
+    await makeMissingDepths(items);
+    const tl = buildTimeline(listFromSlides(items));
+    slotOwner[0] = slotOwner[1] = null;
+    busy.progress(null, 'Opening the first photos…');
+    for (const e of tl.E.filter(e => e.kind === 'photo').slice(0, 2)) await ensureEntryLoaded(e);
+    busy.hide();
+    o.style.visibility = ''; placeOverlay();
+    const oc = o.getContext('2d'), out = c2d('play', W, H), pc = out.getContext('2d');
+    const ropts = { steps: 90, samples: 64, cpuSteps: 24 }, morphCache = new Map(), photos = tl.E.filter(e => e.kind === 'photo');
+    let start = performance.now(), f = 0;
+    const live = startLiveSound(tl.total);   // with music, the music's clock leads and the pictures keep up
+    while (!PA.stop) {
+      const t0f = performance.now(), T = live ? Math.max(0, live.ctx.currentTime - live.t0) : (t0f - start) / 1000;
+      if (T >= tl.total) break;
+      await drawSeqFrame(tl, T, W, H, pc, f++, ropts, morphCache, true);
+      placeOverlay(); oc.setTransform(1, 0, 0, 1, 0, 0); oc.drawImage(out, 0, 0, o.width, o.height);
+      $('#time').textContent = `${T.toFixed(2)} / ${tl.total.toFixed(2)} s`;
+      $('#scrub').value = Math.round(T / tl.total * 1000);
+      // open the photo after next while this one plays, so the change-over doesn't stutter
+      for (const [k, e] of photos.entries()) {
+        const prev = photos[k - 2];
+        if (slotOwner[e.slot] === e || !prev || slotOwner[e.slot] !== prev) continue;
+        const done = T > prev.start + prev.dur + 0.1 && (prev.tr.type !== 'morph' || morphCache.has(prev) || T > prev.start + prev.dur + prev.tr.dur);
+        if (done && e.start - T < 6) { await ensureEntryLoaded(e); break; }
+      }
+      await nextFrame();
+      // if a frame was slow (opening a photo, finding morph points, a slow computer), slow down
+      // instead of skipping ahead, so nothing in the show is missed
+      if (!live) start += Math.max(0, performance.now() - t0f - 100);
+    }
+    diag(`Play all: ${f} frames shown over ${((performance.now() - start) / 1000).toFixed(1)} s of ${tl.total.toFixed(1)} s${PA.stop ? ' (stopped)' : ''}`);
+  } catch (e) {
+    ok = false; diag('Play all stopped: ' + (e && e.message || e) + ' ' + (e && e.stack || '').split('\n').slice(0, 3).join(' '));
+    if (String(e && e.message) !== 'cancelled') { diag('Play all failed: ' + (e && e.message || e)); toast('Could not play the slideshow: ' + friendlyError(e).slice(0, 200), 7000); }
+  } finally {
+    busy.hide();
+    stopLiveSound();
+    PA.on = false; PA.stop = false; setPlayAllButtons();
+    await seqEnd();
+    setTime(0);
+  }
+}
+function setPlayAllButtons() {
+  for (const id of ['#bPlayAll']) { const b = $(id); if (b) b.innerHTML = PA.on ? '■ Stop' : '▶ Play all'; }
+}
+function makeFrame(cv, W, H, ts, dur) {
+  try { return new VideoFrame(cv, { timestamp: ts, duration: dur }); }
+  catch (e) {
+    // some iPad browsers refuse to read a canvas directly; hand over the pixels instead
+    diag('VideoFrame from canvas failed (' + e.message + '); using the pixel copy');
+    const d = cv.getContext('2d').getImageData(0, 0, W, H).data;
+    return new VideoFrame(d, { format: 'RGBA', codedWidth: W, codedHeight: H, timestamp: ts, duration: dur });
+  }
+}
+async function encodeSequence(sess, tlObj, label, onFrac, extra = {}) {
+  const { W, H, fps } = sess;
+  const best = S.rquality === 'best';
+  const ropts = extra.ropts || { steps: best ? 160 : 90, samples: best ? 200 : 110, cpuSteps: best ? 64 : 40 };
+  const t0 = performance.now(); let lastUi = 0;
+  return runSequence(tlObj, {
+    W, H, fps, ropts, t0: extra.t0 || 0, t1: extra.t1 == null ? null : extra.t1, fades: !!extra.fades,
+    onFrame: async (out, f, N) => {
+      if (ctx2d && (f % 8 === 0 || f === N - 1)) ctx2d.drawImage(out, 0, 0, canvas.width, canvas.height); // show progress in the preview
+      const vf = makeFrame(out, W, H, Math.round(sess.frame * 1e6 / fps), Math.round(1e6 / fps));
+      sess.encoder.encode(vf, { keyFrame: sess.frame % (fps * 2) === 0 }); vf.close(); sess.frame++;
+      sess.maxQueue = Math.max(sess.maxQueue, sess.encoder.encodeQueueSize);
+      const ws = performance.now();
+      while (sess.encoder.encodeQueueSize > 16 && performance.now() - ws < 4000) { if (busy.cancelled) throw new Error('cancelled'); if (sess.err) throw sess.err; await sleep(5); }
+      if (sess.err) throw sess.err;
+      const now = performance.now();
+      if (now - lastUi > 120 || f === N - 1) {
+        lastUi = now;
+        const el = (now - t0) / 1000, rate = (f + 1) / el, left = (N - f - 1) / rate;
+        if (onFrac) onFrac((f + 1) / N);
+        busy.progress(onFrac ? null : (f + 1) / N, `${label ? label + ' · ' : ''}Frame ${f + 1} of ${N} · about ${left < 60 ? Math.ceil(left) + ' s' : Math.ceil(left / 60) + ' min'} left`);
+        await sleep(0);
+      }
+    }
+  });
+}
+function iosSizeCheck(W, H) {
+  if (IS_IOS && W * H > 1920 * 1088) toast('Tip: on iPhone and iPad, 1080p is much more reliable than larger sizes.', 6000);
+}
+function friendlyError(e) {
+  const m = String(e && e.message || e);
+  if (/frame|memory|context/i.test(m) && IS_IOS) return m + ' — this usually means the iPad ran out of memory. Try 1080p.';
+  return m;
+}
+
+/* ---------- export: the open photo, a slideshow, or one video per slide ---------- */
+async function exportVideo() {
+  if (!photo && !previewCard) return toast('Open a photo first.');
+  const { W, H } = outDims(), fps = +S.fps, name = videoName();
+  pending = [];
+  busy.show('Exporting video', 'Preparing…', true);
+  iosSizeCheck(W, H);
+  let sess = null;
+  await seqBegin(W, H);
+  try {
+    // just the slide that is open: the photo as it is now (or the title card), no transitions
+    const tl = buildTimeline(previewCard ? [{ kind: 'card', card: previewCard }] : [{ kind: 'photo', item: null }], { noTransitions: true });
+    if (!previewCard) { const e = tl.E[0]; e.text = curText(); e.dur = tl.total = totalDuration(); }
+    sess = await startEncoder(W, H, fps, true); sessMuxLast = sess.mux;
+    await addAudioTrack(sess, Math.max(1, Math.round(tl.total * fps)) / fps);
+    if (S.codec === 'avc' && sess.mux !== 'avc' || S.codec === 'hevc' && sess.mux !== 'hevc') toast(`${muxNames[S.codec === 'hevc' ? 'hevc' : 'avc']} isn't available at this size here, so ${muxNames[sess.mux]} is being used.`, 5000);
+    const t0 = performance.now();
+    if (CPU) busy.progress(0, 'Backup mode: drawing the first frame…');
+    await encodeSequence(sess, tl, '');
+    const blob = await finishEncoder(sess); sess = null;
+    download(blob, name);
+    showResult(blob, name, `${muxNames[sessMuxLast]} · ${((performance.now() - t0) / 1000).toFixed(0)} s to render`);
+    if (IS_IOS) offerPending('Your video is ready'); else toast('Video saved to Downloads.');
+  } catch (e) {
+    if (String(e && e.message) === 'cancelled') toast('Export cancelled.');
+    else { diag('Export failed: ' + (e && e.message || e)); console.error(e); toast(friendlyError(e).slice(0, 220), 7000); }
+    try { if (sess && sess.encoder.state !== 'closed') sess.encoder.close(); } catch (er) {}
+  } finally {
+    await seqEnd(); busy.hide();
+  }
+}
+let sessMuxLast = 'avc';
+async function exportBatch(opts = {}) {
+  if (!batch.items.length && photo && src) { await addCurrentToBatch(true); renderBatch(); toast('Your open photo has been added to the slideshow.'); }
+  const items = batch.items.filter(i => i.on);
+  if (!items.length) return toast(batch.items.length ? 'Every slide is hidden. Tap an eye icon to include one.' : 'Add some photos first: tap “Add photos…” at the top of this tab.', 5000);
+  const preview = !!opts.preview, joined = preview || S.bMode === 'joined';
+  if (joined && S.aspect === 'photo') { S.aspect = '16:9'; syncControls(); renderResSeg(); toast('A slideshow needs one frame shape for every slide, so 16:9 is being used.', 5000); }
+  pending = [];
+  const fps = preview ? 24 : +S.fps;
+  let { W, H } = outDims();
+  if (preview) { const s = 360 / Math.min(W, H); W = Math.round(W * s / 2) * 2; H = Math.round(H * s / 2) * 2; }
+  busy.show(preview ? 'Making a quick preview' : `Exporting ${items.length} slide${items.length === 1 ? '' : 's'}`, 'Preparing…', true);
+  if (!preview) iosSizeCheck(W, H);
+  const keepQ = S.vquality; if (preview) S.vquality = 'standard';
+  let sess = null, done = 0;
+  const t0 = performance.now(), saved = [], zipFiles = [];
+  const useZip = S.bZip && !IS_IOS;
+  await seqBegin(W, H);
+  try {
+    const ropts = preview ? { steps: 40, samples: 32, cpuSteps: 20 } : undefined;
+    if (joined) {
+      let list = listFromSlides(items), range = {};
+      if (opts.only) { // preview one transition: the end of one slide, the transition, the start of the next
+        const i = items.indexOf(opts.only); list = listFromSlides(items.slice(i, i + 2));
+      }
+      const tl = buildTimeline(list);
+      if (opts.only && tl.E.length > 1) { const a = tl.E[0], b = tl.E[1], ts = a.tr.type === 'morph' ? a.start + a.dur : b.start; range = { t0: Math.max(0, ts - 1), t1: ts + a.tr.dur + 1 }; }
+      sess = await startEncoder(W, H, fps, !opts.only); sessMuxLast = sess.mux;
+      if (!opts.only) await addAudioTrack(sess, Math.max(1, Math.round(tl.total * fps)) / fps);
+      await encodeSequence(sess, tl, preview ? 'Preview' : '', null, { ropts, fades: !opts.only, ...range });
+      const blob = await finishEncoder(sess); sess = null;
+      if (preview) { showPlayer(blob, opts.only ? 'Transition preview' : 'Slideshow preview (low resolution)'); return; }
+      const name = `${dateStamp()} ${APP_NAME}-Slideshow of ${items.length}-${W}x${H}.mp4`;
+      download(blob, name); saved.push(name); done = items.length;
+      showResult(blob, name, `${items.length} slides`);
+    } else {
+      for (const [n, it] of items.entries()) {
+        if (busy.cancelled) throw new Error('cancelled');
+        const label = `Slide ${n + 1} of ${items.length}`;
+        $('#busyMsg').textContent = `${label}: ${it.kind === 'card' ? (it.title || 'Title card') : it.name}`;
+        const tl = buildTimeline(listFromSlides([it]), { noTransitions: true });
+        slotOwner[0] = slotOwner[1] = null;
+        if (tl.E[0].kind === 'photo') await ensureEntryLoaded(tl.E[0]);   // the photo's own shape decides the size when the frame is "Photo"
+        const dims = outDims();
+        if (canvas.width !== dims.W || canvas.height !== dims.H) { canvas.width = dims.W; canvas.height = dims.H; }
+        sess = await startEncoder(dims.W, dims.H, fps); sessMuxLast = sess.mux;
+        await encodeSequence(sess, tl, label, f => busy.progress((n + f) / items.length));
+        const blob = await finishEncoder(sess); sess = null;
+        const base = it.kind === 'card' ? 'Title card ' + (n + 1) : it.name.replace(/\.[^.]+$/, '');
+        const name = `${dateStamp()} ${APP_NAME}-${safeName(base)}-${dims.W}x${dims.H}.mp4`;
+        if (useZip) zipFiles.push({ name, blob }); else { download(blob, name); if (!IS_IOS) await sleep(400); }
+        saved.push(name); done++;
+      }
+      if (useZip) {
+        busy.progress(null, 'Packing the videos into one ZIP file…'); await sleep(0);
+        const zipName = `${dateStamp()} ${APP_NAME}-Slides ${done}-${W}x${H}.zip`;
+        const zip = await makeZip(zipFiles);
+        download(zip, zipName);
+        $('#result').innerHTML = `<div class="note"><b>Saved one ZIP file with ${saved.length} videos to your Downloads folder</b><div class="fname">${escapeHtml(zipName)}</div>${(zip.size / 1048576).toFixed(1)} MB. Double-click it to unpack the videos (Safari usually does this for you).${saved.map(n => `<div class="fname">· ${escapeHtml(n)}</div>`).join('')}</div>`;
+      } else {
+        $('#result').innerHTML = `<div class="note"><b>${IS_IOS ? (saved.length === 1 ? 'Video ready' : saved.length + ' videos ready') : 'Saved ' + saved.length + (saved.length === 1 ? ' video' : ' videos') + ' to your Downloads folder'}</b>${saved.map(n => `<div class="fname">${escapeHtml(n)}</div>`).join('')}</div>`;
+      }
+    }
+    $('#bResult').innerHTML = $('#result').innerHTML;
+    diag(`Slideshow export finished: ${done} slides in ${((performance.now() - t0) / 1000).toFixed(0)} s`);
+    if (IS_IOS) offerPending(joined ? 'Your slideshow is ready' : saved.length === 1 ? 'Your video is ready' : `${saved.length} videos are ready`);
+    else toast(joined ? 'Slideshow saved to Downloads.' : useZip ? `ZIP file with ${saved.length} videos saved to Downloads.` : `${saved.length} videos saved to Downloads.`);
+  } catch (e) {
+    if (String(e && e.message) === 'cancelled') toast(preview ? 'Preview cancelled.' : `Export cancelled after ${done} slide${done === 1 ? '' : 's'}.`);
+    else { diag('Slideshow export failed: ' + (e && e.message || e)); console.error(e); toast(friendlyError(e).slice(0, 220), 7000); }
+    try { if (sess && sess.encoder.state !== 'closed') sess.encoder.close(); } catch (er) {}
+  } finally {
+    S.vquality = keepQ;
+    await seqEnd(); busy.hide();
+  }
+}
+function showPlayer(blob, title) {
+  const url = URL.createObjectURL(blob), v = $('#playerVideo');
+  if (v.dataset.url) URL.revokeObjectURL(v.dataset.url);
+  v.dataset.url = url; v.src = url;
+  $('#playerTitle').textContent = title;
+  $('#player').classList.add('on');
+  v.play().catch(() => {});
+}
+$('#playerClose').onclick = () => { const v = $('#playerVideo'); v.pause(); $('#player').classList.remove('on'); };
+
+/* ---------- title cards in the editor preview ---------- */
+function showCard(card) {
+  pause();
+  previewCard = card; batch.current = card;
+  $('#empty').style.display = 'none';
+  $('#cardNote').style.display = '';
+  setTime(Math.min(card.duration / 2, 1.5));
+  renderBatch(); syncTextTab();
+}
+function leaveCard() { previewCard = null; $('#cardNote').style.display = 'none'; }
+function newCard() {
+  return { id: batch.seq++, kind: 'card', on: true, title: 'Title', sub: '', duration: 3, bgStyle: 'gradient', bg1: '#141a35', bg2: '#5466f5', tr: newTransition() };
+}
+function cardThumb(card) {
+  const c = document.createElement('canvas'); c.width = 96; c.height = 54;
+  drawCard(c.getContext('2d'), 96, 54, card, card.duration / 2);
+  return c.toDataURL('image/png');
+}
+
+/* ---------- preview overlay (titles drawn over the 3D preview) ---------- */
+function placeOverlay() {
+  const o = $('#ovl'), r = canvas.getBoundingClientRect(), st = $('#stage').getBoundingClientRect();
+  o.style.left = (r.left - st.left) + 'px'; o.style.top = (r.top - st.top) + 'px';
+  o.style.width = r.width + 'px'; o.style.height = r.height + 'px';
+  const dpr = Math.min(window.devicePixelRatio || 1, 2), w = Math.max(2, Math.round(r.width * dpr)), h = Math.max(2, Math.round(r.height * dpr));
+  if (o.width !== w || o.height !== h) { o.width = w; o.height = h; }
+}
+function drawPreviewOverlay(t) {
+  if (exporting) return;
+  const o = $('#ovl'); placeOverlay();
+  const c = o.getContext('2d'), W = o.width, H = o.height;
+  c.setTransform(1, 0, 0, 1, 0, 0); c.clearRect(0, 0, W, H);
+  if (previewCard) { drawCard(c, W, H, previewCard, t); return; }
+  if (!photo || viewMode !== 0) return;
+  drawTextOverlay(c, W, H, curText(), t, totalDuration());
+}
+
+function slideLabel(it) { return it.kind === 'card' ? (it.title ? it.title.split('\n')[0] : 'Title card') : it.name; }
+function trLabel(tr) {
+  if (!tr || tr.type === 'cut') return 'Cut (no transition)';
+  let extra = '';
+  if (tr.type === 'morph') {
+    const mine = tr.morph.filter(p => !p.auto).length;
+    extra = tr.auto !== false ? ` · automatic points${mine ? ` + ${mine} yours` : ''}` : ` · ${mine} point pair${mine === 1 ? '' : 's'}`;
+  }
+  return `${trName(tr.type).replace(/ \(.*\)/, '')} · ${(+tr.dur).toFixed(1)} s${extra}`;
+}
+function cardThumbCached(it) {
+  const key = [it.title, it.sub, it.bg1, it.bg2, it.bgStyle, S.txFont, S.txColor].join('|');
+  if (it._tk !== key) { it._tk = key; it._thumb = cardThumb(it); }
+  return it._thumb;
+}
+const tfHTML = (attr, val, ph, area) => area
+  ? `<div class="tf fieldgap"><textarea ${attr} rows="2" placeholder="${ph}">${escapeHtml(val || '')}</textarea><button class="clr ta" title="Clear">✕</button></div>`
+  : `<div class="tf fieldgap"><input type="text" ${attr} placeholder="${ph}" value="${escapeHtml(val || '')}"><button class="clr" title="Clear">✕</button></div>`;
+function miniSlider(label, key, min, max, step, unit, val) {
+  return `<div class="field" data-ms="${key}"><div class="slh"><label>${label}</label><span class="num"><input type="number" data-t="${key}" min="${min}" max="${max}" step="${step}" value="${val}"><em>${unit}</em></span></div>
+    <input type="range" data-t="${key}" min="${min}" max="${max}" step="${step}" value="${val}" aria-label="${label}"></div>`;
+}
+const DIRS = [['left', 'Right to left'], ['right', 'Left to right'], ['up', 'Bottom to top'], ['down', 'Top to bottom']];
+function trEditorHTML(it) {
+  const tr = it.tr, u = trUses(tr.type);
+  return `<div class="sel"><label>Transition</label><select data-t="type">${TRANSITIONS.map(([v, n]) => `<option value="${v}"${tr.type === v ? ' selected' : ''}>${n}</option>`).join('')}</select></div>
+    ${tr.type === 'cut' ? '<p class="hint">The next slide simply starts. Nothing overlaps.</p>' : `<div style="margin-top:8px">${miniSlider('Length', 'dur', 0.2, tr.type === 'morph' ? 6 : 4, 0.1, 's', tr.dur)}</div>`}
+    ${u.dir ? `<div class="sel fieldgap"><label>Direction</label><select data-t="dir">${DIRS.map(([v, n]) => `<option value="${v}"${tr.dir === v ? ' selected' : ''}>${n}</option>`).join('')}</select></div>` : ''}
+    ${u.color ? `<div class="colorrow">Colour to dip to <input type="color" data-t="color" value="${tr.color}"></div>` : ''}
+    ${u.soft ? miniSlider('Soft edge', 'soft', 0, 100, 1, '%', tr.soft) : ''}
+    ${u.amount ? miniSlider(tr.type === 'crossblur' ? 'Amount of blur' : 'Amount of zoom', 'amount', 0, 100, 1, '%', tr.amount) : ''}
+    ${u.points ? miniSlider('Star points', 'points', 3, 12, 1, '', tr.points) : ''}
+    ${u.morph ? `<p class="hint">The end of this slide is held still while it melts into the first frame of the next. Matching points make features glide onto each other.</p>
+      <label class="chk" style="margin-top:8px"><input type="checkbox" data-t="auto"${tr.auto !== false ? ' checked' : ''}>Place points automatically: around the nearest shape and along the horizon, using the depth map</label>
+      ${miniSlider('Background follows by', 'lag', 0, 100, 5, '%', tr.lag ?? 30)}
+      <p class="hint" style="margin-top:-4px">0% moves everything together. Higher values let the near layer move and dissolve first, with the background catching up, which looks more fluid.</p>
+      <button class="btn wide" data-tb="morph" style="margin-top:6px">See and adjust the points… (${tr.morph.length} so far)</button>` : ''}
+    <div class="row2"><button class="btn" data-tb="preview">▶ Preview this transition</button><button class="btn" data-tb="all">Use for every slide</button></div>`;
+}
+function itemEditorHTML(it) {
+  if (it.kind === 'card') {
+    return `<label class="tflabel">Title</label>${tfHTML('data-f="title"', it.title, 'Words on the card', true)}
+      <label class="tflabel">Subtitle</label>${tfHTML('data-f="sub"', it.sub, 'A smaller line')}
+      <div class="grid2 tight">
+        <div class="sel"><label>Length (seconds)</label><span class="num"><input type="number" data-f="duration" min="1" max="30" step="0.5" value="${it.duration}"><em>s</em></span></div>
+        <div class="sel"><label>Background</label><select data-f="bgStyle"><option value="solid"${it.bgStyle === 'solid' ? ' selected' : ''}>One colour</option><option value="gradient"${it.bgStyle === 'gradient' ? ' selected' : ''}>Gradient</option><option value="radial"${it.bgStyle === 'radial' ? ' selected' : ''}>Glow from the middle</option></select></div>
+      </div>
+      <div class="grid2" style="margin-top:8px"><div class="colorrow">Colour 1 <input type="color" data-f="bg1" value="${it.bg1}"></div><div class="colorrow">Colour 2 <input type="color" data-f="bg2" value="${it.bg2}"></div></div>`;
+  }
+  const tx = it.text || (it.text = blankText());
+  return `<div class="sel"><label>Camera move</label><select data-f="preset">${PRESETS.map(([v, n]) => `<option value="${v}"${!it.kfCustom && it.preset === v ? ' selected' : ''}>${n}</option>`).join('')}${it.kfCustom ? '<option value="" selected>Custom move</option>' : ''}</select></div>
+    <div class="grid2 tight" style="margin-top:8px">
+      <div class="sel"><label>Length (seconds)</label><span class="num"><input type="number" data-f="duration" min="1" max="30" step="0.5" value="${it.duration}"><em>s</em></span></div>
+      <div class="sel"><label>Intensity</label><span class="num"><input type="number" data-f="intensity" min="0" max="100" step="1" value="${it.intensity}"><em>%</em></span></div>
+    </div>
+    <label class="tflabel" style="margin-top:10px">Title</label>${tfHTML('data-f="text.title"', tx.title, 'Optional big title', true)}
+    <label class="tflabel">Subtitle</label>${tfHTML('data-f="text.sub"', tx.sub, 'Optional smaller line')}
+    <label class="tflabel">Lower third</label>${tfHTML('data-f="text.l1"', tx.l1, 'First line, for example a name')}
+    ${tfHTML('data-f="text.l2"', tx.l2, 'Second line, for example a place or date')}
+    <p class="hint">Where and when the text shows, and its style, are on the Text tab.</p>`;
+}
 function renderBatch() {
   const list = $('#bList'); if (!list) return;
-  $('#bEmpty').style.display = batch.items.length ? 'none' : '';
-  $('#bListHead').style.display = batch.items.length ? '' : 'none';
-  $('#bCount').textContent = `${batch.items.length} photo${batch.items.length === 1 ? '' : 's'}`;
-  $('#bBadge').textContent = batch.items.length || '';
+  const n = batch.items.length, cards = batch.items.filter(i => i.kind === 'card').length;
+  $('#bEmpty').style.display = n ? 'none' : '';
+  $('#bListHead').style.display = n ? '' : 'none';
+  $('#bCount').textContent = `${n} slide${n === 1 ? '' : 's'}${cards ? ` (${n - cards} photo${n - cards === 1 ? '' : 's'}, ${cards} title card${cards === 1 ? '' : 's'})` : ''}`;
+  $('#bBadge').textContent = n || '';
   if (batch.current) saveCurrentItem();
+  const focusKey = document.activeElement && list.contains(document.activeElement) ? document.activeElement.dataset.f || document.activeElement.dataset.t : null;
   list.innerHTML = '';
   batch.items.forEach((it, i) => {
+    const card = it.kind === 'card';
     const row = document.createElement('div');
     row.className = 'kf brow' + (it.on ? '' : ' off') + (batch.current === it ? ' current' : '') + (batch.editing === it ? ' editing' : '');
     row.dataset.id = it.id;
-    const mv = it.kfCustom ? 'Custom move' : presetName(it.preset);
+    let info;
+    if (card) info = `Title card · ${(+it.duration).toFixed(1)} s`;
+    else {
+      const tx = it.text || {}, hasT = tx.title || tx.sub, hasL = tx.l1 || tx.l2;
+      info = `${it.kfCustom ? 'Custom move' : presetName(it.preset)} · ${(+it.duration).toFixed(1)} s · ${it.depth ? 'depth ✓' : 'depth made at export'}${hasT ? ' · title' : ''}${hasL ? ' · lower third' : ''}`;
+    }
     row.innerHTML = `<button class="ic handle" title="Drag to reorder">${IC.handle}</button>
-      <img class="bthumb" src="${it.thumb}" alt="">
-      <div class="kfmain"><b>${i + 1}. ${escapeHtml(it.name)}</b><span>${escapeHtml(mv)} · ${(+it.duration).toFixed(1)} s · ${it.depth ? 'depth ✓' : 'depth made at export'}</span></div>
+      <img class="${card ? 'cardthumb' : 'bthumb'}" src="${card ? cardThumbCached(it) : it.thumb}" alt="">
+      <div class="kfmain"><b>${i + 1}. ${escapeHtml(slideLabel(it))}</b><span>${escapeHtml(info)}</span></div>
       <button class="ic" data-a="vis" title="${it.on ? 'Leave out of the export' : 'Include in the export'}">${it.on ? IC.eye : IC.eyeOff}</button>
-      <button class="ic" data-a="edit" title="${batch.editing === it ? 'Confirm' : 'Change move and length'}">${batch.editing === it ? IC.check : IC.edit}</button>
+      <button class="ic" data-a="edit" title="${batch.editing === it ? 'Confirm' : card ? 'Edit the card' : 'Change move, length and text'}">${batch.editing === it ? IC.check : IC.edit}</button>
       <button class="ic" data-a="goto" title="Show in the preview">${IC.goto}</button>
-      <button class="ic del" data-a="del" title="Remove from the batch">${IC.del}</button>`;
+      <button class="ic del" data-a="del" title="Remove from the slideshow">${IC.del}</button>`;
     list.appendChild(row);
     if (batch.editing === it) {
       const ed = document.createElement('div'); ed.className = 'bedit'; ed.dataset.id = it.id;
-      ed.innerHTML = `<div class="sel"><label>Camera move</label><select data-f="preset">${PRESETS.map(([v, n]) => `<option value="${v}"${!it.kfCustom && it.preset === v ? ' selected' : ''}>${n}</option>`).join('')}${it.kfCustom ? '<option value="" selected>Custom move</option>' : ''}</select></div>
-        <div class="grid2 tight" style="margin-top:8px">
-          <div class="sel"><label>Length (seconds)</label><span class="num"><input type="number" data-f="duration" min="1" max="30" step="0.5" value="${it.duration}"><em>s</em></span></div>
-          <div class="sel"><label>Intensity</label><span class="num"><input type="number" data-f="intensity" min="0" max="100" step="1" value="${it.intensity}"><em>%</em></span></div>
-        </div>`;
+      ed.innerHTML = itemEditorHTML(it);
       list.appendChild(ed);
     }
+    if (i < n - 1) {
+      if (!it.tr) it.tr = newTransition();
+      const chip = document.createElement('button');
+      chip.className = 'trchip' + (batch.trEditing === it ? ' on' : ''); chip.dataset.tr = it.id;
+      chip.title = 'Click to change how this slide changes into the next';
+      chip.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8h12l-3-3M20 16H8l3 3"/></svg>${escapeHtml(trLabel(it.tr))}`;
+      list.appendChild(chip);
+      if (batch.trEditing === it) {
+        const te = document.createElement('div'); te.className = 'tredit'; te.dataset.id = it.id;
+        te.innerHTML = trEditorHTML(it);
+        list.appendChild(te);
+      }
+    }
   });
+  if (focusKey) { const el = list.querySelector(`[data-f="${focusKey}"],[data-t="${focusKey}"]`); if (el) el.focus(); }
   const on = batch.items.filter(i => i.on);
-  const secs = on.reduce((a, i) => a + (+i.duration), 0);
-  $('#bSummary').textContent = on.length ? `${on.length} photo${on.length === 1 ? '' : 's'} · ${secs.toFixed(1)} s of video in total · ${outDims().W} × ${outDims().H}` : '';
+  const total = on.length ? buildTimeline(listFromSlides(on)).total : 0;
+  $('#bSummary').textContent = on.length ? `${on.length} slide${on.length === 1 ? '' : 's'} · ${total.toFixed(1)} s ${S.bMode === 'joined' ? 'with transitions' : 'of video in total'} · ${outDims().W} × ${outDims().H}` : '';
   $$('#bModeSeg button').forEach(b => b.classList.toggle('on', b.dataset.m === S.bMode));
   $('#bZipRow').style.display = S.bMode === 'separate' && !IS_IOS ? '' : 'none';
+  $('#bExport').textContent = S.bMode === 'joined' ? 'Export slideshow' : 'Export each slide';
+  syncTextTab();
 }
+function itemById(id) { return batch.items.find(x => x.id === +id); }
 function applyItemEdit(it, field, value) {
-  if (field === 'preset') { if (!value) return; it.preset = value; it.kfCustom = false; it.keys = null; }
+  if (field.startsWith('text.')) { (it.text || (it.text = blankText()))[field.slice(5)] = value; }
+  else if (it.kind === 'card') {
+    it[field] = field === 'duration' ? clamp(+value || 3, 1, 30) : value;
+  } else if (field === 'preset') { if (!value) return; it.preset = value; it.kfCustom = false; it.keys = null; }
   else it[field] = clamp(+value, field === 'duration' ? 1 : 0, field === 'duration' ? 30 : 100);
   if (batch.current === it) {
-    S.preset = it.preset; S.duration = it.duration; S.intensity = it.intensity;
-    if (!it.kfCustom) { kfCustom = false; applyPreset(); }
-    lastIntensity = S.intensity; lastDuration = S.duration;
-    syncControls(); renderKfList(); updateFileName(); updateSizeInfo();
+    if (it.kind === 'card') setTime(curTime);
+    else if (!field.startsWith('text.')) {
+      S.preset = it.preset; S.duration = it.duration; S.intensity = it.intensity;
+      if (!it.kfCustom) { kfCustom = false; applyPreset(); }
+      lastIntensity = S.intensity; lastDuration = S.duration;
+      syncControls(); renderKfList(); updateFileName(); updateSizeInfo();
+    }
+    syncTextTab(); drawPreviewOverlay(curTime);
   }
 }
-$('#bList').addEventListener('change', e => {
-  const f = e.target.dataset.f; if (!f) return;
-  const it = batch.items.find(x => x.id === +e.target.closest('.bedit').dataset.id); if (!it) return;
-  applyItemEdit(it, f, e.target.value);
+function applyTrEdit(it, key, value) {
+  const tr = it.tr;
+  if (key === 'type') { tr.type = value; if (!tr.dur || tr.dur < 0.2) tr.dur = +S.trDur; if (tr.lag == null) tr.lag = 30; }
+  else if (key === 'auto') { tr.auto = !!value; if (tr.auto) tr.autoSig = null; else tr.morph = tr.morph.filter(p => !p.auto); }
+  else if (key === 'dir' || key === 'color') tr[key] = value;
+  else {
+    const lim = { dur: [0.2, tr.type === 'morph' ? 6 : 4], soft: [0, 100], amount: [0, 100], points: [3, 12], lag: [0, 100] }[key];
+    const v = +value; if (isNaN(v)) return; tr[key] = clamp(v, lim[0], lim[1]);
+  }
+}
+$('#bList').addEventListener('input', e => {
+  const el = e.target;
+  if (el.dataset.f && el.closest('.bedit')) {
+    const it = itemById(el.closest('.bedit').dataset.id); if (!it) return;
+    if (el.type === 'text' || el.tagName === 'TEXTAREA' || el.type === 'color') {
+      applyItemEdit(it, el.dataset.f, el.value);
+      const row = $(`#bList .brow[data-id="${it.id}"]`);
+      if (row) { row.querySelector('.kfmain b').textContent = `${batch.items.indexOf(it) + 1}. ${slideLabel(it)}`; if (it.kind === 'card') row.querySelector('img').src = cardThumbCached(it); }
+    }
+  } else if (el.dataset.t && el.closest('.tredit')) {
+    const it = itemById(el.closest('.tredit').dataset.id); if (!it) return;
+    if (el.type === 'range') { const twin = el.closest('.field').querySelector('input[type=number]'); twin.value = el.value; applyTrEdit(it, el.dataset.t, el.value); }
+    if (el.type === 'color') applyTrEdit(it, el.dataset.t, el.value);
+  }
 });
+$('#bList').addEventListener('change', e => {
+  const el = e.target;
+  if (el.dataset.f && el.closest('.bedit')) {
+    const it = itemById(el.closest('.bedit').dataset.id); if (!it) return;
+    applyItemEdit(it, el.dataset.f, el.value);
+    const row = $(`#bList .brow[data-id="${it.id}"]`);
+    if (row && el.type !== 'text' && el.tagName !== 'TEXTAREA') renderBatch();
+    else if (row) { row.querySelector('.kfmain b').textContent = `${batch.items.indexOf(it) + 1}. ${slideLabel(it)}`; if (it.kind === 'card') row.querySelector('img').src = cardThumbCached(it); }
+  } else if (el.dataset.t && el.closest('.tredit')) {
+    const it = itemById(el.closest('.tredit').dataset.id); if (!it) return;
+    applyTrEdit(it, el.dataset.t, el.type === 'checkbox' ? el.checked : el.value);
+    if (el.type === 'number') { const twin = el.closest('.field').querySelector('input[type=range]'); twin.value = it.tr[el.dataset.t]; el.value = it.tr[el.dataset.t]; }
+    renderBatch();
+  }
+});
+function openSlide(it) { return it.kind === 'card' ? showCard(it) : openBatchItem(it); }
 async function openBatchItem(it) {
-  if (batch.current === it) return;
+  if (batch.current === it && !previewCard) return;
+  if (batch.current === it && previewCard) leaveCard();
   busy.show('Opening the photo…', it.name);
   try { await loadItem(it, true); } finally { busy.hide(); }
   if (!it.depth && S.autoDepth) await generateDepth();
 }
 $('#bList').addEventListener('click', async e => {
   if (e.target.closest('.bedit')) return;
+  const tb = e.target.closest('button[data-tb]');
+  if (tb) {
+    const it = itemById(tb.closest('.tredit').dataset.id); if (!it) return;
+    if (tb.dataset.tb === 'morph') openMorphEditor(it);
+    else if (tb.dataset.tb === 'all') {
+      for (const x of batch.items) x.tr = { ...JSON.parse(JSON.stringify(it.tr)), morph: x.tr && x !== it ? x.tr.morph : it.tr.morph };
+      renderBatch(); toast(`Every slide now uses ${trName(it.tr.type).replace(/ \(.*\)/, '')}.`);
+    } else if (tb.dataset.tb === 'preview') {
+      const on = batch.items.filter(i => i.on), k = on.indexOf(it);
+      if (k < 0 || k >= on.length - 1) return toast('This slide or the next one is hidden, so there is no transition to preview.');
+      exportBatch({ preview: true, only: it });
+    }
+    return;
+  }
+  if (e.target.closest('.tredit')) return;
+  const chip = e.target.closest('.trchip');
+  if (chip) { const it = itemById(chip.dataset.tr); batch.trEditing = batch.trEditing === it ? null : it; renderBatch(); return; }
   const row = e.target.closest('.brow'); if (!row) return;
-  const it = batch.items.find(x => x.id === +row.dataset.id); if (!it) return;
+  const it = itemById(row.dataset.id); if (!it) return;
   const btn = e.target.closest('button[data-a]');
-  if (!btn) { if (!e.target.closest('.handle')) await openBatchItem(it); return; }   // a click on the row itself opens that photo
+  if (!btn) { if (!e.target.closest('.handle')) await openSlide(it); return; }   // a click on the row itself opens that slide
   const a = btn.dataset.a;
   if (a === 'vis') it.on = !it.on;
-  else if (a === 'edit') batch.editing = batch.editing === it ? null : it;
-  else if (a === 'goto') { await openBatchItem(it); return; }
+  else if (a === 'edit') { batch.editing = batch.editing === it ? null : it; if (batch.editing) openSlide(it); }
+  else if (a === 'goto') { await openSlide(it); return; }
   else if (a === 'del') {
     const at = batch.items.indexOf(it);
     batch.items = batch.items.filter(x => x !== it);
     if (batch.editing === it) batch.editing = null;
+    if (batch.trEditing === it) batch.trEditing = null;
     if (batch.current === it) {
-      // the photo on screen was removed: show its neighbour, or clear the preview if none are left
-      batch.current = null;
+      // the slide on screen was removed: show its neighbour, or clear the preview if none are left
+      batch.current = null; leaveCard();
       const next = batch.items[Math.min(at, batch.items.length - 1)];
       renderBatch();
-      if (next) await openBatchItem(next); else clearPreview();
+      if (next) await openSlide(next); else clearPreview();
       return;
     }
   }
   renderBatch();
 });
+$('#bAddCard').onclick = () => {
+  const card = newCard();
+  const at = batch.current ? batch.items.indexOf(batch.current) + 1 : batch.items.length;
+  if (!batch.items.length && photo && src && !batch.current) addCurrentToBatch(true).then(() => { batch.items.push(card); batch.editing = card; showCard(card); });
+  else { batch.items.splice(at, 0, card); batch.editing = card; showCard(card); }
+  toast('Title card added. Type its words in the box below the row. Drag the handle to move it.', 4500);
+};
+$('#trDefault').innerHTML = TRANSITIONS.map(([v, n]) => `<option value="${v}">${n}</option>`).join('');
+$('#trAll').onclick = () => {
+  if (batch.items.length < 2) return toast('Add at least two slides first.');
+  for (const it of batch.items) { if (!it.tr) it.tr = newTransition(); it.tr.type = S.trType; it.tr.dur = +S.trDur; }
+  renderBatch(); toast(`Every slide now changes with ${trName(S.trType).replace(/ \(.*\)/, '')}, ${(+S.trDur).toFixed(1)} s.`);
+};
+$('#trRandom').onclick = () => {
+  if (batch.items.length < 2) return toast('Add at least two slides first.');
+  const pool = ['crossfade', 'fade', 'dip', 'crossblur', 'crosszoom', 'wipe', 'push', 'slide', 'iris', 'star', 'clock'];
+  let prev = null;
+  for (const it of batch.items) {
+    let c; do { c = pool[Math.floor(Math.random() * pool.length)]; } while (c === prev);
+    prev = c;
+    const keep = it.tr ? it.tr.morph : [];
+    it.tr = { ...newTransition(), type: c, morph: keep, dir: DIRS[Math.floor(Math.random() * 4)][0] };
+  }
+  renderBatch(); toast('Transitions shuffled. Click any transition bar to change one.');
+};
+
+/* ---------- Text tab ---------- */
+function syncTextTab() {
+  const card = batch.current && batch.current.kind === 'card' ? batch.current : null;
+  $('#txPhoto').style.display = card ? 'none' : '';
+  $('#txCard').style.display = card ? '' : 'none';
+  $('#txHead').textContent = card ? 'This title card' : 'Text on this photo';
+  if (card) {
+    $('#txWhich').textContent = `Slide ${batch.items.indexOf(card) + 1} of ${batch.items.length}.`;
+    const set = (id, v) => { if (document.activeElement !== $(id)) $(id).value = v; };
+    set('#cdTitle', card.title || ''); set('#cdSub', card.sub || ''); set('#cdDur', card.duration); set('#cdStyle', card.bgStyle); set('#cdBg1', card.bg1); set('#cdBg2', card.bg2);
+    return;
+  }
+  const tx = curText();
+  $('#txWhich').textContent = !photo ? 'Open a photo first.' : batch.current ? `For ${batch.current.name} (slide ${batch.items.indexOf(batch.current) + 1} of ${batch.items.length}). Each photo has its own text.` : 'For the open photo.';
+  const set = (id, v) => { if (document.activeElement !== $(id)) $(id).value = v; };
+  set('#txTitle', tx.title || ''); set('#txSub', tx.sub || ''); set('#txPos', tx.pos || 'center'); set('#txWhen', tx.when || 'all'); set('#txL1', tx.l1 || ''); set('#txL2', tx.l2 || '');
+}
+const TXMAP = { txTitle: 'title', txSub: 'sub', txPos: 'pos', txWhen: 'when', txL1: 'l1', txL2: 'l2' };
+const CDMAP = { cdTitle: 'title', cdSub: 'sub', cdDur: 'duration', cdStyle: 'bgStyle', cdBg1: 'bg1', cdBg2: 'bg2' };
+for (const [id, f] of Object.entries(TXMAP)) {
+  const el = $('#' + id);
+  const upd = () => { curText()[f] = el.value; drawPreviewOverlay(curTime); if (batch.current && !seqRunning) renderBatchSoon(); };
+  el.addEventListener('input', upd); el.addEventListener('change', upd);
+}
+for (const [id, f] of Object.entries(CDMAP)) {
+  const el = $('#' + id);
+  const upd = () => {
+    const card = batch.current && batch.current.kind === 'card' ? batch.current : null; if (!card) return;
+    card[f] = f === 'duration' ? clamp(+el.value || 3, 1, 30) : el.value;
+    if (f === 'duration') setTime(curTime);
+    drawPreviewOverlay(curTime); renderBatchSoon();
+  };
+  el.addEventListener('input', upd); el.addEventListener('change', upd);
+}
+
+/* ---------- Morph point editor ---------- */
+const MS = { mT: 50, it: null, sel: -1, w: 0, h: 0, drag: null, get lag() { return MS.it ? (MS.it.tr.lag ?? 30) : 30; }, set lag(v) { if (MS.it) MS.it.tr.lag = v; } };
+async function openMorphEditor(it, redo) {
+  const on = batch.items.filter(i => i.on), k = on.indexOf(it);
+  if (k < 0 || k >= on.length - 1) return toast('This slide or the next one is hidden, so there is nothing to morph into.');
+  let { W, H } = outDims(); const s = 720 / Math.max(W, H);
+  const w = Math.round(W * s / 2) * 2, h = Math.round(H * s / 2) * 2;
+  const ca = $('#mA'), cb = $('#mB'); ca.width = cb.width = w; ca.height = cb.height = h;
+  MS.it = it; MS.sel = -1; MS.w = w; MS.h = h; MS.mT = 50;
+  busy.show('Getting the two pictures ready…', 'Drawing the last frame of this slide and the first of the next', true);
+  let ok = false;
+  await seqBegin(w, h);
+  try {
+    const tl = buildTimeline(listFromSlides(on.slice(k, k + 2)), { noTransitions: true });
+    const ro = { steps: 90, samples: 110, cpuSteps: 40 };
+    await drawEntry(tl.E[0], tl.E[0].dur, ca, 0, ro);
+    await drawEntry(tl.E[1], 0, cb, 0, ro);
+    if (redo) it.tr.auto = true;
+    await ensureAutoMorph(tl.E[0], tl.E[1], ro, !!redo);
+    ok = true;
+  } catch (e) { if (String(e && e.message) !== 'cancelled') toast('Could not prepare the morph: ' + (e && e.message || e), 6000); }
+  finally { await seqEnd(); busy.hide(); }
+  if (!ok) return;
+  const pv = $('#mPrev'); pv.width = w; pv.height = h;
+  $$('#morphEd svg').forEach(sv => sv.setAttribute('viewBox', `0 0 ${w} ${h}`));
+  syncControls();
+  $('#morphEd').classList.add('on');
+  drawMorphDots(); morphPreview();
+}
+function drawMorphDots() {
+  const pts = MS.it ? MS.it.tr.morph : [], r = MS.w * 0.013;
+  for (const side of ['a', 'b']) {
+    const sv = $(`#morphEd .mwrap[data-side=${side}] svg`);
+    sv.innerHTML = pts.map((p, i) => {
+      const x = (side === 'a' ? p.ax : p.bx) * MS.w, y = (side === 'a' ? p.ay : p.by) * MS.h, on = i === MS.sel;
+      const col = on ? '#ffcc33' : !p.auto ? '#4f5fe0' : p.layer === 'bg' ? '#16a3a3' : '#f08a24';
+      return `<g data-i="${i}" style="cursor:move"><circle cx="${x}" cy="${y}" r="${r * (on ? 1.35 : 1)}" fill="${col}" stroke="#fff" stroke-width="${r * 0.25}"/>
+        <text x="${x}" y="${y + r * 0.42}" text-anchor="middle" font-size="${r * 1.15}" font-weight="700" fill="${on ? '#000' : '#fff'}" style="pointer-events:none;font-family:sans-serif">${i + 1}</text></g>`;
+    }).join('');
+  }
+  $('#mCount').textContent = `${pts.length} pair${pts.length === 1 ? '' : 's'}${MS.sel >= 0 ? ` · pair ${MS.sel + 1} selected` : ''}`;
+}
+let morphRaf = 0;
+function morphPreview() {
+  if (morphRaf) return;
+  morphRaf = requestAnimationFrame(() => {
+    morphRaf = 0; if (!MS.it) return;
+    const pv = $('#mPrev');
+    morphDraw(pv.getContext('2d'), $('#mA'), $('#mB'), MS.mT / 100, MS.it.tr.morph, MS.w, MS.h, MS.it.tr.lag ?? 30);
+  });
+}
+function mPos(ev, wrap) {
+  const r = wrap.getBoundingClientRect();
+  return [clamp((ev.clientX - r.left) / r.width, 0, 1), clamp((ev.clientY - r.top) / r.height, 0, 1)];
+}
+$$('#morphEd .mwrap').forEach(wrap => {
+  wrap.addEventListener('pointerdown', ev => {
+    ev.preventDefault();
+    const side = wrap.dataset.side, pts = MS.it.tr.morph, g = ev.target.closest('g[data-i]');
+    if (g) MS.sel = +g.dataset.i;
+    else { const [x, y] = mPos(ev, wrap); pts.push({ ax: x, ay: y, bx: x, by: y }); MS.sel = pts.length - 1; }
+    MS.drag = { side, id: ev.pointerId };
+    wrap.setPointerCapture(ev.pointerId);
+    drawMorphDots(); morphPreview();
+  });
+  wrap.addEventListener('pointermove', ev => {
+    if (!MS.drag || MS.drag.id !== ev.pointerId || MS.sel < 0) return;
+    const [x, y] = mPos(ev, wrap), p = MS.it.tr.morph[MS.sel];
+    if (MS.drag.side === 'a') { p.ax = x; p.ay = y; } else { p.bx = x; p.by = y; }
+    p.auto = false;   // a dot you've moved is yours now
+    drawMorphDots(); morphPreview();
+  });
+  const end = () => { MS.drag = null; };
+  wrap.addEventListener('pointerup', end); wrap.addEventListener('pointercancel', end);
+});
+$('#mDel').onclick = () => { if (MS.sel < 0) return toast('Click a numbered dot first to select it.'); MS.it.tr.morph.splice(MS.sel, 1); MS.sel = -1; drawMorphDots(); morphPreview(); };
+$('#mRedo').onclick = () => { const it = MS.it; $('#morphEd').classList.remove('on'); MS.it = null; openMorphEditor(it, true); };
+$('#mClear').onclick = () => { MS.it.tr.morph.length = 0; MS.sel = -1; drawMorphDots(); morphPreview(); };
+$('#mDone').onclick = () => { $('#morphEd').classList.remove('on'); MS.it = null; renderBatch(); };
+document.addEventListener('keydown', e => {
+  if (!$('#morphEd').classList.contains('on')) return;
+  if ((e.key === 'Delete' || e.key === 'Backspace') && MS.sel >= 0 && !/INPUT|TEXTAREA/.test(document.activeElement.tagName)) { e.preventDefault(); $('#mDel').onclick(); }
+  if (e.key === 'Escape') $('#mDone').onclick();
+});
+
 // drag to reorder (mouse and touch)
 $('#bList').addEventListener('pointerdown', e => {
   const h = e.target.closest('.handle'); if (!h) return;
   e.preventDefault();
   const row = h.closest('.kf'), list = $('#bList');
-  const ed = list.querySelector('.bedit'); if (ed) ed.remove();
+  list.querySelectorAll('.bedit,.trchip,.tredit').forEach(x => x.remove());
   row.classList.add('dragging'); h.setPointerCapture(e.pointerId);
   const move = ev => {
     const rows = [...list.children].filter(r => r !== row);
@@ -4939,8 +6438,8 @@ $('#bList').addEventListener('pointerdown', e => {
   h.addEventListener('pointermove', move); h.addEventListener('pointerup', up); h.addEventListener('pointercancel', up);
 });
 function shuffleMoves() {
-  const items = batch.items.filter(i => i.on);
-  if (!items.length) return toast('Add some photos to the batch first.');
+  const items = batch.items.filter(i => i.on && i.kind !== 'card');
+  if (!items.length) return toast('Add some photos to the slideshow first.');
   const pool = PRESETS.map(p => p[0]);
   let prev = null;
   for (const it of items) {
@@ -4959,8 +6458,8 @@ function shuffleMoves() {
   renderBatch(); toast('Moves shuffled. Use the pencil on any row to change one.');
 }
 function sameMoveForAll() {
-  if (!batch.items.length) return toast('Add some photos to the batch first.');
-  for (const it of batch.items) { it.preset = S.preset; it.duration = S.duration; it.intensity = S.intensity; it.kfCustom = kfCustom; it.keys = kfCustom ? JSON.parse(JSON.stringify(keys)) : null; }
+  if (!batch.items.length) return toast('Add some photos to the slideshow first.');
+  for (const it of batch.items) { if (it.kind === 'card') continue; it.preset = S.preset; it.duration = S.duration; it.intensity = S.intensity; it.kfCustom = kfCustom; it.keys = kfCustom ? JSON.parse(JSON.stringify(keys)) : null; }
   renderBatch(); toast(`Every photo now uses ${kfCustom ? 'your custom move' : presetName(S.preset)}, ${(+S.duration).toFixed(1)} s.`);
 }
 /* A tiny ZIP maker ("stored", no compression: videos are already compressed),
@@ -4990,71 +6489,6 @@ async function makeZip(files) {
   e.setUint32(0, 0x06054b50, true); e.setUint16(8, files.length, true); e.setUint16(10, files.length, true); e.setUint32(12, cdSize, true); e.setUint32(16, offset, true);
   return new Blob([...parts, ...central, e.buffer], { type: 'application/zip' });
 }
-async function exportBatch() {
-  if (!batch.items.length && photo && src) { await addCurrentToBatch(true); renderBatch(); toast('Your open photo has been added to the batch.'); }
-  const items = batch.items.filter(i => i.on);
-  if (!items.length) return toast(batch.items.length ? 'Every photo in the batch is hidden. Tap an eye icon to include one.' : 'Add some photos first: tap “Add photos…” at the top of this tab.', 5000);
-  pending = [];
-  if (editingId) confirmEdit();
-  saveCurrentItem(); pause();
-  const joined = S.bMode === 'joined';
-  if (joined && S.aspect === 'photo') { S.aspect = '16:9'; syncControls(); renderResSeg(); toast('A joined video needs one frame shape for every photo, so 16:9 is being used.', 5000); }
-  const fps = +S.fps, prevW = canvas.width, prevH = canvas.height;
-  busy.show(`Exporting ${items.length} photo${items.length === 1 ? '' : 's'}`, 'Preparing…', true);
-  exporting = true;
-  let sess = null, done = 0;
-  const t0 = performance.now(), saved = [], zipFiles = [];
-  const useZip = S.bZip && !IS_IOS;   // on iPhone/iPad the videos go straight to Photos instead
-  try {
-    const fixed = outDims();
-    for (const [n, it] of items.entries()) {
-      if (busy.cancelled) throw new Error('cancelled');
-      const label = `Photo ${n + 1} of ${items.length}`;
-      $('#busyMsg').textContent = `${label}: ${it.name}`;
-      busy.progress(null, 'Opening the photo…');
-      await loadItem(it, true);
-      if (!it.depth) { await generateDepth({ batch: true }); }
-      if (busy.cancelled) throw new Error('cancelled');
-      const { W, H } = joined ? fixed : outDims();
-      if (!sess) sess = await startEncoder(W, H, fps);
-      await encodeClip(sess, label, f => busy.progress((n + f) / items.length));
-      if (!joined) {
-        const blob = await finishEncoder(sess); sess = null;
-        const name = `${dateStamp()} ${APP_NAME}-${safeName(it.name.replace(/\.[^.]+$/, ''))}-${W}x${H}.mp4`;
-        if (useZip) zipFiles.push({ name, blob }); else { download(blob, name); if (!IS_IOS) await sleep(400); }
-        saved.push(name);
-      }
-      done++;
-    }
-    if (joined && sess) {
-      const blob = await finishEncoder(sess); sess = null;
-      const name = `${dateStamp()} ${APP_NAME}-Batch of ${done}-${fixed.W}x${fixed.H}.mp4`;
-      download(blob, name); saved.push(name);
-      showResult(blob, name, `${done} photos joined`);
-    } else if (useZip) {
-      busy.progress(null, 'Packing the videos into one ZIP file…'); await sleep(0);
-      const { W, H } = outDims();
-      const zipName = `${dateStamp()} ${APP_NAME}-Batch of ${done}-${W}x${H}.zip`;
-      const zip = await makeZip(zipFiles);
-      download(zip, zipName);
-      $('#result').innerHTML = `<div class="note"><b>Saved one ZIP file with ${saved.length} videos to your Downloads folder</b><div class="fname">${escapeHtml(zipName)}</div>${(zip.size / 1048576).toFixed(1)} MB. Double-click it to unpack the videos (Safari usually does this for you).${saved.map(n => `<div class="fname">· ${escapeHtml(n)}</div>`).join('')}</div>`;
-    } else {
-      $('#result').innerHTML = `<div class="note"><b>${IS_IOS ? (saved.length === 1 ? 'Video ready' : saved.length + ' videos ready') : 'Saved ' + saved.length + (saved.length === 1 ? ' video' : ' videos') + ' to your Downloads folder'}</b>${saved.map(n => `<div class="fname">${escapeHtml(n)}</div>`).join('')}</div>`;
-    }
-    $('#bResult').innerHTML = $('#result').innerHTML;
-    diag(`Batch export finished: ${done} photos in ${((performance.now() - t0) / 1000).toFixed(0)} s`);
-    if (IS_IOS) offerPending(joined ? 'Your joined video is ready' : saved.length === 1 ? 'Your video is ready' : `${saved.length} videos are ready`);
-    else toast(joined ? 'Joined video saved to Downloads.' : useZip ? `ZIP file with ${saved.length} videos saved to Downloads.` : `${saved.length} videos saved to Downloads.`);
-  } catch (e) {
-    if (String(e && e.message) === 'cancelled') toast(`Batch export cancelled after ${done} photo${done === 1 ? '' : 's'}.`);
-    else { diag('Batch export failed: ' + (e && e.message || e)); console.error(e); toast(String(e && e.message || e).slice(0, 200), 6000); }
-    try { if (sess && sess.encoder.state !== 'closed') sess.encoder.close(); } catch (er) {}
-  } finally {
-    exporting = false; busy.hide();
-    canvas.width = prevW; canvas.height = prevH;
-    fitCanvas(); requestRender(); renderBatch();
-  }
-}
 $('#bAdd').onclick = () => $('#batchIn').click();
 $('#batchIn').onchange = e => { const fs = [...e.target.files]; e.target.value = ''; if (fs.length) addFilesToBatch(fs); };
 $('#bAddCur').onclick = () => addCurrentToBatch(false);
@@ -5062,11 +6496,36 @@ $('#bShuffle').onclick = shuffleMoves;
 $('#bSame').onclick = sameMoveForAll;
 $('#bClear').onclick = () => {
   const n = batch.items.length; if (!n) return;
-  batch.items = []; batch.current = null; batch.editing = null;
+  batch.items = []; batch.current = null; batch.editing = null; batch.trEditing = null;
   clearPreview(); renderBatch();
-  toast(`All ${n} photo${n === 1 ? '' : 's'} removed from the batch. (Your original files are untouched.)`);
+  toast(`All ${n} slide${n === 1 ? '' : 's'} removed. (Your original files are untouched.)`);
 };
-$('#bExport').onclick = exportBatch;
+$('#bExport').onclick = () => exportBatch();
+$('#bPreview').onclick = () => exportBatch({ preview: true });
+$('#bPlayAll').onclick = () => playAll();
+$('#sndAdd').onclick = () => $('#sndIn').click();
+$('#sndIn').onchange = e => { const f = e.target.files[0]; e.target.value = ''; if (f) setSoundtrack(f); };
+$('#sndListen').onclick = () => {
+  if (listening) return stopListen();
+  if (!sound) return toast('Add some music first.');
+  const ctx = getAudioCtx(); if (ctx.state === 'suspended') ctx.resume();
+  const { src, off } = soundSource(ctx), g = ctx.createGain(), t0 = ctx.currentTime + 0.05, dur = 20;
+  soundGain(g.gain, t0, dur); src.connect(g); g.connect(ctx.destination); src.start(t0, off); src.stop(t0 + dur);
+  src.onended = () => { if (listening === src) stopListen(); };
+  listening = src; $('#sndListen').textContent = '■ Stop';
+  toast('Playing the first 20 seconds, with your volume and fades.');
+};
+renderSound();
+$('#txPreview').onclick = () => {
+  // plays this slide from the start in the preview, so the title and lower third animate as they will in the video
+  if (PA.on) return;
+  if (!photo && !previewCard) return toast('Open a photo first.');
+  pause(); setTime(0); play();
+};
+// stop Play all: click the preview, press Esc or the space bar, or use the play button
+$('#stage').addEventListener('pointerdown', e => { if (PA.on) { PA.stop = true; e.stopPropagation(); e.preventDefault(); } }, true);
+$('#playBtn').addEventListener('click', e => { if (PA.on) { PA.stop = true; e.stopImmediatePropagation(); } }, true);
+document.addEventListener('keydown', e => { if (PA.on && (e.key === 'Escape' || e.key === ' ')) { PA.stop = true; e.preventDefault(); e.stopImmediatePropagation(); } }, true);
 $('#bModeSeg').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; S.bMode = b.dataset.m; renderBatch(); });
 
 /* ---------------- start ---------------- */
@@ -5103,6 +6562,7 @@ async function systemCheck() {
   add('Keeps AI model between visits', cache, cache ? 'Yes' : 'No – downloads each visit');
   const ua = navigator.userAgent;
   const br = /Edg\//.test(ua) ? 'Microsoft Edge' : /Chrome\//.test(ua) ? 'Chrome' : /Firefox\//.test(ua) ? 'Firefox' : /Safari\//.test(ua) ? 'Safari' : 'Unknown';
+  { const ac = await chooseAudio(); add('Sound in videos', !!ac, ac ? (ac.mux === 'aac' ? 'Yes (AAC)' : 'Yes (Opus: may not play in QuickTime)') : 'No – videos will be silent'); }
   rows.push(`<div><span>Browser</span><span>${br}${/EdgiOS|CriOS|iPhone|iPad/.test(ua) ? ' (iOS)' : ''}</span></div>`);
   diag('Browser check: ' + rows.map(r => r.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()).join(' | '));
   $('#syscheck').innerHTML = rows.join('') + `<button class="btn wide" id="diagCopy" style="margin-top:8px">Copy a report for Claude</button><textarea id="diagBox" readonly hidden></textarea>`;
@@ -5115,7 +6575,7 @@ async function systemCheck() {
 }
 systemCheck();
 renderBatch();
-window.__dp = { batch, DIAG, exportBatch, addFilesToBatch, S, loadSample, exportVideo, renderFrame, setTime, get keys() { return keys; } };
+window.__dp = { batch, DIAG, exportBatch, addFilesToBatch, addCurrentToBatch, S, loadSample, exportVideo, renderFrame, setTime, buildTimeline, listFromSlides, newCard, showCard, openMorphEditor, MS, renderBatch, drawTransition, morphDraw, get previewCard() { return previewCard; }, get keys() { return keys; } };
 window.__dpReady = true;
 } catch (err) {
   window.__dpReady = true;

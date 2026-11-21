@@ -10,6 +10,7 @@ There are three different situations, and the licence obligations differ for eac
 | mp4-muxer 5.2.2 | **Included** inside `DeepParallax.html` | MIT |
 | ONNX Runtime Web 1.17.3 (JavaScript part) | **Included** inside `DeepParallax.html` | MIT |
 | ONNX Runtime Web 1.17.3 (engine file `ort-wasm-simd.wasm`) | **Downloaded** when first needed, from jsDelivr | MIT (plus its own third-party notices) |
+| Morph Lab (the morph transition's method) | **Adapted**: the idea and approach, rewritten inside `DeepParallax.html` | MIT |
 | Transformers.js 3.8.1 | **Downloaded** when first needed, from jsDelivr | Apache 2.0 |
 | Depth Anything V2 Small (the "Standard" AI model) | **Downloaded** when first needed, from Hugging Face | Apache 2.0 |
 | Depth Anything V2 Base (the optional "Detailed" AI model) | **Downloaded** only if chosen, from Hugging Face | **CC BY-NC 4.0 — non-commercial use only** |
@@ -99,6 +100,21 @@ SOFTWARE.
 
 ONNX Runtime itself contains code from other open-source projects. Their notices are listed in
 Microsoft's file: <https://github.com/microsoft/onnxruntime/blob/main/ThirdPartyNotices.txt>
+
+---
+
+## Morph Lab
+
+The **Morph** transition (version 1.8.0 and later) follows the method of Morph Lab
+(<https://github.com/dougalder/morph-lab>), MIT licence, Copyright (c) 2026 Morph Lab Contributors:
+pairs of matching points plus fixed points on the frame's edge, a triangle mesh built on the halfway
+positions, each triangle warped from both pictures to its in-between position, and a dissolve between
+the two warped pictures. No Morph Lab code is copied; the transition was written fresh for
+DeepParallax's 2D-canvas renderer.
+
+Morph Lab itself uses D3.js (ISC licence) for its triangle mesh and face-api.js (MIT) for automatic
+face points. DeepParallax uses neither: it has its own small triangulation routine (the
+Bowyer–Watson method, a standard textbook algorithm), and the points are placed by hand.
 
 ---
 
