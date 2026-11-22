@@ -2,6 +2,14 @@
 
 **Turn a still photo into a short 3D camera-move video, right in your web browser.**
 
+## Watch the walkthrough
+
+A three-and-a-half-minute guided tour of DeepParallax, with narration.
+
+
+https://github.com/user-attachments/assets/9902d807-fa17-426a-9865-d72d56a3e489
+
+
 DeepParallax uses an AI to work out what is near and what is far in a photo, then moves a virtual
 camera through it. Near things slide more than far things, which is what makes the picture feel
 three-dimensional (this effect is called *parallax*). It is inspired by the Final Cut Pro effects
