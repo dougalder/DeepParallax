@@ -352,11 +352,17 @@ details.help summary{cursor:pointer;color:var(--muted);font-weight:600;font-size
         </div>
         <label class="chk" style="margin-top:10px"><input type="checkbox" data-k="ssFadeIn">Fade in from black at the start</label>
         <label class="chk"><input type="checkbox" data-k="ssFadeOut">Fade out to black at the end</label>
-        <h3>Random moves</h3>
-        <div class="grid2">
-          <button class="btn" id="bShuffle">🎲 Shuffle moves</button>
-          <button class="btn" id="bSame">Use the current move for all</button>
+        <h3>Moves</h3>
+        <div class="sel fieldgap"><label>Standard camera move</label><select data-k="mvType" id="mvDefault"></select></div>
+        <div class="grid2 tight">
+          <div class="sl" data-k="mvDur" data-label="Length" data-min="1" data-max="30" data-step="0.5" data-unit="s"></div>
+          <div class="sl" data-k="mvInt" data-label="Intensity" data-min="0" data-max="100" data-unit="%"></div>
         </div>
+        <div class="grid2" style="margin-top:4px">
+          <button class="btn" id="bSame">Use it for every slide</button>
+          <button class="btn" id="bShuffle">🎲 Random moves</button>
+        </div>
+        <p class="hint">New photos get the standard move. Each slide's own move, length and intensity can be changed with the pencil on its row.</p>
         <details class="help" style="margin-top:8px"><summary>Shuffle options</summary><div style="margin-top:8px">
         <label class="chk"><input type="checkbox" data-k="bNoRepeat">Never the same move twice in a row</label>
         <label class="chk"><input type="checkbox" data-k="bRandLen">Also vary the lengths when shuffling</label>
@@ -365,17 +371,6 @@ details.help summary{cursor:pointer;color:var(--muted);font-weight:600;font-size
           <div class="sl" data-k="bLenMax" data-label="Longest" data-min="1" data-max="30" data-step="0.5" data-unit="s"></div>
         </div>
         </div></details>
-        <h3>Slides in the show</h3>
-        <div class="grid3">
-          <button class="btn primary" id="bAdd">Add photos…</button>
-          <button class="btn" id="bAddCur">Add open photo</button>
-          <button class="btn" id="bAddCard">+ Title card</button>
-        </div>
-        <p class="hint">Click a row to show it in the preview. The pencil changes its move, length and text. The small bar between two rows is the <b>transition</b>: click it to choose how one slide changes into the next.</p>
-        <div class="blisthead" id="bListHead"><span id="bCount"></span><button class="btn danger" id="bClear" title="Remove every slide">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>Delete all</button></div>
-        <div id="bList"></div>
-        <div class="note" id="bEmpty">No slides yet. Use “Add photos…”, or choose several photos at once with Open on the Main tab. “+ Title card” adds a plain card with words on it.</div>
         <h3>Soundtrack</h3>
         <div class="grid2">
           <button class="btn" id="sndAdd">♪ Add music…</button>
@@ -394,7 +389,19 @@ details.help summary{cursor:pointer;color:var(--muted);font-weight:600;font-size
           <label class="chk"><input type="checkbox" data-k="audLoop">Repeat the music if it is shorter than the video</label>
           <p class="hint">The music is used in the slideshow video, the video from the Main tab, Play all and Quick preview. It always fades out at the end of the video (or where the music runs out).</p>
         </div>
+        <input type="file" id="cardPicIn" accept="image/*" hidden>
         <input type="file" id="sndIn" accept="audio/*,.mp3,.m4a,.aac,.wav,.aif,.aiff,.caf" hidden>
+        <h3>Slides in the show</h3>
+        <div class="grid3">
+          <button class="btn primary" id="bAdd">Add photos…</button>
+          <button class="btn" id="bAddCur">Add open photo</button>
+          <button class="btn" id="bAddCard">+ Title card</button>
+        </div>
+        <p class="hint">Click a row to show it in the preview. The pencil changes its move, length and text. The small bar between two rows is the <b>transition</b>: click it to choose how one slide changes into the next.</p>
+        <div class="blisthead" id="bListHead"><span id="bCount"></span><button class="btn danger" id="bClear" title="Remove every slide">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>Delete all</button></div>
+        <div id="bList"></div>
+        <div class="note" id="bEmpty">No slides yet. Use “Add photos…”, or choose several photos at once with Open on the Main tab. “+ Title card” adds a plain card with words on it.</div>
         <h3>Export the slideshow</h3>
         <div class="seg full two" id="bModeSeg"><button data-m="joined">One slideshow video</button><button data-m="separate">One video per slide</button></div>
         <label class="chk" id="bZipRow" style="margin-top:10px"><input type="checkbox" data-k="bZip">Put the videos in one ZIP file (one download instead of one per video)</label>
@@ -442,6 +449,11 @@ details.help summary{cursor:pointer;color:var(--muted);font-weight:600;font-size
             <div class="colorrow">Colour 1 <input type="color" id="cdBg1"></div>
             <div class="colorrow">Colour 2 <input type="color" id="cdBg2"></div>
           </div>
+          <div class="grid2">
+            <div class="sel"><label>Parallax movement</label><select id="cdMove"></select></div>
+            <label class="chk" style="align-self:end"><input type="checkbox" id="cdLights">Floating lights</label>
+          </div>
+          <p class="hint">Depth amount and a background picture are in the card's panel on the Slides tab (the pencil on its row). Paste (⌘V) while the card is showing to use a picture as its background.</p>
         </div>
         <h3>Text style (all slides)</h3>
         <div class="grid2">
@@ -2622,7 +2634,7 @@ if (typeof module === "object" && typeof module.exports === "object") Object.ass
 (async function () {
 'use strict';
 try {
-const APP_VERSION = '1.9.2';
+const APP_VERSION = '1.9.5';
 const DIAG = [];
 function diag(m) { DIAG.push(new Date().toISOString().slice(11, 19) + '  ' + m); if (DIAG.length > 400) DIAG.shift(); console.log('[DeepParallax] ' + m); }
 const UA = navigator.userAgent;
@@ -2658,6 +2670,7 @@ const S = {
   framing: 'fit', frameZoom: 100, frameX: 0, frameY: 0, bgStyle: 'blur', frameBg: '#000000',
   bZip: true, bRandLen: false, bLenMin: 4, bLenMax: 8, bNoRepeat: true, bMode: 'joined',
   trType: 'crossfade', trDur: 1, ssFadeIn: true, ssFadeOut: true,
+  mvType: 'orbit', mvDur: 6, mvInt: 50,
   audVol: 100, audStart: 0, audFadeIn: 2, audFadeOut: 3, audLoop: true,
   txFont: 'sans', txColor: '#ffffff', txSize: 100, txShadow: true, txAnim: 'fade', ltStyle: 'bar', ltColor: '#4f5fe0', ltPos: 'left', ltAnim: 'slide',
   aspect: '16:9', res: '2160', fps: '30', vquality: 'high', codec: 'avc', rquality: 'standard', previewQ: 'fast',
@@ -2927,7 +2940,7 @@ function buildLevels(c, cap) {
 }
 let copyCanvas = null;
 function copyTarget(W, H) {
-  if (!copyCanvas) copyCanvas = document.createElement('canvas');
+  if (!copyCanvas) { copyCanvas = document.createElement('canvas'); copyCanvas.getContext('2d', IS_WEBKIT ? { willReadFrequently: true } : undefined); }
   if (copyCanvas.width !== W || copyCanvas.height !== H) { copyCanvas.width = W; copyCanvas.height = H; }
   return copyCanvas.getContext('2d');
 }
@@ -3223,9 +3236,11 @@ async function loadBlob(blob, name) {
   if (S.autoDepth) generateDepth();
 }
 
-async function setPhotoFromImage(img, name, depthCanvas) {
+let playPhotoCap = 0;   // during Play all, photos are opened at a size that suits the preview
+async function setPhotoFromImage(img, name, depthCanvas, opts = {}) {
   const w0 = img.naturalWidth || img.width, h0 = img.naturalHeight || img.height;
-  const cap = Math.min(MAX_TEX, isTouch ? (seqRunning ? 3072 : 4096) : 6144);   // two photos are held at once during a slideshow
+  let cap = Math.min(MAX_TEX, isTouch ? (seqRunning ? 3072 : 4096) : 6144);   // two photos are held at once during a slideshow
+  if (playPhotoCap) cap = Math.min(cap, playPhotoCap);
   const sc = Math.min(1, cap / Math.max(w0, h0));
   let w = Math.max(1, Math.round(w0 * sc)), h = Math.max(1, Math.round(h0 * sc));
   let c = document.createElement('canvas'); c.width = w; c.height = h;
@@ -3233,7 +3248,8 @@ async function setPhotoFromImage(img, name, depthCanvas) {
   ctx.imageSmoothingQuality = 'high';
   ctx.drawImage(img, 0, 0, w, h);
   let trimmed = false;
-  if (!depthCanvas) {
+  opts.hadAlpha = false;
+  if (!depthCanvas && !opts.knownOpaque) {
     // look for transparency and trim
     const d = ctx.getImageData(0, 0, w, h).data;
     let minX = w, minY = h, maxX = -1, maxY = -1, hasAlpha = false;
@@ -3245,6 +3261,7 @@ async function setPhotoFromImage(img, name, depthCanvas) {
         if (a > 10) { if (x < minX) minX = x; if (x > maxX) maxX = x; if (y < minY) minY = y; if (y > maxY) maxY = y; }
       }
     }
+    opts.hadAlpha = hasAlpha;
     if (hasAlpha && maxX >= 0) {
       const m = 24;
       const x0 = Math.max(0, minX - m), y0 = Math.max(0, minY - m), x1 = Math.min(w, maxX + 1 + m), y1 = Math.min(h, maxY + 1 + m);
@@ -3267,9 +3284,9 @@ async function setPhotoFromImage(img, name, depthCanvas) {
   } else {
     depthFull = new Float32Array(dfW * dfH); // flat until AI runs
     depthReal = false;
-    setDepthState('No depth map yet, so there is no 3D effect.', 'Make depth map');
+    if (!seqRunning) setDepthState('No depth map yet, so there is no 3D effect.', 'Make depth map');
   }
-  applyCrop();
+  if (!opts.noCrop) applyCrop();
   if (!seqRunning) syncTextTab();
 }
 
@@ -3349,7 +3366,13 @@ function separable(a, W, H, fn) {
 }
 function processDepth() {
   if (!depthBase) return;
-  const W = depthW, H = depthH, n = W * H, a = new Float32Array(n);
+  const W = depthW, H = depthH, n = W * H;
+  // a slide that has been processed before with the same settings re-uses its result (much faster
+  // when Play all or an export opens it again)
+  const it = typeof batch !== 'undefined' && batch.current && batch.current.kind !== 'card' ? batch.current : null;
+  const ckey = it && depthReal && seqRunning && it.depth ? [W, H, S.curve, S.invert, S.edge, S.smooth, S.straightEdges, S.cropAll, S.cropT, S.cropB, S.cropL, S.cropR, it.dW, it.dH, it.depth ? it.depth.length : 0].join(',') : null;
+  if (ckey && it._dp && it._dp.key === ckey && it._dp.src === it.depth) { const q = it._dp.data, a = new Float32Array(n); for (let i = 0; i < n; i++) a[i] = q[i] / 65535; finishDepth(a, W, H); return; }
+  const a = new Float32Array(n);
   const gamma = Math.pow(2, -S.curve / 50);
   for (let i = 0; i < n; i++) { let v = depthBase[i]; if (S.invert) v = 1 - v; a[i] = Math.pow(clamp(v, 0, 1), gamma); }
   const long = Math.max(W, H);
@@ -3382,13 +3405,17 @@ function processDepth() {
       }
     }
   }
+  if (ckey) { const q = new Uint16Array(n); for (let i = 0; i < n; i++) q[i] = Math.round(clamp(a[i], 0, 1) * 65535); it._dp = { key: ckey, data: q, src: it.depth }; }
+  finishDepth(a, W, H);
+}
+function finishDepth(a, W, H) {
   depthProc = a;
   if (gl) {
     gl.bindTexture(gl.TEXTURE_2D, texDepth);
     gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.R16F, W, H, 0, gl.RED, gl.FLOAT, a);
   } else if (wgpu) gpuSetDepth(); else cpuSetDepth();
-  drawDepthThumb();
+  if (!seqRunning) drawDepthThumb();
   requestRender();
 }
 let depthTimer;
@@ -3787,8 +3814,10 @@ function applyPreset() {
   }
   K.forEach(k => { k.x = Math.round(k.x); k.y = Math.round(k.y); });
   keys = K; S.loop = loop; S.smoothPath = true; kfCustom = false; editingId = null; E = null;
+  autoZDirty = true;
+  if (typeof seqRunning !== 'undefined' && seqRunning) return;   // drawing a slideshow: no need to refresh the controls
   if (typeof batch !== 'undefined' && batch.current) { saveCurrentItem(); renderBatchSoon(); }
-  syncControls(); renderKfList(); autoZDirty = true; setTime(0);
+  syncControls(); renderKfList(); setTime(0);
 }
 
 const activeKeys = () => keys.filter(k => k.on).map(k => (editingId === k.id && E) ? E : k);
@@ -4432,6 +4461,7 @@ function setTime(t) {
 }
 let lastTs = 0;
 async function tick(ts) {
+  setPlayIcon();
   if (!playing) return;
   const dt = lastTs ? (ts - lastTs) / 1000 : 0; lastTs = ts;
   const total = totalDuration(); let t = curTime + dt;
@@ -4442,9 +4472,17 @@ async function tick(ts) {
   drawPreviewOverlay(curTime);
   requestAnimationFrame(tick);
 }
-function play() { if (playing) return; playing = true; lastTs = 0; if (curTime >= totalDuration() - 0.01) curTime = 0; $('#playBtn').innerHTML = IC.pause; requestAnimationFrame(tick); }
-function pause() { playing = false; $('#playBtn').innerHTML = IC.play; }
-$('#playBtn').innerHTML = IC.play;
+function play() { if (playing) return; playing = true; lastTs = 0; if (curTime >= totalDuration() - 0.01) curTime = 0; setPlayIcon(); requestAnimationFrame(tick); }
+function pause() { playing = false; setPlayIcon(); }
+let playIconState = null;
+function setPlayIcon() {
+  // the button always shows what clicking it will do: pause while playing, play otherwise
+  const on = playing || !!(PA && PA.on);
+  if (playIconState === on) return;
+  playIconState = on; const b = $('#playBtn');
+  b.innerHTML = on ? IC.pause : IC.play; b.title = on ? 'Pause (space bar)' : 'Play (space bar)';
+}
+setPlayIcon();
 $('#playBtn').onclick = () => playing ? pause() : play();
 $('#scrub').addEventListener('input', e => { pause(); setTime(e.target.value / 1000 * totalDuration()); });
 $('#viewSeg').addEventListener('click', e => {
@@ -4537,7 +4575,10 @@ async function pasteFromButton() {
 document.addEventListener('paste', e => {
   const items = e.clipboardData ? [...e.clipboardData.items] : [];
   const it = items.find(i => i.type.startsWith('image/'));
-  if (it) { e.preventDefault(); loadBlob(it.getAsFile(), 'Pasted image'); }
+  if (!it) return;
+  e.preventDefault();
+  if (previewCard) setCardPicture(previewCard, it.getAsFile(), 'Pasted picture');   // a title card is showing: it becomes the card's background
+  else loadBlob(it.getAsFile(), 'Pasted image');
 });
 ['emOpen', 'mOpen'].forEach(id => $('#' + id).onclick = openFile);
 ['emPaste', 'mPaste'].forEach(id => $('#' + id).onclick = pasteFromButton);
@@ -4869,7 +4910,12 @@ const PER_PHOTO = ['preset', 'duration', 'intensity', 'subject', 'cropAll', 'cro
 function decodeBlob(blob) {
   return new Promise((res, rej) => {
     const url = URL.createObjectURL(blob), img = new Image();
-    img.onload = () => { res(img); setTimeout(() => URL.revokeObjectURL(url), 1000); };
+    img.decoding = 'async';
+    img.onload = async () => {
+      // finish decoding away from the main thread, so drawing it doesn't stall playback
+      try { if (img.decode) await img.decode(); } catch (e) {}
+      res(img); setTimeout(() => URL.revokeObjectURL(url), 1000);
+    };
     img.onerror = () => { URL.revokeObjectURL(url); rej(new Error('not an image')); };
     img.src = url;
   });
@@ -4883,7 +4929,7 @@ function thumbOf(img) {
 function newItem(name, blob, thumb) {
   const it = { id: batch.seq++, name, blob, thumb, on: true, keys: null, kfCustom: false, depth: null, dW: 0, dH: 0 };
   for (const k of PER_PHOTO) it[k] = DEFAULTS[k];
-  it.preset = S.preset; it.duration = S.duration; it.intensity = S.intensity;
+  it.preset = S.mvType; it.duration = +S.mvDur; it.intensity = +S.mvInt;   // the standard move from the Slides tab
   it.kind = 'photo'; it.tr = newTransition(); it.text = blankText();
   return it;
 }
@@ -4949,20 +4995,23 @@ async function loadItem(it, quiet) {
   for (const k of PER_PHOTO) S[k] = it[k];
   const img = await decodeBlob(it.blob);
   lastBlob = it.blob;
-  await setPhotoFromImage(img, it.name);
+  // the photo is sent to the graphics chip and its depth processed once, at the end
+  const po = { noCrop: true, knownOpaque: it._opaque };
+  await setPhotoFromImage(img, it.name, null, po);
+  if (!it._opaque && !po.hadAlpha) it._opaque = true;
   if (it.depth && it.dW === dfW && it.dH === dfH) {
     depthFull = new Float32Array(it.depth.length);
     for (let i = 0; i < depthFull.length; i++) depthFull[i] = it.depth[i] / 65535;
-    depthReal = true; applyCrop();
-    setDepthState('<b>✓ Depth map ready.</b>', 'Remake');
+    depthReal = true;
+    if (!seqRunning) setDepthState('<b>✓ Depth map ready.</b>', 'Remake');
   }
   for (const k of PER_PHOTO) S[k] = it[k];
   if (it.kfCustom && it.keys) { keys = JSON.parse(JSON.stringify(it.keys)); kfCustom = true; editingId = null; E = null; }
   else applyPreset();
   for (const k of PER_PHOTO) S[k] = it[k];
   lastIntensity = S.intensity; lastDuration = S.duration;
-  autoZDirty = true; syncControls(); renderKfList(); applyCrop(); updateSizeInfo(); updateFileName(); setTime(0);
-  renderBatch();
+  autoZDirty = true; applyCrop();
+  if (!seqRunning) { syncControls(); renderKfList(); updateSizeInfo(); updateFileName(); setTime(0); renderBatch(); }
   if (!it.depth && !quiet && S.autoDepth) await generateDepth();
 }
 let batchTimer;
@@ -5026,9 +5075,13 @@ function slotsRelease() {
 
 /* ---------- 2D canvases used to assemble frames ---------- */
 const C2 = {};
+// In Safari, working canvases are kept in ordinary memory ("willReadFrequently"). Otherwise Safari
+// keeps them on the graphics chip and recycles that memory, and during long 4K exports it sometimes
+// handed back an old picture with rows in the wrong colour order: the flashes and jumps in videos.
+const CANVAS_OPTS = IS_WEBKIT ? { willReadFrequently: true } : undefined;
 function c2d(name, W, H) {
   let c = C2[name];
-  if (!c) c = C2[name] = document.createElement('canvas');
+  if (!c) { c = C2[name] = document.createElement('canvas'); c.getContext('2d', CANVAS_OPTS); }
   if (c.width !== W || c.height !== H) { c.width = W; c.height = H; }
   return c;
 }
@@ -5118,41 +5171,102 @@ function drawTextOverlay(ctx, W, H, tx, t, dur) {
   const li = Math.min(0.8, d * 0.15), lf = Math.min(0.5, d / 8);
   drawLowerThird(ctx, W, H, tx.l1, tx.l2, env(t, li, li + lf, d - li - lf, d - li));
 }
-function drawCard(ctx, W, H, card, t) {
+const CARD_MOVES = [['none', 'No movement'], ['push', 'Push in'], ['pull', 'Pull out'], ['drift', 'Drift sideways'], ['rise', 'Rise'], ['orbit', 'Orbit']];
+function cardCamera(card, t) {
+  // a gentle camera for title cards: how far it has moved sideways (dx), up (dy) and in (z)
+  const d = Math.max(0.5, +card.duration), s = clamp(t / d, 0, 1), e = 0.5 - 0.5 * Math.cos(Math.PI * s), A = (card.amount ?? 50) / 100;
+  switch (card.move || 'none') {
+    case 'push': return { dx: 0, dy: 0, z: e * 0.14 * A };
+    case 'pull': return { dx: 0, dy: 0, z: (1 - e) * 0.14 * A };
+    case 'drift': return { dx: (e - 0.5) * 0.16 * A, dy: 0, z: 0.02 * A };
+    case 'rise': return { dx: 0, dy: (0.5 - e) * 0.14 * A, z: 0.02 * A };
+    case 'orbit': return { dx: (e - 0.5) * 0.18 * A, dy: 0, z: Math.sin(Math.PI * e) * 0.06 * A };
+    default: return { dx: 0, dy: 0, z: 0 };
+  }
+}
+function cardLayer(ctx, W, H, cam, k, draw) {
+  // one layer of the card at depth k (0 = far away, 1 = the words): nearer layers move and grow more
+  const base = Math.min(W, H);
   ctx.save();
-  if (card.bgStyle === 'gradient') { const g = ctx.createLinearGradient(0, 0, W, H); g.addColorStop(0, card.bg1); g.addColorStop(1, card.bg2); ctx.fillStyle = g; }
-  else if (card.bgStyle === 'radial') { const g = ctx.createRadialGradient(W / 2, H / 2, 0, W / 2, H / 2, Math.hypot(W, H) / 2); g.addColorStop(0, card.bg2); g.addColorStop(1, card.bg1); ctx.fillStyle = g; }
-  else ctx.fillStyle = card.bg1;
-  ctx.fillRect(0, 0, W, H);
+  ctx.translate(W / 2 - cam.dx * k * base, H / 2 - cam.dy * k * base);
+  const sc = 1 + cam.z * k; ctx.scale(sc, sc);
+  ctx.translate(-W / 2, -H / 2);
+  draw(); ctx.restore();
+}
+function cardLights(card) {
+  // soft floating lights, the same every time for a given card
+  if (card._lights) return card._lights;
+  let seed = (card.id * 9301 + 49297) % 233280; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+  const L = [];
+  for (const k of [0.45, 0.7, 1.15]) for (let i = 0; i < 9; i++) L.push({ k, x: rnd() * 1.3 - 0.15, y: rnd() * 1.3 - 0.15, r: (0.02 + rnd() * 0.05) * (0.6 + k), a: 0.08 + rnd() * 0.14 });
+  return card._lights = L;
+}
+function drawCard(ctx, W, H, card, t) {
+  const cam = cardCamera(card, t), base = Math.min(W, H);
+  ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+  ctx.fillStyle = card.bg1 || '#000'; ctx.fillRect(0, 0, W, H);
+  // far layer: the background (drawn a little larger than the frame so its edges never show)
+  cardLayer(ctx, W, H, cam, 0.35, () => {
+    const m = 0.12, x0 = -W * m, y0 = -H * m, w = W * (1 + 2 * m), h = H * (1 + 2 * m);
+    if (card.bgImg) {
+      const iw = card.bgImg.width, ih = card.bgImg.height, sc = Math.max(w / iw, h / ih);
+      ctx.drawImage(card.bgImg, x0 + (w - iw * sc) / 2, y0 + (h - ih * sc) / 2, iw * sc, ih * sc);
+      const dim = clamp(card.dim ?? 35, 0, 90) / 100;
+      if (dim > 0) { ctx.fillStyle = `rgba(0,0,0,${dim})`; ctx.fillRect(x0, y0, w, h); }
+    } else {
+      let g;
+      if (card.bgStyle === 'gradient') { g = ctx.createLinearGradient(x0, y0, x0 + w, y0 + h); g.addColorStop(0, card.bg1); g.addColorStop(1, card.bg2); }
+      else if (card.bgStyle === 'radial') { g = ctx.createRadialGradient(W / 2, H / 2, 0, W / 2, H / 2, Math.hypot(W, H) / 2); g.addColorStop(0, card.bg2); g.addColorStop(1, card.bg1); }
+      ctx.fillStyle = g || card.bg1; ctx.fillRect(x0, y0, w, h);
+    }
+  });
+  // middle layers: floating lights at three depths
+  if (card.lights) {
+    for (const k of [0.45, 0.7, 1.15]) cardLayer(ctx, W, H, cam, k, () => {
+      for (const L of cardLights(card)) {
+        if (L.k !== k) continue;
+        const x = L.x * W, y = L.y * H, r = L.r * base, g = ctx.createRadialGradient(x, y, 0, x, y, r);
+        g.addColorStop(0, `rgba(255,255,255,${L.a})`); g.addColorStop(0.6, `rgba(255,255,255,${L.a * 0.35})`); g.addColorStop(1, 'rgba(255,255,255,0)');
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+      }
+    });
+  }
   ctx.restore();
+  // near layer: the words
   const d = Math.max(0.5, +card.duration), fi = Math.min(0.7, d / 4);
-  drawTitleBlock(ctx, W, H, card.title, card.sub, 'center', env(t, 0.15, 0.15 + fi, d - 0.15 - fi, d - 0.15));
+  cardLayer(ctx, W, H, cam, 1, () => drawTitleBlock(ctx, W, H, card.title, card.sub, 'center', env(t, 0.15, 0.15 + fi, d - 0.15 - fi, d - 0.15)));
 }
 
 /* ---------- transitions ---------- */
 const TRANSITIONS = [
   ['cut', 'Cut (no transition)'], ['crossfade', 'Crossfade'], ['fade', 'Fade through black'], ['dip', 'Dip to colour'],
-  ['crossblur', 'Cross-blur'], ['crosszoom', 'Cross zoom'], ['wipe', 'Directional wipe'], ['push', 'Push'], ['slide', 'Slide over'],
+  ['wipe', 'Directional wipe'], ['push', 'Push'], ['slide', 'Slide over'],
   ['iris', 'Iris (circle)'], ['star', 'Star wipe'], ['clock', 'Clock wipe'], ['morph', 'Morph (matching points)'],
 ];
 const trName = id => (TRANSITIONS.find(t => t[0] === id) || [0, id])[1];
-const newTransition = () => ({ type: S.trType, dur: +S.trDur, color: '#ffffff', dir: 'left', soft: 30, amount: 50, points: 5, morph: [], auto: true, lag: 30 });
+const newTransition = () => ({ ...(S.trType === 'crossblur' || S.trType === 'crosszoom' ? (S.trType = 'crossfade', {}) : {}), type: S.trType, dur: +S.trDur, color: '#ffffff', dir: 'left', soft: 30, amount: 50, points: 5, morph: [], auto: true, lag: 30 });
 function trUses(type) {
   return { color: type === 'dip', dir: ['wipe', 'push', 'slide'].includes(type), soft: ['wipe', 'iris'].includes(type), amount: ['crossblur', 'crosszoom'].includes(type), points: type === 'star', morph: type === 'morph' };
 }
 function blurInto(dst, src, px) {
-  // a quick, smooth blur that works in every browser: shrink, then enlarge in steps
+  // a smooth blur that works in every browser: halve the size step by step (each step averages
+  // neighbouring pixels, so nothing turns blocky), then double it back up step by step
   const W = dst.width, H = dst.height, d = dst.getContext('2d');
-  d.setTransform(1, 0, 0, 1, 0, 0); d.globalAlpha = 1;
+  d.setTransform(1, 0, 0, 1, 0, 0); d.globalAlpha = 1; d.globalCompositeOperation = 'source-over';
   if (px < 0.75) { d.clearRect(0, 0, W, H); d.drawImage(src, 0, 0, W, H); return; }
-  let f = clamp(1.6 / px, 1 / 48, 1), w = Math.max(2, Math.round(W * f)), h = Math.max(2, Math.round(H * f));
-  let cur = c2d('blur0', w, h), cx = cur.getContext('2d'); cx.imageSmoothingQuality = 'high'; cx.clearRect(0, 0, w, h); cx.drawImage(src, 0, 0, w, h);
-  let i = 1;
-  while (w * 2 < W && h * 2 < H) {
-    const nw = w * 2, nh = h * 2, nx = c2d('blur' + (i % 2 ? 1 : 2), nw, nh), nc = nx.getContext('2d');
-    nc.imageSmoothingQuality = 'high'; nc.clearRect(0, 0, nw, nh); nc.drawImage(cur, 0, 0, nw, nh); cur = nx; w = nw; h = nh; i++;
-  }
-  d.imageSmoothingQuality = 'high'; d.clearRect(0, 0, W, H); d.drawImage(cur, 0, 0, W, H);
+  const f = clamp(1.6 / px, 1 / 64, 1), tw = Math.max(2, Math.round(W * f)), th = Math.max(2, Math.round(H * f));
+  const step = (from, name, w, h) => {
+    const c = c2d(name, w, h), x = c.getContext('2d');
+    x.setTransform(1, 0, 0, 1, 0, 0); x.globalAlpha = 1; x.globalCompositeOperation = 'source-over';
+    x.imageSmoothingEnabled = true; x.imageSmoothingQuality = 'high'; x.clearRect(0, 0, w, h); x.drawImage(from, 0, 0, w, h);
+    return c;
+  };
+  let cur = src, w = src.width, h = src.height, i = 0;
+  while (w / 2 >= tw && h / 2 >= th) { w = Math.max(2, Math.round(w / 2)); h = Math.max(2, Math.round(h / 2)); cur = step(cur, 'blurD' + (i++ % 2), w, h); }
+  if (w !== tw || h !== th) { w = tw; h = th; cur = step(cur, 'blurD' + (i++ % 2), w, h); }
+  i = 0;
+  while (w * 2 < W && h * 2 < H) { w *= 2; h *= 2; cur = step(cur, 'blurU' + (i++ % 2), w, h); }
+  d.imageSmoothingEnabled = true; d.imageSmoothingQuality = 'high'; d.clearRect(0, 0, W, H); d.drawImage(cur, 0, 0, W, H);
 }
 function maskedDraw(ctx, img, W, H, maskFn) {
   const m = c2d('mask', W, H), mc = m.getContext('2d');
@@ -5543,6 +5657,7 @@ function buildTimeline(list, opts = {}) {
     e.start = t;
     const next = E[i + 1], src = e.kind === 'card' ? e.card.tr : e.item ? e.item.tr : null;
     let tr = opts.noTransitions || !next || !src ? { type: 'cut', dur: 0 } : { ...src };
+    if (tr.type === 'crossblur' || tr.type === 'crosszoom') tr.type = 'crossfade';   // these two were removed in 1.9.5
     if (tr.type === 'cut') tr.dur = 0;
     if (tr.type === 'morph') tr.dur = clamp(+tr.dur, 0.2, 10);
     else if (tr.dur > 0) tr.dur = Math.min(+tr.dur, e.dur * 0.5, next.dur * 0.5);
@@ -5719,7 +5834,7 @@ async function drawEntry(e, tl, target, frameNo, ropts) {
   c.drawImage(frameSource(), 0, 0, W, H);
   drawTextOverlay(c, W, H, e.text, tl, e.dur);
 }
-const SCRATCH = ['A', 'B', 'tA', 'tB', 'zA', 'zAb', 'zB', 'zBb', 'mask', 'blur0', 'blur1', 'blur2', 'mA', 'mB', 'mW', 'mW2', 'mMask'];
+const SCRATCH = ['A', 'B', 'tA', 'tB', 'zA', 'zAb', 'zB', 'zBb', 'mask', 'blurD0', 'blurD1', 'blurU0', 'blurU1', 'mA', 'mB', 'mW', 'mW2', 'mMask'];
 function freeScratch(keepFrozen) {
   // full-size scratch pictures are given back as soon as a transition ends: at 4K each one is about
   // 33 MB, and Safari draws garbage when it runs short of picture memory
@@ -5773,17 +5888,25 @@ async function runSequence(tlObj, { W, H, fps, t0 = 0, t1 = null, ropts, onFrame
 }
 
 /* ---------- Play all: the slideshow played live in the preview ---------- */
-const PA = { on: false, stop: false };
+var PA = PA || { on: false, stop: false };
 async function makeMissingDepths(items) {
   // depth maps that don't exist yet are made first, so playback doesn't stop to make them
   const need = items.filter(i => i.kind !== 'card' && !i.depth && !i.depthSkip);
+  let failed = 0;
   for (const [n, it] of need.entries()) {
     if (busy.cancelled) throw new Error('cancelled');
     $('#busyMsg').textContent = `Making depth maps (${n + 1} of ${need.length})`;
     slotUseForLoading(1); slotOwner[1] = null;
     await loadItem(it, true);
-    await generateDepth({ batch: true });
+    try { await generateDepth({ batch: true }); }
+    catch (e) {
+      // one depth map failing (no internet the first time, say) shouldn't stop the show: that slide plays flat
+      if (String(e && e.message) === 'cancelled') throw e;
+      it.depthSkip = true; failed++;
+      diag('Depth map for ' + it.name + ' failed: ' + (e && e.message || e));
+    }
   }
+  if (failed) toast(`${failed} depth map${failed === 1 ? '' : 's'} could not be made, so ${failed === 1 ? 'that slide plays' : 'those slides play'} without the 3D effect. Check the internet connection, or the AI files on the Depth tab.`, 8000);
 }
 async function playAll() {
   if (PA.on) { PA.stop = true; return; }
@@ -5801,7 +5924,25 @@ async function playAll() {
   let ok = true;
   try {
     await makeMissingDepths(items);
+    playPhotoCap = 2560;   // plenty for the preview, and quicker to open
+    // open every slide once in advance, so its processed depth map is ready and playback has
+    // very little heavy work left to do
+    const prep = items.filter(i => i.kind !== 'card' && i.depth && !(i._dp && i._dp.src === i.depth));
+    for (const [n, it] of prep.entries()) {
+      if (busy.cancelled) throw new Error('cancelled');
+      $('#busyMsg').textContent = 'Getting the slideshow ready…';
+      busy.progress(n / Math.max(1, prep.length), `Preparing slide ${n + 1} of ${prep.length}`);
+      slotUseForLoading(1); slotOwner[1] = null;
+      await loadItem(it, true); await sleep(0);
+    }
     const tl = buildTimeline(listFromSlides(items));
+    slotOwner[0] = slotOwner[1] = null;
+    const morphs = tl.E.filter((e, i) => e.tr.type === 'morph' && tl.E[i + 1]);
+    for (const [n, e] of morphs.entries()) {
+      if (busy.cancelled) throw new Error('cancelled');
+      busy.progress(n / morphs.length, `Finding morph points (${n + 1} of ${morphs.length})`);
+      await ensureAutoMorph(e, tl.E[tl.E.indexOf(e) + 1], { steps: 70, samples: 48, cpuSteps: 24 });
+    }
     slotOwner[0] = slotOwner[1] = null;
     busy.progress(null, 'Opening the first photos…');
     for (const e of tl.E.filter(e => e.kind === 'photo').slice(0, 2)) await ensureEntryLoaded(e);
@@ -5836,16 +5977,24 @@ async function playAll() {
     if (String(e && e.message) !== 'cancelled') { diag('Play all failed: ' + (e && e.message || e)); toast('Could not play the slideshow: ' + friendlyError(e).slice(0, 200), 7000); }
   } finally {
     busy.hide();
-    stopLiveSound();
+    stopLiveSound(); playPhotoCap = 0;
     PA.on = false; PA.stop = false; setPlayAllButtons();
     await seqEnd();
     setTime(0);
   }
 }
 function setPlayAllButtons() {
+  setPlayIcon();
   for (const id of ['#bPlayAll']) { const b = $(id); if (b) b.innerHTML = PA.on ? '■ Stop' : '▶ Play all'; }
 }
 function makeFrame(cv, W, H, ts, dur) {
+  // Safari reads a canvas for video a moment later, after the next frame has started drawing on it,
+  // which tore frames and flashed other pictures into the video. There, every frame is handed over
+  // as its own copy of the pixels instead.
+  if (IS_WEBKIT) {
+    const d = cv.getContext('2d').getImageData(0, 0, W, H).data;
+    return new VideoFrame(d, { format: 'RGBA', codedWidth: W, codedHeight: H, timestamp: ts, duration: dur });
+  }
   try { return new VideoFrame(cv, { timestamp: ts, duration: dur }); }
   catch (e) {
     // some iPad browsers refuse to read a canvas directly; hand over the pixels instead
@@ -6017,7 +6166,7 @@ function showCard(card) {
 }
 function leaveCard() { previewCard = null; $('#cardNote').style.display = 'none'; }
 function newCard() {
-  return { id: batch.seq++, kind: 'card', on: true, title: 'Title', sub: '', duration: 3, bgStyle: 'gradient', bg1: '#141a35', bg2: '#5466f5', tr: newTransition() };
+  return { id: batch.seq++, kind: 'card', on: true, title: 'Title', sub: '', duration: 3, bgStyle: 'gradient', bg1: '#141a35', bg2: '#5466f5', move: 'push', amount: 50, lights: true, dim: 35, bgImg: null, bgName: '', tr: newTransition() };
 }
 function cardThumb(card) {
   const c = document.createElement('canvas'); c.width = 96; c.height = 54;
@@ -6046,6 +6195,7 @@ function drawPreviewOverlay(t) {
 function slideLabel(it) { return it.kind === 'card' ? (it.title ? it.title.split('\n')[0] : 'Title card') : it.name; }
 function trLabel(tr) {
   if (!tr || tr.type === 'cut') return 'Cut (no transition)';
+  if (tr.type === 'crossblur' || tr.type === 'crosszoom') tr.type = 'crossfade';
   let extra = '';
   if (tr.type === 'morph') {
     const mine = tr.morph.filter(p => !p.auto).length;
@@ -6054,7 +6204,7 @@ function trLabel(tr) {
   return `${trName(tr.type).replace(/ \(.*\)/, '')} · ${(+tr.dur).toFixed(1)} s${extra}`;
 }
 function cardThumbCached(it) {
-  const key = [it.title, it.sub, it.bg1, it.bg2, it.bgStyle, S.txFont, S.txColor].join('|');
+  const key = [it.title, it.sub, it.bg1, it.bg2, it.bgStyle, S.txFont, S.txColor, it.move, it.lights, it.bgName, it.dim].join('|');
   if (it._tk !== key) { it._tk = key; it._thumb = cardThumb(it); }
   return it._thumb;
 }
@@ -6065,9 +6215,16 @@ function miniSlider(label, key, min, max, step, unit, val) {
   return `<div class="field" data-ms="${key}"><div class="slh"><label>${label}</label><span class="num"><input type="number" data-t="${key}" min="${min}" max="${max}" step="${step}" value="${val}"><em>${unit}</em></span></div>
     <input type="range" data-t="${key}" min="${min}" max="${max}" step="${step}" value="${val}" aria-label="${label}"></div>`;
 }
+function fSlider(label, f, min, max, step, unit, val) {
+  // a slider with a number box beside it, for a slide's own settings
+  return `<div class="field" data-fs="${f}"><div class="slh"><label>${label}</label><span class="num"><input type="number" data-f="${f}" min="${min}" max="${max}" step="${step}" value="${val}"><em>${unit}</em></span></div>
+    <input type="range" data-f="${f}" min="${min}" max="${max}" step="${step}" value="${val}" aria-label="${label}"></div>`;
+}
 const DIRS = [['left', 'Right to left'], ['right', 'Left to right'], ['up', 'Bottom to top'], ['down', 'Top to bottom']];
 function trEditorHTML(it) {
-  const tr = it.tr, u = trUses(tr.type);
+  const tr = it.tr;
+  if (tr.type === 'crossblur' || tr.type === 'crosszoom') tr.type = 'crossfade';
+  const u = trUses(tr.type);
   return `<div class="sel"><label>Transition</label><select data-t="type">${TRANSITIONS.map(([v, n]) => `<option value="${v}"${tr.type === v ? ' selected' : ''}>${n}</option>`).join('')}</select></div>
     ${tr.type === 'cut' ? '<p class="hint">The next slide simply starts. Nothing overlaps.</p>' : `<div style="margin-top:8px">${miniSlider('Length', 'dur', 0.2, tr.type === 'morph' ? 6 : 4, 0.1, 's', tr.dur)}</div>`}
     ${u.dir ? `<div class="sel fieldgap"><label>Direction</label><select data-t="dir">${DIRS.map(([v, n]) => `<option value="${v}"${tr.dir === v ? ' selected' : ''}>${n}</option>`).join('')}</select></div>` : ''}
@@ -6087,16 +6244,26 @@ function itemEditorHTML(it) {
     return `<label class="tflabel">Title</label>${tfHTML('data-f="title"', it.title, 'Words on the card', true)}
       <label class="tflabel">Subtitle</label>${tfHTML('data-f="sub"', it.sub, 'A smaller line')}
       <div class="grid2 tight">
-        <div class="sel"><label>Length (seconds)</label><span class="num"><input type="number" data-f="duration" min="1" max="30" step="0.5" value="${it.duration}"><em>s</em></span></div>
+        ${fSlider('Length', 'duration', 1, 30, 0.5, 's', it.duration)}
         <div class="sel"><label>Background</label><select data-f="bgStyle"><option value="solid"${it.bgStyle === 'solid' ? ' selected' : ''}>One colour</option><option value="gradient"${it.bgStyle === 'gradient' ? ' selected' : ''}>Gradient</option><option value="radial"${it.bgStyle === 'radial' ? ' selected' : ''}>Glow from the middle</option></select></div>
       </div>
-      <div class="grid2" style="margin-top:8px"><div class="colorrow">Colour 1 <input type="color" data-f="bg1" value="${it.bg1}"></div><div class="colorrow">Colour 2 <input type="color" data-f="bg2" value="${it.bg2}"></div></div>`;
+      <div class="grid2" style="margin-top:8px"><div class="colorrow">Colour 1 <input type="color" data-f="bg1" value="${it.bg1}"></div><div class="colorrow">Colour 2 <input type="color" data-f="bg2" value="${it.bg2}"></div></div>
+      <label class="tflabel" style="margin-top:6px">Background picture (optional, used instead of the colours)</label>
+      <div class="grid3" style="margin-bottom:6px">
+        <button class="btn" data-cb="pic">Choose…</button><button class="btn" data-cb="paste">Paste</button><button class="btn" data-cb="nopic"${it.bgImg ? '' : ' disabled'}>Remove</button>
+      </div>
+      ${it.bgImg ? `<p class="hint" style="margin:-2px 0 6px">${escapeHtml(it.bgName || 'Picture')}</p>${fSlider('Darken the picture', 'dim', 0, 90, 5, '%', it.dim ?? 35)}` : ''}
+      <h3 style="margin-top:10px">Parallax</h3>
+      <div class="sel fieldgap"><label>Camera movement</label><select data-f="move">${CARD_MOVES.map(([v, n]) => `<option value="${v}"${(it.move || 'none') === v ? ' selected' : ''}>${n}</option>`).join('')}</select></div>
+      ${fSlider('Depth amount', 'amount', 0, 100, 5, '%', it.amount ?? 50)}
+      <label class="chk"><input type="checkbox" data-f="lights"${it.lights ? ' checked' : ''}>Floating lights at different depths</label>
+      <p class="hint">The background, the lights and the words sit at different depths, so as the camera moves the words glide over the background, like the 3D moves on photos.</p>`;
   }
   const tx = it.text || (it.text = blankText());
   return `<div class="sel"><label>Camera move</label><select data-f="preset">${PRESETS.map(([v, n]) => `<option value="${v}"${!it.kfCustom && it.preset === v ? ' selected' : ''}>${n}</option>`).join('')}${it.kfCustom ? '<option value="" selected>Custom move</option>' : ''}</select></div>
     <div class="grid2 tight" style="margin-top:8px">
-      <div class="sel"><label>Length (seconds)</label><span class="num"><input type="number" data-f="duration" min="1" max="30" step="0.5" value="${it.duration}"><em>s</em></span></div>
-      <div class="sel"><label>Intensity</label><span class="num"><input type="number" data-f="intensity" min="0" max="100" step="1" value="${it.intensity}"><em>%</em></span></div>
+      ${fSlider('Length', 'duration', 1, 30, 0.5, 's', it.duration)}
+      ${fSlider('Intensity', 'intensity', 0, 100, 1, '%', it.intensity)}
     </div>
     <label class="tflabel" style="margin-top:10px">Title</label>${tfHTML('data-f="text.title"', tx.title, 'Optional big title', true)}
     <label class="tflabel">Subtitle</label>${tfHTML('data-f="text.sub"', tx.sub, 'Optional smaller line')}
@@ -6165,7 +6332,10 @@ function itemById(id) { return batch.items.find(x => x.id === +id); }
 function applyItemEdit(it, field, value) {
   if (field.startsWith('text.')) { (it.text || (it.text = blankText()))[field.slice(5)] = value; }
   else if (it.kind === 'card') {
-    it[field] = field === 'duration' ? clamp(+value || 3, 1, 30) : value;
+    if (field === 'duration') it.duration = clamp(+value || 3, 1, 30);
+    else if (field === 'amount' || field === 'dim') it[field] = clamp(+value || 0, 0, field === 'dim' ? 90 : 100);
+    else if (field === 'lights') it.lights = !!value;
+    else it[field] = value;
   } else if (field === 'preset') { if (!value) return; it.preset = value; it.kfCustom = false; it.keys = null; }
   else it[field] = clamp(+value, field === 'duration' ? 1 : 0, field === 'duration' ? 30 : 100);
   if (batch.current === it) {
@@ -6193,6 +6363,13 @@ $('#bList').addEventListener('input', e => {
   const el = e.target;
   if (el.dataset.f && el.closest('.bedit')) {
     const it = itemById(el.closest('.bedit').dataset.id); if (!it) return;
+    if (el.type === 'range') {
+      const twin = el.closest('.field').querySelector('input[type=number]'); twin.value = el.value;
+      applyItemEdit(it, el.dataset.f, el.value);
+      const row = $(`#bList .brow[data-id="${it.id}"]`), sp = row && row.querySelector('.kfmain span');
+      if (sp) sp.textContent = it.kind === 'card' ? `Title card · ${(+it.duration).toFixed(1)} s` : sp.textContent.replace(/· [\d.]+ s ·/, `· ${(+it.duration).toFixed(1)} s ·`);
+      return;
+    }
     if (el.type === 'text' || el.tagName === 'TEXTAREA' || el.type === 'color') {
       applyItemEdit(it, el.dataset.f, el.value);
       const row = $(`#bList .brow[data-id="${it.id}"]`);
@@ -6208,7 +6385,7 @@ $('#bList').addEventListener('change', e => {
   const el = e.target;
   if (el.dataset.f && el.closest('.bedit')) {
     const it = itemById(el.closest('.bedit').dataset.id); if (!it) return;
-    applyItemEdit(it, el.dataset.f, el.value);
+    applyItemEdit(it, el.dataset.f, el.type === 'checkbox' ? el.checked : el.value);
     const row = $(`#bList .brow[data-id="${it.id}"]`);
     if (row && el.type !== 'text' && el.tagName !== 'TEXTAREA') renderBatch();
     else if (row) { row.querySelector('.kfmain b').textContent = `${batch.items.indexOf(it) + 1}. ${slideLabel(it)}`; if (it.kind === 'card') row.querySelector('img').src = cardThumbCached(it); }
@@ -6228,6 +6405,20 @@ async function openBatchItem(it) {
   if (!it.depth && S.autoDepth) await generateDepth();
 }
 $('#bList').addEventListener('click', async e => {
+  const cb = e.target.closest('button[data-cb]');
+  if (cb) {
+    const card = itemById(cb.closest('.bedit').dataset.id); if (!card) return;
+    if (cb.dataset.cb === 'pic') { cardPicTarget = card; $('#cardPicIn').click(); }
+    else if (cb.dataset.cb === 'nopic') { card.bgImg = null; card.bgName = ''; renderBatch(); drawPreviewOverlay(curTime); }
+    else if (cb.dataset.cb === 'paste') {
+      try {
+        const items = await navigator.clipboard.read();
+        for (const ci of items) { const ty = ci.types.find(x => x.startsWith('image/')); if (ty) { await setCardPicture(card, await ci.getType(ty), 'Pasted picture'); return; } }
+        toast('There is no picture on the clipboard. Copy one first (⌘C), then click Paste.');
+      } catch (er) { toast('The browser did not allow reading the clipboard. Use Choose… instead, or paste with ⌘V while the card is showing.', 6000); }
+    }
+    return;
+  }
   if (e.target.closest('.bedit')) return;
   const tb = e.target.closest('button[data-tb]');
   if (tb) {
@@ -6270,14 +6461,32 @@ $('#bList').addEventListener('click', async e => {
   }
   renderBatch();
 });
+let cardPicTarget = null;
+async function setCardPicture(card, blob, name) {
+  try {
+    const img = await decodeBlob(blob), w0 = img.naturalWidth || img.width, h0 = img.naturalHeight || img.height, sc = Math.min(1, 2560 / Math.max(w0, h0));
+    const c = document.createElement('canvas'); c.width = Math.round(w0 * sc); c.height = Math.round(h0 * sc);
+    const x = c.getContext('2d'); x.imageSmoothingQuality = 'high'; x.drawImage(img, 0, 0, c.width, c.height);
+    card.bgImg = c; card.bgName = name || blob.name || 'Picture';
+    renderBatch(); drawPreviewOverlay(curTime); toast('Background picture added to the title card.');
+  } catch (e) { toast('That picture could not be opened.'); }
+}
+$('#cardPicIn').onchange = e => { const f = e.target.files[0]; e.target.value = ''; if (f && cardPicTarget) setCardPicture(cardPicTarget, f, f.name); };
 $('#bAddCard').onclick = () => {
-  const card = newCard();
-  const at = batch.current ? batch.items.indexOf(batch.current) + 1 : batch.items.length;
-  if (!batch.items.length && photo && src && !batch.current) addCurrentToBatch(true).then(() => { batch.items.push(card); batch.editing = card; showCard(card); });
-  else { batch.items.splice(at, 0, card); batch.editing = card; showCard(card); }
-  toast('Title card added. Type its words in the box below the row. Drag the handle to move it.', 4500);
+  // the first slide selected: the card goes above it (an opening title). Another slide selected: below it.
+  // Nothing selected: at the end.
+  const card = newCard(), cur = batch.items.indexOf(batch.current);
+  const at = cur === 0 ? 0 : cur > 0 ? cur + 1 : batch.items.length;
+  const done = () => {
+    batch.editing = card; showCard(card);
+    const r = $(`#bList .brow[data-id="${card.id}"]`); if (r) r.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  };
+  if (!batch.items.length && photo && src && !batch.current) addCurrentToBatch(true).then(() => { batch.items.unshift(card); done(); });
+  else { batch.items.splice(at, 0, card); done(); }
+  toast(at === 0 ? 'Title card added at the start. Type its words in the box below it.' : 'Title card added. Type its words in the box below it. Drag the handle to move it.', 4500);
 };
 $('#trDefault').innerHTML = TRANSITIONS.map(([v, n]) => `<option value="${v}">${n}</option>`).join('');
+$('#mvDefault').innerHTML = PRESETS.map(([v, n]) => `<option value="${v}">${n}</option>`).join('');
 $('#trAll').onclick = () => {
   if (batch.items.length < 2) return toast('Add at least two slides first.');
   for (const it of batch.items) { if (!it.tr) it.tr = newTransition(); it.tr.type = S.trType; it.tr.dur = +S.trDur; }
@@ -6285,7 +6494,7 @@ $('#trAll').onclick = () => {
 };
 $('#trRandom').onclick = () => {
   if (batch.items.length < 2) return toast('Add at least two slides first.');
-  const pool = ['crossfade', 'fade', 'dip', 'crossblur', 'crosszoom', 'wipe', 'push', 'slide', 'iris', 'star', 'clock'];
+  const pool = ['crossfade', 'fade', 'dip', 'wipe', 'push', 'slide', 'iris', 'star', 'clock'];
   let prev = null;
   for (const it of batch.items) {
     let c; do { c = pool[Math.floor(Math.random() * pool.length)]; } while (c === prev);
@@ -6305,7 +6514,7 @@ function syncTextTab() {
   if (card) {
     $('#txWhich').textContent = `Slide ${batch.items.indexOf(card) + 1} of ${batch.items.length}.`;
     const set = (id, v) => { if (document.activeElement !== $(id)) $(id).value = v; };
-    set('#cdTitle', card.title || ''); set('#cdSub', card.sub || ''); set('#cdDur', card.duration); set('#cdStyle', card.bgStyle); set('#cdBg1', card.bg1); set('#cdBg2', card.bg2);
+    set('#cdTitle', card.title || ''); set('#cdSub', card.sub || ''); set('#cdDur', card.duration); set('#cdStyle', card.bgStyle); set('#cdBg1', card.bg1); set('#cdBg2', card.bg2); set('#cdMove', card.move || 'none'); $('#cdLights').checked = !!card.lights;
     return;
   }
   const tx = curText();
@@ -6314,7 +6523,8 @@ function syncTextTab() {
   set('#txTitle', tx.title || ''); set('#txSub', tx.sub || ''); set('#txPos', tx.pos || 'center'); set('#txWhen', tx.when || 'all'); set('#txL1', tx.l1 || ''); set('#txL2', tx.l2 || '');
 }
 const TXMAP = { txTitle: 'title', txSub: 'sub', txPos: 'pos', txWhen: 'when', txL1: 'l1', txL2: 'l2' };
-const CDMAP = { cdTitle: 'title', cdSub: 'sub', cdDur: 'duration', cdStyle: 'bgStyle', cdBg1: 'bg1', cdBg2: 'bg2' };
+const CDMAP = { cdTitle: 'title', cdSub: 'sub', cdDur: 'duration', cdStyle: 'bgStyle', cdBg1: 'bg1', cdBg2: 'bg2', cdMove: 'move', cdLights: 'lights' };
+$('#cdMove').innerHTML = CARD_MOVES.map(([v, n]) => `<option value="${v}">${n}</option>`).join('');
 for (const [id, f] of Object.entries(TXMAP)) {
   const el = $('#' + id);
   const upd = () => { curText()[f] = el.value; drawPreviewOverlay(curTime); if (batch.current && !seqRunning) renderBatchSoon(); };
@@ -6324,7 +6534,7 @@ for (const [id, f] of Object.entries(CDMAP)) {
   const el = $('#' + id);
   const upd = () => {
     const card = batch.current && batch.current.kind === 'card' ? batch.current : null; if (!card) return;
-    card[f] = f === 'duration' ? clamp(+el.value || 3, 1, 30) : el.value;
+    card[f] = f === 'duration' ? clamp(+el.value || 3, 1, 30) : el.type === 'checkbox' ? el.checked : el.value;
     if (f === 'duration') setTime(curTime);
     drawPreviewOverlay(curTime); renderBatchSoon();
   };
@@ -6416,26 +6626,41 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape') $('#mDone').onclick();
 });
 
-// drag to reorder (mouse and touch)
+// drag to reorder (mouse and touch). The page as a whole follows the pointer: Safari stops sending
+// movements to the handle once its row is moved in the list, which froze the drag after one step.
 $('#bList').addEventListener('pointerdown', e => {
   const h = e.target.closest('.handle'); if (!h) return;
   e.preventDefault();
-  const row = h.closest('.kf'), list = $('#bList');
-  list.querySelectorAll('.bedit,.trchip,.tredit').forEach(x => x.remove());
-  row.classList.add('dragging'); h.setPointerCapture(e.pointerId);
-  const move = ev => {
-    const rows = [...list.children].filter(r => r !== row);
+  const row = h.closest('.brow'), list = $('#bList'), scroller = list.closest('.tabbody');
+  list.querySelectorAll('.bedit,.trchip,.tredit').forEach(x => x.remove());   // just the rows while dragging
+  row.classList.add('dragging');
+  let lastY = e.clientY, raf = 0;
+  const place = () => {
+    const rows = [...list.querySelectorAll('.brow')].filter(r => r !== row);
     let before = null;
-    for (const r of rows) { const b = r.getBoundingClientRect(); if (ev.clientY < b.top + b.height / 2) { before = r; break; } }
-    if (before) list.insertBefore(row, before); else list.appendChild(row);
+    for (const r of rows) { const b = r.getBoundingClientRect(); if (lastY < b.top + b.height / 2) { before = r; break; } }
+    if (before) { if (row.nextSibling !== before) list.insertBefore(row, before); } else if (list.lastElementChild !== row) list.appendChild(row);
   };
+  const autoScroll = () => {
+    // near the top or bottom edge of the panel, scroll it so long lists can be reordered
+    raf = 0;
+    const r = (scroller || document.scrollingElement).getBoundingClientRect(), edge = 50;
+    let dy = 0;
+    if (lastY < r.top + edge) dy = -Math.ceil((r.top + edge - lastY) / 4);
+    else if (lastY > r.bottom - edge) dy = Math.ceil((lastY - (r.bottom - edge)) / 4);
+    if (dy) { (scroller && scroller.scrollHeight > scroller.clientHeight ? scroller : document.scrollingElement).scrollTop += dy; place(); raf = requestAnimationFrame(autoScroll); }
+  };
+  const move = ev => { ev.preventDefault(); lastY = ev.clientY; place(); if (!raf) raf = requestAnimationFrame(autoScroll); };
   const up = () => {
-    h.removeEventListener('pointermove', move); h.removeEventListener('pointerup', up); h.removeEventListener('pointercancel', up);
+    document.removeEventListener('pointermove', move); document.removeEventListener('pointerup', up); document.removeEventListener('pointercancel', up);
+    if (raf) cancelAnimationFrame(raf);
+    row.classList.remove('dragging');
     const order = [...list.querySelectorAll('.brow')].map(r => +r.dataset.id);
-    batch.items = order.map(id => batch.items.find(x => x.id === id));
+    batch.items = order.map(id => batch.items.find(x => x.id === id)).filter(Boolean);
     renderBatch();
   };
-  h.addEventListener('pointermove', move); h.addEventListener('pointerup', up); h.addEventListener('pointercancel', up);
+  document.addEventListener('pointermove', move, { passive: false });
+  document.addEventListener('pointerup', up); document.addEventListener('pointercancel', up);
 });
 function shuffleMoves() {
   const items = batch.items.filter(i => i.on && i.kind !== 'card');
@@ -6458,9 +6683,14 @@ function shuffleMoves() {
   renderBatch(); toast('Moves shuffled. Use the pencil on any row to change one.');
 }
 function sameMoveForAll() {
-  if (!batch.items.length) return toast('Add some photos to the slideshow first.');
-  for (const it of batch.items) { if (it.kind === 'card') continue; it.preset = S.preset; it.duration = S.duration; it.intensity = S.intensity; it.kfCustom = kfCustom; it.keys = kfCustom ? JSON.parse(JSON.stringify(keys)) : null; }
-  renderBatch(); toast(`Every photo now uses ${kfCustom ? 'your custom move' : presetName(S.preset)}, ${(+S.duration).toFixed(1)} s.`);
+  if (!batch.items.some(i => i.kind !== 'card')) return toast('Add some photos to the slideshow first.');
+  for (const it of batch.items) { if (it.kind === 'card') continue; it.preset = S.mvType; it.duration = +S.mvDur; it.intensity = +S.mvInt; it.kfCustom = false; it.keys = null; }
+  const cur = batch.current;
+  if (cur && cur.kind !== 'card' && !previewCard) {
+    S.preset = cur.preset; S.duration = cur.duration; S.intensity = cur.intensity; kfCustom = false; applyPreset();
+    lastIntensity = S.intensity; lastDuration = S.duration; syncControls(); updateSizeInfo(); updateFileName();
+  }
+  renderBatch(); toast(`Every photo now uses ${presetName(S.mvType)}, ${(+S.mvDur).toFixed(1)} s, ${S.mvInt}% intensity.`);
 }
 /* A tiny ZIP maker ("stored", no compression: videos are already compressed),
    so a batch of videos arrives as one download. */
@@ -6575,7 +6805,7 @@ async function systemCheck() {
 }
 systemCheck();
 renderBatch();
-window.__dp = { batch, DIAG, exportBatch, addFilesToBatch, addCurrentToBatch, S, loadSample, exportVideo, renderFrame, setTime, buildTimeline, listFromSlides, newCard, showCard, openMorphEditor, MS, renderBatch, drawTransition, morphDraw, get previewCard() { return previewCard; }, get keys() { return keys; } };
+window.__dp = { batch, DIAG, exportBatch, addFilesToBatch, addCurrentToBatch, S, loadSample, exportVideo, renderFrame, setTime, buildTimeline, listFromSlides, newCard, showCard, drawCard, openMorphEditor, MS, renderBatch, drawTransition, morphDraw, get previewCard() { return previewCard; }, get keys() { return keys; } };
 window.__dpReady = true;
 } catch (err) {
   window.__dpReady = true;

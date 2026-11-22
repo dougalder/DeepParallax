@@ -1,5 +1,39 @@
 # Version history
 
+## 1.9.5 — November 2026
+- **Parallax on title cards.** Cards are built from layers at different depths (background, floating
+  lights, words) that move apart as a gentle camera pushes in, pulls out, drifts, rises or orbits.
+  Cards can also have a background picture (choose, paste or ⌘V), darkened for readable words.
+- **Smoother Play all.** Opening a photo during playback used to send it to the graphics chip three
+  times and process its depth map up to three times, which caused stutters mid-move. Photos are now
+  opened in one pass, every slide is prepared before playback starts, processed depth maps are kept
+  for re-use, and morph points are worked out in advance. A depth map that can't be made no longer
+  stops Play all.
+- **Moves** section on the Slides tab (in place of Random moves), like Transitions: a standard move
+  with length and intensity for new photos, "Use it for every slide" and Random moves.
+- Each slide's Length and Intensity now have sliders as well as number boxes.
+- The Soundtrack section is now above the list of slides.
+- The play button shows pause while playing.
+- Removed the Cross-blur and Cross zoom transitions. Slides that used them now use Crossfade.
+
+## 1.9.4 — November 2026
+- **Fixed: flashes and jumps in videos made in Safari (again, at the root).** Safari kept the app's
+  working pictures on the graphics chip and recycled that memory, and in long 4K exports it sometimes
+  handed back an old picture, with some rows in the wrong colour order. In Safari those pictures now
+  stay in ordinary memory.
+- **Fixed: dragging slides to reorder them** stopped after the first step in Safari. The panel also
+  scrolls when you drag near its top or bottom edge.
+- **+ Title card** goes above the first slide when the first slide is selected, below the selected
+  slide otherwise, and at the end when nothing is selected.
+
+## 1.9.3 — November 2026
+- **Fixed: flashing, torn and wrongly coloured frames in videos made in Safari.** Safari reads a
+  canvas for video a moment after it is handed over, by which time the next frame had started
+  drawing on it, so frames could be mixed (half one picture, half another, sometimes with red and
+  blue swapped). In Safari every frame is now handed over as its own copy of the pixels.
+- **Smoother cross-blur and cross zoom.** The blur now shrinks the picture in halving steps, which
+  averages properly in every browser; Safari made the old single big step look blocky.
+
 ## 1.9.2 — November 2026
 - **Fixed: no sound in videos made in Safari.** Safari's sound encoder describes its AAC sound in a
   way the MP4 file didn't expect, so players saw "0 channels" and stayed silent. DeepParallax now

@@ -22,8 +22,8 @@ PhotoAwake 3D and Deep Pan, but runs on its own, for free, in Safari, Edge, Chro
 - **Look:** brightness, contrast, saturation, warmth, vignette, film grain, sharpening and an
   animated light sweep.
 - **Slideshows:** many photos at once, each with its own move and length, or shuffled at random.
-  Add **title cards** anywhere, and **titles and lower thirds** (name strips) on any photo.
-- **Transitions** chosen per slide: crossfade, fade, dip to colour, cross-blur, cross zoom,
+  Add **title cards** anywhere (with their own layered parallax), and **titles and lower thirds** (name strips) on any photo.
+- **Transitions** chosen per slide: crossfade, fade, dip to colour,
   directional wipe, push, slide, iris, star wipe, clock wipe and a **morph** whose matching points
   are placed automatically on the near layer and horizon (and can be adjusted by hand).
 - **Play all** to watch the whole slideshow live before exporting.

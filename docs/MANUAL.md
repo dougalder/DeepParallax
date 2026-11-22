@@ -1,6 +1,6 @@
 # DeepParallax manual
 
-Version 1.9.2
+Version 1.9.5
 
 This manual explains every part of DeepParallax in plain language. Technical words are explained
 the first time they appear, and there is a [glossary](#18-glossary) at the end.
@@ -72,7 +72,7 @@ your default browser. To choose a different browser on a Mac, right-click the fi
 **Open With**. (The launcher page, `index.html`, is only an introduction; the app is all in
 `DeepParallax.html`.)
 
-The version number is shown in small type next to the app's name, for example **v1.9.2**.
+The version number is shown in small type next to the app's name, for example **v1.9.5**.
 
 ![The start screen](images/start-screen.jpg)
 
@@ -177,13 +177,17 @@ The number on the tab shows how many slides there are.
 (In versions before 1.8 this was called the Batch tab. It still does everything the Batch tab did,
 including one video per photo.)
 
-**The order of the tab, top to bottom:** ▶ Play all, Transitions, Random moves, the list of
-slides, Soundtrack, then Export.
+**The order of the tab, top to bottom:** ▶ Play all, Transitions, Moves, Soundtrack, the list of
+slides, then Export.
 
 **▶ Play all** plays the whole slideshow in the preview, live, with its transitions, titles and the
 fade in and out. The timeline under the preview shows where it is. To stop, click the button again
 (it says **■ Stop** while playing), click the preview, or press Esc or the space bar.
-- Before it starts, any depth maps that haven't been made yet are made, which can take a moment.
+- Before it starts, any depth maps that haven't been made yet are made, every slide is prepared
+  once, and the morph points are worked out. This takes a moment the first time; playing again is
+  quicker. Preparing in advance keeps the moves from stuttering during playback. If a depth map
+  can't be made (no internet the first time, say), that slide plays without the 3D effect and a
+  message says so.
 - Live playback is drawn at preview size with slightly simpler 3D, so it is a little softer than the
   exported video. If the computer can't keep up, playback slows down rather than skipping parts.
 - In backup mode (when the browser's graphics chip is switched off), live playback isn't possible.
@@ -193,8 +197,12 @@ fade in and out. The timeline under the preview shows where it is. To stop, clic
 - **Add photos…** chooses one or more photos.
 - **Open…** on the Main tab with several photos selected also creates (or adds to) the slideshow.
 - **Add open photo** puts the photo you're working on into the slideshow.
-- **+ Title card** adds a card straight after the slide that's showing (or at the end). Its editing
-  panel opens so you can type the words. Drag it by its handle to put it somewhere else.
+- **+ Title card** adds a card. Where it goes depends on which slide is selected (showing):
+  - the **first** slide selected: the card goes **above** it, as an opening title;
+  - any **other** slide selected: the card goes **below** it;
+  - nothing selected: the card goes at the **end**.
+
+  Its editing panel opens so you can type the words. Drag it by its handle to move it.
 
 **The rows.** Each slide has a row with a small picture, its name, and a summary: the camera move,
 the length, whether its depth map is ready, and whether it has a title or lower third. **Click a
@@ -202,9 +210,9 @@ row** to show that slide in the preview; it is marked *showing*. The icons, left
 
 | Icon | What it does |
 |---|---|
-| ⋮⋮ (drag handle) | Drag up or down to change the order. |
+| ⋮⋮ (drag handle) | Drag up or down to change the order. Near the top or bottom of the panel, the list scrolls by itself so you can drag a slide a long way. |
 | Eye | Include or leave out of the export. A crossed-out eye means it will be skipped. |
-| Pencil / tick | Opens a panel under the row. For a photo: its move, length, intensity, title, subtitle and lower third. For a title card: its words, length and background. Tap the tick to close it. |
+| Pencil / tick | Opens a panel under the row. For a photo: its move, and its length and intensity (each with a slider and a number box), title, subtitle and lower third. For a title card: its words, length, background and parallax. Tap the tick to close it. |
 | Arrow | Shows the slide in the preview (same as clicking the row). |
 | Bin | Removes the slide (not the photo on your computer). If it was showing, the next one is shown. |
 
@@ -226,6 +234,22 @@ title, a chapter heading ("Day 2: Jasper") or a closing "The End". Each card has
 
 The words fade in and out by themselves, and use the text style from the Text tab.
 
+*Background picture.* Instead of the colours, a card can show a picture behind the words: click
+**Choose…** or **Paste** in the card's panel, or press ⌘V while the card is showing. **Darken the
+picture** (35% at first) keeps the words readable. **Remove** goes back to the colours.
+
+*Parallax on title cards.* A title card has no depth map, so DeepParallax builds its 3D effect from
+layers at different depths: the background (far away), optional **floating lights** at three depths
+in between, and the words (nearest). As the camera moves, the nearer layers move and grow more than
+the far ones, so the words glide over the background. In the card's panel:
+- **Camera movement**: No movement, Push in, Pull out, Drift sideways, Rise or Orbit. New cards use
+  Push in.
+- **Depth amount** (0 to 100%) sets how strong the effect is.
+- **Floating lights at different depths** adds soft lights that make the depth easier to see,
+  especially on plain colours.
+
+The Text tab has the movement and the lights too, for the card that is showing.
+
 **Transitions**
 
 Between every two rows there is a thin bar showing the transition, for example
@@ -238,8 +262,6 @@ its settings:
 | Crossfade | The first picture dissolves smoothly into the second. |
 | Fade through black | The first picture fades to black, then the second fades up. |
 | Dip to colour | The same, through a colour you choose (white is popular). |
-| Cross-blur | The first picture goes soft and blurry, turns into the second, which sharpens up. |
-| Cross zoom | A fast zoom with motion blur from one picture into the next. |
 | Directional wipe | A soft-edged line sweeps across, revealing the next picture. |
 | Push | The next picture pushes the first one out of the frame. |
 | Slide over | The next picture slides in on top of the first. |
@@ -249,7 +271,7 @@ its settings:
 | Morph | One picture melts into the other, with matching features gliding onto each other (see below). |
 
 Depending on the transition, you can also set its **Length** (0.2 to 4 seconds), the **Direction**,
-the **Soft edge**, the **Amount** of blur or zoom, the **Colour** to dip to, or the number of **Star
+the **Soft edge**, the **Colour** to dip to, or the number of **Star
 points**. Two buttons sit underneath:
 - **▶ Preview this transition** makes a short, low-resolution video of just that moment (about one
   second before and after) and plays it in a box on screen.
@@ -268,10 +290,14 @@ Under **Transitions** further down the tab:
 - **Fade in from black at the start** and **Fade out to black at the end** (both on at first) give
   the whole slideshow a gentle beginning and end.
 
-**Random moves**
-- **🎲 Shuffle moves** gives every included photo a random camera move.
-- **Use the current move for all** copies the move, length and intensity of the photo you're working
-  on to every photo.
+**Moves**
+
+This section works like Transitions, for the camera moves on photos.
+- **Standard camera move**, with its **Length** and **Intensity** (each with a slider and a number
+  box), is what new photos get when you add them.
+- **Use it for every slide** gives every photo the standard move, length and intensity.
+- **🎲 Random moves** gives every included photo a random camera move.
+- Each photo's own move, length and intensity can still be changed with the pencil on its row.
 - Under **Shuffle options**: **Never the same move twice in a row** (on at first) avoids repeats
   next to each other, and **Also vary the lengths when shuffling** picks a random length between
   **Shortest** and **Longest**.
@@ -600,6 +626,7 @@ progress box shows an estimate of the time left. In backup mode (see below) it's
 | An export on iPhone or iPad fails, or mentions memory or frames | Use 1080p. Close other apps and browser tabs, then try again. |
 | A transition looks too fast or slow | Click its bar between the rows on the Slides tab and change its Length. A transition can't be longer than half of either slide it joins. |
 | The morph smears or tears | Open *See and adjust the points…* and drag the dots near the tear onto matching features, or add pairs there. Very different pictures (one zoomed far in, a subject cut off by the edge) smear most. Lowering *Background follows by* also helps. |
+| Flashing, jumping, torn or oddly coloured frames in a video made in Safari (1.9.3 and earlier) | Fixed in 1.9.4. Export again. |
 | A video made in Safari has no sound (versions 1.9.1 and earlier) | Fixed in 1.9.2. Export again. |
 | The slideshow flashes a grey, cloudy picture (the depth view) in Safari (1.9.1 and earlier) | Fixed in 1.9.2. Export again. |
 | Play all is jerky | Live playback depends on the graphics chip. Close other tabs, or use *▶ Quick preview*, which makes a small video and plays it smoothly. |
