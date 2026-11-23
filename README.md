@@ -3,6 +3,12 @@
 
 Sample video
 
+
+
+https://github.com/user-attachments/assets/a823c0a9-8c82-44ed-a76e-96c2cae0ce3f
+
+Walkthrough Video
+
 **Turn a still photo into a short 3D camera-move video, right in your web browser.**
 
 DeepParallax creates a depth map, working out what is near and what is far in a photo, then moves a virtual
