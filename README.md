@@ -1,5 +1,6 @@
 # DeepParallax
 <img width="360" height="640" alt="2026-11-21 DeepParallax-Slideshow of 6-2160x3840-small" src="https://github.com/user-attachments/assets/44d48fb5-5e13-49d1-a40f-7d3076388590" />
+
 Sample video
 
 **Turn a still photo into a short 3D camera-move video, right in your web browser.**
