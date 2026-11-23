@@ -1,5 +1,10 @@
 # Version history
 
+## 1.9.6 — November 2026
+- On-screen wording now talks about **creating the depth map** instead of "the AI": for example the
+  **Create the depth map** button, **Depth map quality**, **Create depth maps on**, and the
+  **depth map files** that are downloaded the first time.
+
 ## 1.9.5 — November 2026
 - **Parallax on title cards.** Cards are built from layers at different depths (background, floating
   lights, words) that move apart as a gentle camera pushes in, pulls out, drifts, rises or orbits.

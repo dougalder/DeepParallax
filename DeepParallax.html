@@ -318,7 +318,7 @@ details.help summary{cursor:pointer;color:var(--muted);font-weight:600;font-size
         <details class="help"><summary>How it works</summary>
           <div class="note" style="margin-top:6px">
             <b>Photo</b> – load a picture.<br>
-            <b>Depth map</b> – the AI makes a grey picture where white means near and black means far. It runs on your computer; the first time, it downloads about 100 MB.<br>
+            <b>Depth map</b> – DeepParallax creates a grey picture where white means near and black means far. This happens on your computer; the first time, it downloads about 100 MB of depth map files.<br>
             <b>Camera move</b> – near things slide more than far things, which makes it feel 3D (that's called <i>parallax</i>).<br>
             <b>Export</b> – saves an MP4 video to your Downloads folder.<br>
             Everything else (depth fine-tuning, keyframes, lens, colour, file settings) lives in the other tabs.
@@ -329,7 +329,7 @@ details.help summary{cursor:pointer;color:var(--muted);font-weight:600;font-size
             <b>DeepParallax</b> v<span class="verText"></span> by Douglas Alder. MIT licence.<br>
             Built with: <b>mp4-muxer</b> (MIT, Vanilagy) and <b>ONNX Runtime Web</b> (MIT, Microsoft), both included in this file; <b>Transformers.js</b> (Apache 2.0, Hugging Face), loaded when needed.<br>
             The morph transition follows the method of <b>Morph Lab</b> (MIT, github.com/dougalder/morph-lab).<br>
-            Depth AI: <b>Depth Anything V2</b> by Lihe Yang and colleagues. The Standard (Small) model is Apache 2.0. The Detailed (Base) model is <b>CC BY-NC 4.0: non-commercial use only</b>. Models are downloaded from Hugging Face on first use, not included in this file.<br>
+            Depth maps are created with <b>Depth Anything V2</b> by Lihe Yang and colleagues. The Standard (Small) model is Apache 2.0. The Detailed (Base) model is <b>CC BY-NC 4.0: non-commercial use only</b>. Models are downloaded from Hugging Face on first use, not included in this file.<br>
             Your photos are processed on your own device and are never uploaded.<br>
             Not affiliated with FxFactory, omotion, PhotoAwake 3D or Deep Pan, which inspired it. Full notices: THIRD_PARTY_NOTICES.md in the project repository.
           </div>
@@ -479,31 +479,31 @@ details.help summary{cursor:pointer;color:var(--muted);font-weight:600;font-size
       <!-- DEPTH -->
       <div class="tab" data-t="depth">
         <h3>Make the depth map</h3>
-        <button class="btn primary wide" id="genDepth">Generate depth map with AI</button>
-        <p class="hint" id="aiStatus">The first run downloads the AI model (about 100 MB for the standard one). After that your browser usually keeps a copy. Your photo never leaves your computer.</p>
+        <button class="btn primary wide" id="genDepth">Create the depth map</button>
+        <p class="hint" id="aiStatus">The first time, the depth map files are downloaded (about 100 MB for Standard). After that your browser usually keeps a copy. Your photo never leaves your computer.</p>
         <div class="grid2" style="margin-top:10px">
-          <div class="sel field"><label>AI model</label><select data-k="model">
+          <div class="sel field"><label>Depth map quality</label><select data-k="model">
             <option value="small">Standard (≈100 MB)</option>
             <option value="base">Detailed (≈390 MB, slower, non-commercial use only)</option></select></div>
           <div class="sel field"><label>Detail</label><select data-k="detail">
             <option value="392">Fast</option><option value="518">Normal</option><option value="700">High</option></select></div>
         </div>
-        <div class="sel field"><label>Run the AI on</label><select data-k="engine">
+        <div class="sel field"><label>Create depth maps on</label><select data-k="engine">
           <option value="auto">Automatic (graphics chip if possible)</option>
           <option value="gpu">Graphics chip (WebGPU)</option>
           <option value="cpu">Main processor (slower, most compatible)</option></select></div>
         <label class="chk"><input type="checkbox" data-k="autoDepth">Make a depth map automatically when a photo loads</label>
         <div class="note" id="aiFiles" style="display:none">
-          <b>AI files (one time only)</b><br>
+          <b>Depth map files (one time only)</b><br>
           Some browsers, such as Edge on iPhone and iPad with a page opened from Files, block the app from downloading these itself. Ordinary downloads still work, so:<br>
           <b>1.</b> Tap each link and save the file (it goes to Downloads in the Files app):<br>
-          <a class="dl" href="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.17.3/dist/ort-wasm-simd.wasm" target="_blank" rel="noopener">⬇ AI engine: ort-wasm-simd.wasm (10 MB)</a>
-          <a class="dl" href="https://huggingface.co/onnx-community/depth-anything-v2-small/resolve/main/onnx/model.onnx" target="_blank" rel="noopener">⬇ AI model: model.onnx (99 MB)</a>
+          <a class="dl" href="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.17.3/dist/ort-wasm-simd.wasm" target="_blank" rel="noopener">⬇ Depth engine: ort-wasm-simd.wasm (10 MB)</a>
+          <a class="dl" href="https://huggingface.co/onnx-community/depth-anything-v2-small/resolve/main/onnx/model.onnx" target="_blank" rel="noopener">⬇ Depth map model: model.onnx (99 MB)</a>
           <b>2.</b> Come back here and tap the button below, then choose both files (tap one, then the other).<br>
-          <button class="btn primary wide" id="aiPick" style="margin-top:8px">Choose the AI files…</button>
+          <button class="btn primary wide" id="aiPick" style="margin-top:8px">Choose the depth map files…</button>
           <p class="hint">The app keeps them, so you won't need to do this again in this browser.</p>
         </div>
-        <button class="linkbtn" id="aiShow" style="margin:-4px 0 10px">AI not working? Add the AI files by hand</button>
+        <button class="linkbtn" id="aiShow" style="margin:-4px 0 10px">Depth map not working? Add the depth map files by hand</button>
         <canvas id="depthThumb" width="320" height="180"></canvas>
         <h3>Adjust the depth</h3>
         <div class="sl" data-k="strength" data-label="3D amount" data-min="0" data-max="100" data-unit="%" data-hint="How far apart near and far things are. More = stronger 3D, but more stretching at edges."></div>
@@ -2634,7 +2634,7 @@ if (typeof module === "object" && typeof module.exports === "object") Object.ass
 (async function () {
 'use strict';
 try {
-const APP_VERSION = '1.9.5';
+const APP_VERSION = '1.9.6';
 const DIAG = [];
 function diag(m) { DIAG.push(new Date().toISOString().slice(11, 19) + '  ' + m); if (DIAG.length > 400) DIAG.shift(); console.log('[DeepParallax] ' + m); }
 const UA = navigator.userAgent;
@@ -3447,13 +3447,13 @@ function loadScript(url) {
     document.head.appendChild(sc);
   });
 }
-async function fetchModel(url, onProgress, label = 'the AI model') {
+async function fetchModel(url, onProgress, label = 'the depth map files') {
   // downloads the AI model with a progress bar, and keeps a copy for next time when the browser allows
   let cache = null;
   try { if (typeof caches !== 'undefined') cache = await caches.open('deepparallax-models'); } catch (e) { cache = null; }
-  if (cache) { try { const hit = await cache.match(url); if (hit) { onProgress(null, 'Loading the AI model from this device…'); return await hit.arrayBuffer(); } } catch (e) {} }
+  if (cache) { try { const hit = await cache.match(url); if (hit) { onProgress(null, 'Loading the depth map files from this device…'); return await hit.arrayBuffer(); } } catch (e) {} }
   const resp = await fetch(url);
-  if (!resp.ok) throw new Error('The AI model download failed (' + resp.status + ').');
+  if (!resp.ok) throw new Error('The depth map files did not download (' + resp.status + ').');
   const total = +resp.headers.get('content-length') || 0;
   let buf;
   if (resp.body && resp.body.getReader) {
@@ -3507,9 +3507,9 @@ async function loadOrtModel(onProgress) {
   ort.env.wasm.wasmPaths = ORT_URL; ort.env.wasm.numThreads = 1; ort.env.wasm.simd = true;
   const url = modelUrl();
   if (ortSession && ortKey === url) return { model: ortSession, device: 'ort' };
-  if (!ortWasm) ortWasm = new Uint8Array(await getBigFile(WASM_URL, 'the AI engine', onProgress));
-  const buf = await getBigFile(url, 'the AI model', onProgress);
-  onProgress(null, 'Starting the AI (this can take a little while on a phone)…'); await nextFrame();
+  if (!ortWasm) ortWasm = new Uint8Array(await getBigFile(WASM_URL, 'the depth engine', onProgress));
+  const buf = await getBigFile(url, 'the depth map files', onProgress);
+  onProgress(null, 'Getting ready to create the depth map (this can take a little while on a phone)…'); await nextFrame();
   ortSession = await ort.InferenceSession.create(new Uint8Array(buf), { executionProviders: ['wasm'] });
   ortKey = url;
   diag('AI: compatibility path ready (' + url.split('/')[3] + '/' + url.split('/')[4] + ')');
@@ -3517,7 +3517,7 @@ async function loadOrtModel(onProgress) {
 }
 async function addAiFiles(files) {
   let got = 0;
-  busy.show('Keeping the AI files on this device', '');
+  busy.show('Keeping the depth map files on this device', '');
   for (const f of files) {
     const buf = await f.arrayBuffer(), head = new Uint8Array(buf, 0, 4);
     const isWasm = head[0] === 0 && head[1] === 0x61 && head[2] === 0x73 && head[3] === 0x6d; // "\0asm"
@@ -3530,16 +3530,16 @@ async function addAiFiles(files) {
   }
   busy.hide();
   diag(`AI files chosen by hand: ${got}`);
-  if (!got) return toast('Those don\'t look like the AI files. Choose “ort-wasm-simd.wasm” and “model.onnx”.', 6000);
+  if (!got) return toast('Those don\'t look like the depth map files. Choose “ort-wasm-simd.wasm” and “model.onnx”.', 6000);
   aiPath = 'ort';
-  toast('AI files ready. Making the depth map…');
+  toast('Depth map files ready. Creating the depth map…');
   $('#aiFiles').style.display = 'none';
   if (photo) generateDepth();
 }
 async function loadAI(onProgress) {
   if (!aiPath) {
     try {
-      onProgress(null, 'Loading the AI toolkit…');
+      onProgress(null, 'Loading the depth map tools…');
       T = await import(TRANSFORMERS_URL);
       T.env.allowLocalModels = false;
       T.env.useBrowserCache = await canUseCache();
@@ -3561,14 +3561,14 @@ async function loadAI(onProgress) {
     if (aiModel && aiKey === key) return { model: aiModel, device };
     const files = {};
     try {
-      onProgress(null, `Loading the depth model (${device === 'webgpu' ? 'graphics chip' : 'main processor'})…`);
+      onProgress(null, `Loading the depth map tools (${device === 'webgpu' ? 'graphics chip' : 'main processor'})…`);
       const m = await T.AutoModel.from_pretrained(id, {
         device, dtype: 'fp32',
         progress_callback: (p) => {
           if (p.status === 'progress' && p.total) {
             files[p.file] = [p.loaded, p.total];
             let l = 0, t = 0; for (const k in files) { l += files[k][0]; t += files[k][1]; }
-            onProgress(l / t, `Downloading the AI model: ${(l / 1048576).toFixed(0)} of ${(t / 1048576).toFixed(0)} MB (first time only)`);
+            onProgress(l / t, `Downloading the depth map files: ${(l / 1048576).toFixed(0)} of ${(t / 1048576).toFixed(0)} MB (first time only)`);
           }
         }
       });
@@ -3577,7 +3577,7 @@ async function loadAI(onProgress) {
       return { model: m, device };
     } catch (e) { console.warn('Model load failed on', device, e); lastErr = e; }
   }
-  throw lastErr || new Error('Could not load the depth model.');
+  throw lastErr || new Error('Could not load the depth map tools.');
 }
 
 function makeInput(shortSide) {
@@ -3657,7 +3657,7 @@ async function generateDepth(opts = {}) {
   if (!inBatch) busy.show('Making the depth map', 'Getting ready…');
   try {
     let { model, device } = await loadAI((p, msg) => busy.progress(p, msg));
-    busy.progress(null, 'The AI is studying your photo…'); await nextFrame();
+    busy.progress(null, 'Creating the depth map…'); await nextFrame();
     const inp = makeInput(+S.detail);
     let pd;
     try { pd = await runModel(model, device, inp); }
@@ -3693,15 +3693,15 @@ async function generateDepth(opts = {}) {
     if (inBatch) throw e;
     console.error(e); busy.hide();
     if (e instanceof NeedFiles) {
-      setDepthState('<span style="color:var(--danger)">This browser blocked the AI download. See the Depth tab.</span>', 'Try again');
-      $('#aiStatus').innerHTML = `<span style="color:var(--danger)">This browser won't let the app download the AI files itself.</span> You can add them by hand once — see “AI files” below.`;
+      setDepthState('<span style="color:var(--danger)">This browser blocked the depth map download. See the Depth tab.</span>', 'Try again');
+      $('#aiStatus').innerHTML = `<span style="color:var(--danger)">This browser won't let the app download the depth map files itself.</span> You can add them by hand once — see “Depth map files” below.`;
       $('#aiFiles').style.display = '';
       selectTab('depth'); $('#aiFiles').scrollIntoView({ block: 'center', behavior: 'smooth' });
       return;
     }
     const msg = String(e && e.message || e);
     setDepthState('<span style="color:var(--danger)">The depth map could not be made (details in the Depth tab).</span>', 'Try again');
-    $('#aiStatus').innerHTML = `<span style="color:var(--danger)">The AI could not run: ${escapeHtml(msg.slice(0, 180))}</span><br>Check your internet connection (the model downloads the first time), try “Main processor” above, or load a depth map image instead.`;
+    $('#aiStatus').innerHTML = `<span style="color:var(--danger)">The depth map could not be created: ${escapeHtml(msg.slice(0, 180))}</span><br>Check your internet connection (the depth map files download the first time), try “Main processor” above, or load a depth map image instead.`;
     toast('The depth map could not be made. See the Depth tab for details.', 5000);
     selectTab('depth');
   }
@@ -3766,7 +3766,7 @@ function loadSample() {
     S.subject = 90; syncControls();
     if (!kfCustom) applyPreset();
     setDepthState('<b>✓ Depth map included</b> with the sample.', '');
-    $('#aiStatus').textContent = 'The sample scene comes with its own depth map, so the AI is not needed for it.';
+    $('#aiStatus').textContent = 'The sample scene comes with its own depth map, so none needs to be created for it.';
     toast('Sample scene loaded. Press play.');
   });
 }
@@ -4611,7 +4611,7 @@ $('#depthIn').onchange = async e => {
     const url = URL.createObjectURL(f); const img = new Image(); img.src = url; await img.decode(); URL.revokeObjectURL(url);
     depthFull = normalizeRobust(readGray(img, dfW, dfH)); depthReal = true;
     applyCrop(); autoSubject(); if (!kfCustom) applyPreset(); storeDepthInBatch();
-    setDepthState('<b>✓ Using your depth map.</b>', 'Use AI instead');
+    setDepthState('<b>✓ Using your depth map.</b>', 'Create one instead');
     $('#aiStatus').textContent = `Using your depth map: ${f.name}`;
   } catch (err) { toast('That depth image could not be opened.'); }
 };
@@ -5906,7 +5906,7 @@ async function makeMissingDepths(items) {
       diag('Depth map for ' + it.name + ' failed: ' + (e && e.message || e));
     }
   }
-  if (failed) toast(`${failed} depth map${failed === 1 ? '' : 's'} could not be made, so ${failed === 1 ? 'that slide plays' : 'those slides play'} without the 3D effect. Check the internet connection, or the AI files on the Depth tab.`, 8000);
+  if (failed) toast(`${failed} depth map${failed === 1 ? '' : 's'} could not be made, so ${failed === 1 ? 'that slide plays' : 'those slides play'} without the 3D effect. Check the internet connection, or the depth map files on the Depth tab.`, 8000);
 }
 async function playAll() {
   if (PA.on) { PA.stop = true; return; }
@@ -6787,9 +6787,9 @@ async function systemCheck() {
   add('Video export (HD)', enc, enc ? 'Yes' : 'Not available');
   add('Video export (4K)', enc4k, enc4k ? 'Yes' : 'Not available');
   let gpu = false; if (navigator.gpu) { try { gpu = !!(await navigator.gpu.requestAdapter()); } catch (e) {} }
-  add('AI on graphics chip (WebGPU)', gpu, gpu ? 'Yes' : 'No – will use the main processor');
+  add('Depth maps on graphics chip (WebGPU)', gpu, gpu ? 'Yes' : 'No – will use the main processor');
   const cache = await canUseCache();
-  add('Keeps AI model between visits', cache, cache ? 'Yes' : 'No – downloads each visit');
+  add('Keeps depth map files between visits', cache, cache ? 'Yes' : 'No – downloads each visit');
   const ua = navigator.userAgent;
   const br = /Edg\//.test(ua) ? 'Microsoft Edge' : /Chrome\//.test(ua) ? 'Chrome' : /Firefox\//.test(ua) ? 'Firefox' : /Safari\//.test(ua) ? 'Safari' : 'Unknown';
   { const ac = await chooseAudio(); add('Sound in videos', !!ac, ac ? (ac.mux === 'aac' ? 'Yes (AAC)' : 'Yes (Opus: may not play in QuickTime)') : 'No – videos will be silent'); }

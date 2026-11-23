@@ -1,6 +1,6 @@
 # DeepParallax manual
 
-Version 1.9.5
+Version 1.9.6
 
 This manual explains every part of DeepParallax in plain language. Technical words are explained
 the first time they appear, and there is a [glossary](#18-glossary) at the end.
@@ -36,8 +36,8 @@ your brain judges depth.
 
 DeepParallax recreates it from a single still photo:
 
-1. An AI looks at the photo and makes a **depth map**: a grey picture of the same scene where white
-   means near and black means far. Nobody measured anything; the AI makes an educated guess, and it
+1. DeepParallax creates a **depth map** from the photo: a grey picture of the same scene where white
+   means near and black means far. Nobody measured anything; it is an educated guess, and it
    is usually a good one.
 2. The app treats the photo as a scene with real depth and moves a virtual camera through it. Near
    parts shift more than far parts.
@@ -50,7 +50,7 @@ Everything happens inside your web browser, on your own device. Your photos are 
 
 - **A current web browser.** Safari 16.4 or later, Chrome or Edge 94 or later, or a recent Firefox.
   Safari on Mac works even if its WebGL setting is off (see [section 16](#16-troubleshooting)).
-- **An internet connection the first time you make a depth map**, to download the AI files (about
+- **An internet connection the first time you make a depth map**, to download the depth map files (about
   100 MB for the Standard model). After that they are kept on your device.
 - **A reasonably recent computer.** Any Mac with Apple silicon (M1 or later) handles 4K well. Older
   machines and phones work, but 1080p is a better choice there.
@@ -72,7 +72,7 @@ your default browser. To choose a different browser on a Mac, right-click the fi
 **Open With**. (The launcher page, `index.html`, is only an introduction; the app is all in
 `DeepParallax.html`.)
 
-The version number is shown in small type next to the app's name, for example **v1.9.5**.
+The version number is shown in small type next to the app's name, for example **v1.9.6**.
 
 ![The start screen](images/start-screen.jpg)
 
@@ -80,7 +80,7 @@ The version number is shown in small type next to the app's name, for example **
 
 1. Click **Open…** (or **Paste**, or drag a photo onto the preview).
    To try things without a photo of your own, click **Sample**.
-2. Wait for **✓ Depth map ready**. The first time, a progress bar shows the AI download.
+2. Wait for **✓ Depth map ready**. The first time, a progress bar shows the depth map files downloading.
 3. Click a **camera move** button. The preview starts playing.
 4. Adjust **Length** (seconds) and **Intensity** (how strong the movement is).
 5. Pick a resolution (**720p**, **1080p**, **1440p** or **4K**) and click **Export video**.
@@ -98,7 +98,7 @@ size in pixels.
 - **Timeline (below the preview).** The play button, the time, and a slider you can drag to any
   moment. Small blue marks show where the keyframes are (see [section 10](#10-camera-tab)).
 - **Result / Depth / Split.** *Result* shows the finished look. *Depth* shows the depth map. *Split*
-  shows the result on the left and the depth map on the right, so you can check the AI's guesses.
+  shows the result on the left and the depth map on the right, so you can check the depth map's guesses.
 - **Tabs (right).** Main, Slides, Text, Depth, Camera, Lens, Look and Export. Everything you need for a
   normal video is on **Main**; the other tabs are for fine-tuning.
 - **Light / dark button** (top right) switches the colour scheme.
@@ -447,24 +447,24 @@ never wobbles with the camera move. The preview shows it too.
 ## 9. Depth tab
 
 **Making the depth map**
-- **Generate depth map with AI** makes (or remakes) it.
-- **AI model**: **Standard** (about 100 MB; good for most photos; free for any use) or **Detailed**
+- **Create the depth map** makes (or remakes) it.
+- **Depth map quality**: **Standard** (about 100 MB; good for most photos; free for any use) or **Detailed**
   (about 390 MB; slower; sometimes finer edges; **licensed for non-commercial use only**, see
   [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md)).
 - **Detail**: Fast, Normal or High. Higher looks at the photo in more detail but takes longer and
   uses more memory.
-- **Run the AI on**: *Automatic* uses the graphics chip when possible. *Main processor* is slower
-  but works everywhere; try it if the AI fails.
+- **Create depth maps on**: *Automatic* uses the graphics chip when possible. *Main processor* is slower
+  but works everywhere; try it if creating the depth map fails.
 - **Make a depth map automatically when a photo loads**: on by default.
 - The small grey picture is the current depth map (white = near).
 
-**AI files (one time only).** Some browsers, such as Edge on iPhone and iPad opening a page from the
-Files app, won't let a page download the AI files itself. If that happens, this box appears (you can
-also open it with the link **AI not working? Add the AI files by hand**):
+**Depth map files (one time only).** Some browsers, such as Edge on iPhone and iPad opening a page from the
+Files app, won't let a page download the depth map files itself. If that happens, this box appears (you can
+also open it with the link **Depth map not working? Add the depth map files by hand**):
 
-1. Tap the two links to download the **AI engine** (`ort-wasm-simd.wasm`, 10 MB) and the **AI
+1. Tap the two links to download the **depth engine** (`ort-wasm-simd.wasm`, 10 MB) and the **depth map
    model** (`model.onnx`, 99 MB). These are ordinary downloads, which every browser allows.
-2. Tap **Choose the AI files…** and pick both files.
+2. Tap **Choose the depth map files…** and pick both files.
 
 The app keeps them, so you only do this once per browser.
 
@@ -472,9 +472,9 @@ The app keeps them, so you only do this once per browser.
 - **3D amount**: how far apart near and far are. More gives stronger 3D, but more stretching.
 - **Edge protection**: grows near objects very slightly, so that the stretching that happens behind a
   subject's edge falls on the background, not on the subject.
-- **Smoothing**: softens the depth map. Hides small AI mistakes at the cost of detail.
+- **Smoothing**: softens the depth map. Hides small mistakes in the depth map at the cost of detail.
 - **Near / far balance**: positive values bring more of the picture forward; negative push it back.
-- **Invert**: swaps near and far, in case the AI got it backwards (rare).
+- **Invert**: swaps near and far, in case the depth map got it backwards (rare).
 - **Load depth image…** uses a depth map from another app (white = near).
 - **Save depth map** saves the current one as a PNG picture.
 
@@ -491,7 +491,7 @@ The app keeps them, so you only do this once per browser.
 - **Reset framing** puts everything back.
 
 **Crop** trims the photo itself: **Top**, **Bottom**, **Left** and **Right**, each up to 40%. These
-add to *Crop edges* on the Main tab. Changing the crop doesn't re-run the AI.
+add to *Crop edges* on the Main tab. Changing the crop doesn't create the depth map again.
 **Keep the photo's outer edges straight** (on by default) calms the depth near the border so the
 edges glide as one piece instead of rippling.
 
@@ -583,7 +583,7 @@ progress box shows an estimate of the time left. In backup mode (see below) it's
 
 - **Opening the app**: from a web address (GitHub Pages) is easiest. Opening the file from the Files
   app also works in Edge.
-- **The first depth map** downloads about 100 MB. If the browser blocks it, use the *AI files*
+- **The first depth map** downloads about 100 MB. If the browser blocks it, use the *Depth map files*
   box ([section 9](#9-depth-tab)). Making a depth map on a phone can take 10 to 30 seconds.
 - **Saving videos**: when an export finishes, a box appears. Tap **Save to Photos / Share…**, then
   **Save Video** (or **Save 3 Videos** when there are several). The file names in the box are download links, as
@@ -602,7 +602,7 @@ progress box shows an estimate of the time left. In backup mode (see below) it's
 ## 15. Tips for good results
 
 - **Clear subjects work best**: a person, animal or object in front of a background. Busy scenes,
-  fine hair, fences, glass and reflections confuse the AI more.
+  fine hair, fences, glass and reflections are harder to read for depth.
 - **Use Split view** to check the depth map. If something is wrong, try Smoothing, Edge protection,
   or the Detailed model.
 - **Less is more.** Intensity around 30 to 60% and lengths of 5 to 8 seconds look natural. Big
@@ -617,7 +617,7 @@ progress box shows an estimate of the time left. In backup mode (see below) it's
 | Problem | What to do |
 |---|---|
 | A red message appears at the top | Read it; it usually says what to do. Click it to close it. If it keeps happening, copy the report (see [section 17](#17-browser-check-and-reports)). |
-| "The AI could not run" | Check your internet connection the first time. Try *Run the AI on: Main processor*. On iPhone or iPad, use the *AI files* box. Or load a depth map image. |
+| "The depth map could not be created" | Check your internet connection the first time. Try *Create depth maps on: Main processor*. On iPhone or iPad, use the *Depth map files* box. Or load a depth map image. |
 | "Backup mode" note on the Main tab | The browser's 3D graphics (WebGL and WebGPU) are both unavailable, so the main processor does the drawing. Everything works, more slowly. Exports at 1080p are about four times faster than 4K. |
 | Safari says WebGL is off | DeepParallax uses WebGPU instead, automatically. If neither works: quit Safari completely (⌘Q) and reopen it; check that Lockdown Mode is off (System Settings › Privacy & Security); in Safari › Settings › Advanced, tick "Show features for web developers", then check Develop › Feature Flags for WebGL. |
 | Export seems stuck | Wait a minute: the first frames of a 4K export can be slow. If it truly stops, an error message appears after a while. Try 1080p or the other video format. |
@@ -639,8 +639,8 @@ At the bottom of the Main tab, **Browser check** lists what your browser support
 
 - **Graphics chip drawing**: WebGL, WebGPU, or "backup mode".
 - **Video export (HD / 4K)**: whether the browser can make MP4 video at those sizes.
-- **AI on graphics chip (WebGPU)**: whether the AI can use the graphics chip.
-- **Keeps AI model between visits**: whether the downloaded AI files can be kept.
+- **Depth maps on graphics chip (WebGPU)**: whether depth maps can be created on the graphics chip.
+- **Keeps depth map files between visits**: whether the downloaded depth map files can be kept.
 - **Browser**: which browser was detected.
 
 **Copy a report** puts a short technical log on your clipboard (no photos). If you ask for help,

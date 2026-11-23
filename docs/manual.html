@@ -39,7 +39,7 @@ pre{background:var(--code);padding:12px;border-radius:8px;overflow-x:auto}
 </header>
 <main>
 <h1 id="deepparallax-manual">DeepParallax manual</h1>
-<p>Version 1.9.5</p>
+<p>Version 1.9.6</p>
 <p>This manual explains every part of DeepParallax in plain language. Technical words are explained
 the first time they appear, and there is a <a href="#18-glossary">glossary</a> at the end.</p>
 <h2 id="contents">Contents</h2>
@@ -70,8 +70,8 @@ hardly moves. That difference in movement is called <strong>parallax</strong>, a
 your brain judges depth.</p>
 <p>DeepParallax recreates it from a single still photo:</p>
 <ol>
-<li>An AI looks at the photo and makes a <strong>depth map</strong>: a grey picture of the same scene where white
-   means near and black means far. Nobody measured anything; the AI makes an educated guess, and it
+<li>DeepParallax creates a <strong>depth map</strong> from the photo: a grey picture of the same scene where white
+   means near and black means far. Nobody measured anything; it is an educated guess, and it
    is usually a good one.</li>
 <li>The app treats the photo as a scene with real depth and moves a virtual camera through it. Near
    parts shift more than far parts.</li>
@@ -83,7 +83,7 @@ your brain judges depth.</p>
 <ul>
 <li><strong>A current web browser.</strong> Safari 16.4 or later, Chrome or Edge 94 or later, or a recent Firefox.
   Safari on Mac works even if its WebGL setting is off (see <a href="#16-troubleshooting">section 16</a>).</li>
-<li><strong>An internet connection the first time you make a depth map</strong>, to download the AI files (about
+<li><strong>An internet connection the first time you make a depth map</strong>, to download the depth map files (about
   100 MB for the Standard model). After that they are kept on your device.</li>
 <li><strong>A reasonably recent computer.</strong> Any Mac with Apple silicon (M1 or later) handles 4K well. Older
   machines and phones work, but 1080p is a better choice there.</li>
@@ -101,13 +101,13 @@ with <strong>Share → Add to Home Screen</strong>.</p>
 your default browser. To choose a different browser on a Mac, right-click the file and choose
 <strong>Open With</strong>. (The launcher page, <code>index.html</code>, is only an introduction; the app is all in
 <code>DeepParallax.html</code>.)</p>
-<p>The version number is shown in small type next to the app's name, for example <strong>v1.9.5</strong>.</p>
+<p>The version number is shown in small type next to the app's name, for example <strong>v1.9.6</strong>.</p>
 <p><img alt="The start screen" src="images/start-screen.jpg" /></p>
 <h2 id="4-quick-start">4. Quick start</h2>
 <ol>
 <li>Click <strong>Open…</strong> (or <strong>Paste</strong>, or drag a photo onto the preview).
    To try things without a photo of your own, click <strong>Sample</strong>.</li>
-<li>Wait for <strong>✓ Depth map ready</strong>. The first time, a progress bar shows the AI download.</li>
+<li>Wait for <strong>✓ Depth map ready</strong>. The first time, a progress bar shows the depth map files downloading.</li>
 <li>Click a <strong>camera move</strong> button. The preview starts playing.</li>
 <li>Adjust <strong>Length</strong> (seconds) and <strong>Intensity</strong> (how strong the movement is).</li>
 <li>Pick a resolution (<strong>720p</strong>, <strong>1080p</strong>, <strong>1440p</strong> or <strong>4K</strong>) and click <strong>Export video</strong>.</li>
@@ -123,7 +123,7 @@ size in pixels.</p>
 <li><strong>Timeline (below the preview).</strong> The play button, the time, and a slider you can drag to any
   moment. Small blue marks show where the keyframes are (see <a href="#10-camera-tab">section 10</a>).</li>
 <li><strong>Result / Depth / Split.</strong> <em>Result</em> shows the finished look. <em>Depth</em> shows the depth map. <em>Split</em>
-  shows the result on the left and the depth map on the right, so you can check the AI's guesses.</li>
+  shows the result on the left and the depth map on the right, so you can check the depth map's guesses.</li>
 <li><strong>Tabs (right).</strong> Main, Slides, Text, Depth, Camera, Lens, Look and Export. Everything you need for a
   normal video is on <strong>Main</strong>; the other tabs are for fine-tuning.</li>
 <li><strong>Light / dark button</strong> (top right) switches the colour scheme.</li>
@@ -520,32 +520,32 @@ photos without clicking between them. Every text box has a small <strong>✕</st
 never wobbles with the camera move. The preview shows it too.</p>
 <h2 id="9-depth-tab">9. Depth tab</h2>
 <p><strong>Making the depth map</strong>
-- <strong>Generate depth map with AI</strong> makes (or remakes) it.
-- <strong>AI model</strong>: <strong>Standard</strong> (about 100 MB; good for most photos; free for any use) or <strong>Detailed</strong>
+- <strong>Create the depth map</strong> makes (or remakes) it.
+- <strong>Depth map quality</strong>: <strong>Standard</strong> (about 100 MB; good for most photos; free for any use) or <strong>Detailed</strong>
   (about 390 MB; slower; sometimes finer edges; <strong>licensed for non-commercial use only</strong>, see
   <a href="../THIRD_PARTY_NOTICES.md">THIRD_PARTY_NOTICES.md</a>).
 - <strong>Detail</strong>: Fast, Normal or High. Higher looks at the photo in more detail but takes longer and
   uses more memory.
-- <strong>Run the AI on</strong>: <em>Automatic</em> uses the graphics chip when possible. <em>Main processor</em> is slower
-  but works everywhere; try it if the AI fails.
+- <strong>Create depth maps on</strong>: <em>Automatic</em> uses the graphics chip when possible. <em>Main processor</em> is slower
+  but works everywhere; try it if creating the depth map fails.
 - <strong>Make a depth map automatically when a photo loads</strong>: on by default.
 - The small grey picture is the current depth map (white = near).</p>
-<p><strong>AI files (one time only).</strong> Some browsers, such as Edge on iPhone and iPad opening a page from the
-Files app, won't let a page download the AI files itself. If that happens, this box appears (you can
-also open it with the link <strong>AI not working? Add the AI files by hand</strong>):</p>
+<p><strong>Depth map files (one time only).</strong> Some browsers, such as Edge on iPhone and iPad opening a page from the
+Files app, won't let a page download the depth map files itself. If that happens, this box appears (you can
+also open it with the link <strong>Depth map not working? Add the depth map files by hand</strong>):</p>
 <ol>
-<li>Tap the two links to download the <strong>AI engine</strong> (<code>ort-wasm-simd.wasm</code>, 10 MB) and the <strong>AI
+<li>Tap the two links to download the <strong>depth engine</strong> (<code>ort-wasm-simd.wasm</code>, 10 MB) and the <strong>depth map
    model</strong> (<code>model.onnx</code>, 99 MB). These are ordinary downloads, which every browser allows.</li>
-<li>Tap <strong>Choose the AI files…</strong> and pick both files.</li>
+<li>Tap <strong>Choose the depth map files…</strong> and pick both files.</li>
 </ol>
 <p>The app keeps them, so you only do this once per browser.</p>
 <p><strong>Adjusting the depth</strong>
 - <strong>3D amount</strong>: how far apart near and far are. More gives stronger 3D, but more stretching.
 - <strong>Edge protection</strong>: grows near objects very slightly, so that the stretching that happens behind a
   subject's edge falls on the background, not on the subject.
-- <strong>Smoothing</strong>: softens the depth map. Hides small AI mistakes at the cost of detail.
+- <strong>Smoothing</strong>: softens the depth map. Hides small mistakes in the depth map at the cost of detail.
 - <strong>Near / far balance</strong>: positive values bring more of the picture forward; negative push it back.
-- <strong>Invert</strong>: swaps near and far, in case the AI got it backwards (rare).
+- <strong>Invert</strong>: swaps near and far, in case the depth map got it backwards (rare).
 - <strong>Load depth image…</strong> uses a depth map from another app (white = near).
 - <strong>Save depth map</strong> saves the current one as a PNG picture.</p>
 <p><strong>Transparent images</strong>: the fill colour used behind transparent PNGs.</p>
@@ -557,7 +557,7 @@ also open it with the link <strong>AI not working? Add the AI files by hand</str
 - <strong>Around the photo</strong>: a blurred copy of the photo, or a solid colour you choose.
 - <strong>Reset framing</strong> puts everything back.</p>
 <p><strong>Crop</strong> trims the photo itself: <strong>Top</strong>, <strong>Bottom</strong>, <strong>Left</strong> and <strong>Right</strong>, each up to 40%. These
-add to <em>Crop edges</em> on the Main tab. Changing the crop doesn't re-run the AI.
+add to <em>Crop edges</em> on the Main tab. Changing the crop doesn't create the depth map again.
 <strong>Keep the photo's outer edges straight</strong> (on by default) calms the depth near the border so the
 edges glide as one piece instead of rippling.</p>
 <p><strong>Subject</strong>
@@ -659,7 +659,7 @@ progress box shows an estimate of the time left. In backup mode (see below) it's
 <ul>
 <li><strong>Opening the app</strong>: from a web address (GitHub Pages) is easiest. Opening the file from the Files
   app also works in Edge.</li>
-<li><strong>The first depth map</strong> downloads about 100 MB. If the browser blocks it, use the <em>AI files</em>
+<li><strong>The first depth map</strong> downloads about 100 MB. If the browser blocks it, use the <em>Depth map files</em>
   box (<a href="#9-depth-tab">section 9</a>). Making a depth map on a phone can take 10 to 30 seconds.</li>
 <li><strong>Saving videos</strong>: when an export finishes, a box appears. Tap <strong>Save to Photos / Share…</strong>, then
   <strong>Save Video</strong> (or <strong>Save 3 Videos</strong> when there are several). The file names in the box are download links, as
@@ -677,7 +677,7 @@ progress box shows an estimate of the time left. In backup mode (see below) it's
 <h2 id="15-tips-for-good-results">15. Tips for good results</h2>
 <ul>
 <li><strong>Clear subjects work best</strong>: a person, animal or object in front of a background. Busy scenes,
-  fine hair, fences, glass and reflections confuse the AI more.</li>
+  fine hair, fences, glass and reflections are harder to read for depth.</li>
 <li><strong>Use Split view</strong> to check the depth map. If something is wrong, try Smoothing, Edge protection,
   or the Detailed model.</li>
 <li><strong>Less is more.</strong> Intensity around 30 to 60% and lengths of 5 to 8 seconds look natural. Big
@@ -701,8 +701,8 @@ progress box shows an estimate of the time left. In backup mode (see below) it's
 <td>Read it; it usually says what to do. Click it to close it. If it keeps happening, copy the report (see <a href="#17-browser-check-and-reports">section 17</a>).</td>
 </tr>
 <tr>
-<td>"The AI could not run"</td>
-<td>Check your internet connection the first time. Try <em>Run the AI on: Main processor</em>. On iPhone or iPad, use the <em>AI files</em> box. Or load a depth map image.</td>
+<td>"The depth map could not be created"</td>
+<td>Check your internet connection the first time. Try <em>Create depth maps on: Main processor</em>. On iPhone or iPad, use the <em>Depth map files</em> box. Or load a depth map image.</td>
 </tr>
 <tr>
 <td>"Backup mode" note on the Main tab</td>
@@ -767,8 +767,8 @@ progress box shows an estimate of the time left. In backup mode (see below) it's
 <ul>
 <li><strong>Graphics chip drawing</strong>: WebGL, WebGPU, or "backup mode".</li>
 <li><strong>Video export (HD / 4K)</strong>: whether the browser can make MP4 video at those sizes.</li>
-<li><strong>AI on graphics chip (WebGPU)</strong>: whether the AI can use the graphics chip.</li>
-<li><strong>Keeps AI model between visits</strong>: whether the downloaded AI files can be kept.</li>
+<li><strong>Depth maps on graphics chip (WebGPU)</strong>: whether depth maps can be created on the graphics chip.</li>
+<li><strong>Keeps depth map files between visits</strong>: whether the downloaded depth map files can be kept.</li>
 <li><strong>Browser</strong>: which browser was detected.</li>
 </ul>
 <p><strong>Copy a report</strong> puts a short technical log on your clipboard (no photos). If you ask for help,

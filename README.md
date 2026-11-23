@@ -2,15 +2,7 @@
 
 **Turn a still photo into a short 3D camera-move video, right in your web browser.**
 
-## Watch the walkthrough
-
-A three-and-a-half-minute guided tour of DeepParallax, with narration.
-
-
-https://github.com/user-attachments/assets/9902d807-fa17-426a-9865-d72d56a3e489
-
-
-DeepParallax uses an AI to work out what is near and what is far in a photo, then moves a virtual
+DeepParallax creates a depth map, working out what is near and what is far in a photo, then moves a virtual
 camera through it. Near things slide more than far things, which is what makes the picture feel
 three-dimensional (this effect is called *parallax*). It is inspired by the Final Cut Pro effects
 PhotoAwake 3D and Deep Pan, but runs on its own, for free, in Safari, Edge, Chrome or Firefox.
@@ -19,7 +11,7 @@ PhotoAwake 3D and Deep Pan, but runs on its own, for free, in Safari, Edge, Chro
 
 ## What it can do
 
-- **Works out depth automatically** with the Depth Anything V2 AI, on your own device.
+- **Creates depth maps automatically** with Depth Anything V2, on your own device.
 - **16 camera moves** at the tap of a button: orbit, push in, pull out, slides, rise and fall, circle,
   Ken Burns, dolly zoom, drift, breathe, and push or pull while turning left or right.
 - **Keyframes** for custom moves, with drag-to-reorder rows.
@@ -48,12 +40,12 @@ PhotoAwake 3D and Deep Pan, but runs on its own, for free, in Safari, Edge, Chro
 way on iPhone and iPad.
 
 **Option 2: use the file.** Download [`DeepParallax.html`](DeepParallax.html) and open it in your
-browser. Everything except the AI files is inside that one file.
+browser. Everything except the depth map files is inside that one file.
 
 Then:
 
 1. Click **Open…** and choose a photo (or click **Sample** to try the built-in scene).
-2. Wait a few seconds while the depth map is made. The first time, about 100 MB of AI files are
+2. Wait a few seconds while the depth map is made. The first time, about 100 MB of depth map files are
    downloaded; after that they are kept on your device.
 3. Pick a **camera move** and press play.
 4. Choose a resolution and click **Export video**. The MP4 goes to your Downloads folder.
@@ -79,7 +71,7 @@ It includes or downloads work by others under their own licences. Most important
 
 - **mp4-muxer** (MIT) and **ONNX Runtime Web** (MIT) are included in `DeepParallax.html`.
 - **Transformers.js** (Apache 2.0) and the **Depth Anything V2** models are downloaded when needed.
-- The default **Standard** AI model is Apache 2.0. The optional **Detailed** model is
+- The default **Standard** depth map model is Apache 2.0. The optional **Detailed** model is
   **CC BY-NC 4.0, non-commercial use only**.
 
 Full details, licence texts and credits: [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
